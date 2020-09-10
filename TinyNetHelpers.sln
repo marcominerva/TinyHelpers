@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyNetHelpers", "TinyNetHelpers\TinyNetHelpers.csproj", "{BE65AC0A-0620-4DC3-9C24-863AE3B76784}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyNetHelpers.Sample", "TinyNetHelpers.Sample\TinyNetHelpers.Sample.csproj", "{22EB54D3-569C-41AE-AED1-00D00CCF146B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE65AC0A-0620-4DC3-9C24-863AE3B76784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE65AC0A-0620-4DC3-9C24-863AE3B76784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE65AC0A-0620-4DC3-9C24-863AE3B76784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE65AC0A-0620-4DC3-9C24-863AE3B76784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {459F6E40-FA30-4F90-8A56-8AD7B199C2B6}
+	EndGlobalSection
+EndGlobal
