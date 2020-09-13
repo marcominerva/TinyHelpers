@@ -16,4 +16,3 @@ jobs:
       with:
         # The path to the directory for which the version should be determined. This should be at or below the directory containing the version.json file. Default is repo root directory.
         path: TinyNetHelpers
-    - run: echo 'SemVer2: ${{ steps.nbgv.outputs.SemVer2 }}'
