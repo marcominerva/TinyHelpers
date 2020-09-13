@@ -27,4 +27,4 @@ jobs:
         path: TinyNetHelpers     
         
     - name: Print output    
-      run: echo ${{ steps.nbgv.outputs.SemVer2 }}
+      run: echo ${{ steps.nbgv.outputs.NuGetPackageVersion }}
