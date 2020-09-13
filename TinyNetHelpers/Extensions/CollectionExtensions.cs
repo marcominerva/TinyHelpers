@@ -26,7 +26,7 @@ namespace TinyNetHelpers.Extensions
 
         public int Index { get; }
 
-        internal WithIndex(T? value, int index)
+        public WithIndex(T? value, int index)
             => (Value, Index) = (value, index);
 
         public void Deconstruct(out T? value, out int index)
