@@ -28,3 +28,10 @@ jobs:
         
     - name: Print output    
       run: echo ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+
+    - name: Publish on version change        
+      uses: rohith/publish-nuget@v2
+      with:          
+        PROJECT_FILE_PATH: TinyNetHelpers/TinyNetHelpers.csproj
+        VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
