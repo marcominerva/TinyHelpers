@@ -25,9 +25,6 @@ jobs:
       id: nbgv
       with:        
         path: TinyNetHelpers     
-        
-    - name: Print output    
-      run: echo ${{ steps.nbgv.outputs.NuGetPackageVersion }}
 
     - name: Publish on version change        
       uses: rohith/publish-nuget@v2
