@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+    - uses: actions/checkout@v2
     - name: Nerdbank.GitVersioning 
       uses: dotnet/nbgv@v0.3.1
       with:
