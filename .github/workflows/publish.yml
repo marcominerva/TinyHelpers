@@ -11,13 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - name: Checkout
+      uses: actions/checkout@v2.3.2
       with:
-        dotnet-version: 3.1.301
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1.6.0
+      with:
+        dotnet-version: 3.1.402
     - name: Nerdbank.GitVersioning 
       uses: dotnet/nbgv@v0.3.1
-      with:
-        # The path to the directory for which the version should be determined. This should be at or below the directory containing the version.json file. Default is repo root directory.
-        path: TinyNetHelpers 
+      with:        
+        path: TinyNetHelpers       
+      
