@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -41,5 +42,8 @@ namespace TinyNetHelpers.Extensions
 
             return description;
         }
+
+        public static IEnumerable<T> GetFlags<T>(this T @enum) where T : Enum
+            => Enum.GetValues(@enum.GetType()).Cast<T>().Where(e => @enum.HasFlag(e));
     }
 }

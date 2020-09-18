@@ -26,12 +26,30 @@ namespace TinyNetHelpers.Sample
         High
     };
 
+    [Flags]
+    public enum ConnectionTypes
+    {
+        Wired = 1,
+        WiFi = 2,
+        Bluetooth = 4,
+        Satellite = 8
+    };
+
     internal class Program
     {
         private static readonly AsyncLock syncObject = new AsyncLock();
 
         private static async Task Main(string[] args)
         {
+            var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Bluetooth;
+
+            foreach (var connectionType in connectionTypes.GetFlags())
+            {
+                Foo(connectionType);
+            }
+
+            connectionTypes.GetFlags().ForEach(c => Foo(c));
+
             var priority = Priority.Medium;
             Console.WriteLine($"La priorità è {priority.GetDescription()}");
 
@@ -60,6 +78,12 @@ namespace TinyNetHelpers.Sample
             {
                 await Task.Delay(1000);
             }
+        }
+
+        private static void Foo(ConnectionTypes connectionType)
+        {
+            Console.WriteLine($"Analizzo la connessione {connectionType.ToString()}...");
+            // ...
         }
 
         private static IEnumerable<Person> GetPeople()
