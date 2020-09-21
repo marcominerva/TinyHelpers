@@ -13,7 +13,7 @@ namespace TinyNetHelpers.Extensions
             if (completedTask == task)
             {
                 timeoutCancellationTokenSource.Cancel();
-                await task.ConfigureAwait(false);
+                await task.ConfigureAwait(false);  // Very important in order to propagate exceptions
             }
             else
             {
@@ -28,7 +28,7 @@ namespace TinyNetHelpers.Extensions
             if (completedTask == task)
             {
                 timeoutCancellationTokenSource.Cancel();
-                return await task.ConfigureAwait(false);
+                return await task.ConfigureAwait(false);  // Very important in order to propagate exceptions
             }
             else
             {
