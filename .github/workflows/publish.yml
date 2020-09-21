@@ -27,7 +27,7 @@ jobs:
       with:        
         path: TinyNetHelpers     
 
-    - name: Publish on version change        
+    - name: Publish on NuGet        
       uses: rohith/publish-nuget@v2
       with:          
         PROJECT_FILE_PATH: TinyNetHelpers/TinyNetHelpers.csproj
