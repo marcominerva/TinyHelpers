@@ -1,8 +1,9 @@
-name: Publish on NuGet
+name: Publish TinyNetHelpers on NuGet
 
 on:
   push:
     branches: [ master ]
+    paths: [ 'TinyNetHelpers/**' ]
   workflow_dispatch:
   
 jobs:
@@ -31,4 +32,5 @@ jobs:
       with:          
         PROJECT_FILE_PATH: TinyNetHelpers/TinyNetHelpers.csproj
         VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+        TAG_FORMAT: core-v*
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
