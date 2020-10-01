@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TinyNetHelpers.Extensions
 {
@@ -11,6 +13,17 @@ namespace TinyNetHelpers.Extensions
             foreach (var item in source)
             {
                 action(item);
+            }
+
+            return source;
+        }
+
+        public static async Task<IEnumerable<T>> ForEachAsync<T>(this IEnumerable<T> source, Func<T, Task> action, CancellationToken cancellationToken = default)
+        {
+            foreach (var item in source)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await action.Invoke(item).ConfigureAwait(false);
             }
 
             return source;
