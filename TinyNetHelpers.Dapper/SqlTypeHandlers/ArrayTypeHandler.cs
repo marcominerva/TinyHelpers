@@ -7,9 +7,9 @@ namespace TinyNetHelpers.Dapper.SqlTypeHandlers
 {
     public class ArrayTypeHandler : SqlMapper.TypeHandler<IEnumerable<string>>
     {
-        private readonly char separator;
+        private readonly string separator;
 
-        public ArrayTypeHandler(char separator = ';')
+        public ArrayTypeHandler(string separator = ";")
         {
             this.separator = separator;
         }
@@ -17,7 +17,7 @@ namespace TinyNetHelpers.Dapper.SqlTypeHandlers
         public override IEnumerable<string> Parse(object value)
         {
             var content = value.ToString();
-            return content.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            return content.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public override void SetValue(IDbDataParameter parameter, IEnumerable<string> value)
@@ -26,7 +26,7 @@ namespace TinyNetHelpers.Dapper.SqlTypeHandlers
             parameter.Value = content;
         }
 
-        public static void Configure(char separator = ';')
+        public static void Configure(string separator = ";")
             => SqlMapper.AddTypeHandler(new ArrayTypeHandler(separator));
     }
 }
