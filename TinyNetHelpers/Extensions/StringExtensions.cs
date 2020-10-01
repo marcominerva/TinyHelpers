@@ -7,7 +7,16 @@ namespace TinyNetHelpers.Extensions
         public static bool EqualsIgnoreCase(this string? a, string? b)
             => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 
-        public static string? GetValueOrDefault(this string? input, string? defaultValue = default)
-            => string.IsNullOrWhiteSpace(input) ? defaultValue : input;
+        public static bool StartsWithIgnoreCase(this string? a, string? b)
+            => a?.StartsWith(b, StringComparison.OrdinalIgnoreCase) ?? false;
+
+        public static bool EndsWithIgnoreCase(this string? a, string? b)
+            => a?.EndsWith(b, StringComparison.OrdinalIgnoreCase) ?? false;
+
+        public static bool ContainsIgnoreCase(this string? a, string? b)
+            => a?.Contains(b, StringComparison.OrdinalIgnoreCase) ?? false;
+
+        public static string? GetValueOrDefault(this string? input, string? defaultValue = default, bool whitespaceAsEmpty = true)
+            => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
     }
 }

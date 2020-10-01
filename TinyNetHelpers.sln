@@ -5,7 +5,19 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyNetHelpers", "TinyNetHelpers\TinyNetHelpers.csproj", "{BE65AC0A-0620-4DC3-9C24-863AE3B76784}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyNetHelpers.Sample", "TinyNetHelpers.Sample\TinyNetHelpers.Sample.csproj", "{22EB54D3-569C-41AE-AED1-00D00CCF146B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyNetHelpers.Sample", "TinyNetHelpers.Sample\TinyNetHelpers.Sample.csproj", "{22EB54D3-569C-41AE-AED1-00D00CCF146B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyNetHelpers.EntityFrameworkCore", "TinyNetHelpers.EntityFrameworkCore\TinyNetHelpers.EntityFrameworkCore.csproj", "{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyNetHelpers.EntityFrameworkCore.Sample", "TinyNetHelpers.EntityFrameworkCore.Sample\TinyNetHelpers.EntityFrameworkCore.Sample.csproj", "{2F4825FD-6558-4867-A7BB-C0EB01EF658E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFrameworkCore", "EntityFrameworkCore", "{9E0FCF62-1ECB-430A-9251-8B45B5A2BBE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dapper", "Dapper", "{D14307D5-3ED2-4D77-AE05-C7B62AB6234F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyNetHelpers.Dapper", "TinyNetHelpers.Dapper\TinyNetHelpers.Dapper.csproj", "{FCFE0510-0F7C-41B1-8E70-A54FE7217955}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyNetHelpers.Dapper.Sample", "TinyNetHelpers.Dapper.Sample\TinyNetHelpers.Dapper.Sample.csproj", "{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +33,31 @@ Global
 		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22EB54D3-569C-41AE-AED1-00D00CCF146B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4825FD-6558-4867-A7BB-C0EB01EF658E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4825FD-6558-4867-A7BB-C0EB01EF658E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4825FD-6558-4867-A7BB-C0EB01EF658E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4825FD-6558-4867-A7BB-C0EB01EF658E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFE0510-0F7C-41B1-8E70-A54FE7217955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFE0510-0F7C-41B1-8E70-A54FE7217955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFE0510-0F7C-41B1-8E70-A54FE7217955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFE0510-0F7C-41B1-8E70-A54FE7217955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B91FE6CD-3B75-43E4-8E29-8E8C7584BE68} = {9E0FCF62-1ECB-430A-9251-8B45B5A2BBE9}
+		{2F4825FD-6558-4867-A7BB-C0EB01EF658E} = {9E0FCF62-1ECB-430A-9251-8B45B5A2BBE9}
+		{FCFE0510-0F7C-41B1-8E70-A54FE7217955} = {D14307D5-3ED2-4D77-AE05-C7B62AB6234F}
+		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A} = {D14307D5-3ED2-4D77-AE05-C7B62AB6234F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {459F6E40-FA30-4F90-8A56-8AD7B199C2B6}

@@ -15,7 +15,6 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/marcominerva/TinyNetHelpers.git</RepositoryUrl>
     <RepositoryBranch>master</RepositoryBranch>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

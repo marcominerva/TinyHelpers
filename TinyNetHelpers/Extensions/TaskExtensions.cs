@@ -17,7 +17,7 @@ namespace TinyNetHelpers.Extensions
             }
             else
             {
-                throw new TimeoutException("The operation has timed out");
+                throw new TimeoutException();
             }
         }
 
@@ -32,7 +32,7 @@ namespace TinyNetHelpers.Extensions
             }
             else
             {
-                throw new TimeoutException("The operation has timed out");
+                throw new TimeoutException();
             }
         }
     }
