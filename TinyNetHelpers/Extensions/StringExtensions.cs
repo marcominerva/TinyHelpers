@@ -14,7 +14,7 @@ namespace TinyNetHelpers.Extensions
             => a?.EndsWith(b, StringComparison.OrdinalIgnoreCase) ?? false;
 
         public static bool ContainsIgnoreCase(this string? a, string? b)
-            => a?.Contains(b, StringComparison.OrdinalIgnoreCase) ?? false;
+            => a?.IndexOf(b, StringComparison.OrdinalIgnoreCase) >= 0;
 
         public static string? GetValueOrDefault(this string? input, string? defaultValue = default, bool whitespaceAsEmpty = true)
             => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);

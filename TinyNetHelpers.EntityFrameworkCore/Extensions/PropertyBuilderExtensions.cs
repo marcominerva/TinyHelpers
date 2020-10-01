@@ -50,12 +50,12 @@ namespace TinyNetHelpers.EntityFrameworkCore.Extensions
             return propertyBuilder;
         }
 
-        public static PropertyBuilder<IEnumerable<string>> HasArrayConversion(this PropertyBuilder<IEnumerable<string>> propertyBuilder, char separator = ';', bool required = false)
+        public static PropertyBuilder<IEnumerable<string>> HasArrayConversion(this PropertyBuilder<IEnumerable<string>> propertyBuilder, string separator = ";", bool required = false)
         {
             var converter = new ValueConverter<IEnumerable<string>, string>
             (
                 v => string.Join(separator, v),
-                v => v != null ? v.Split(separator, StringSplitOptions.RemoveEmptyEntries) : new string[0]
+                v => v != null ? v.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries) : new string[0]
             );
 
             var comparer = new ValueComparer<IEnumerable<string>>
