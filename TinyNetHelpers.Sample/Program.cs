@@ -29,9 +29,11 @@ namespace TinyNetHelpers.Sample
     [Flags]
     public enum ConnectionTypes
     {
+        [Display(Name = "Cavo")]
         Wired = 1,
         WiFi = 2,
         Bluetooth = 4,
+        [Display(Name = "Via Satellite")]
         Satellite = 8
     };
 
@@ -41,7 +43,9 @@ namespace TinyNetHelpers.Sample
 
         private static async Task Main(string[] args)
         {
-            var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Bluetooth;
+            var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
+
+            var description = connectionTypes.GetDescription();
 
             foreach (var connectionType in connectionTypes.GetFlags())
             {
