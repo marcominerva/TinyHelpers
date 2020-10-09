@@ -1,14 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TinyNetHelpers.Extensions;
+using TinyNetHelpers.Json.Serialization;
 using TinyNetHelpers.Threading;
 
 namespace TinyNetHelpers.Sample
 {
     public class Person
     {
+        [JsonPropertyName("first_name")]
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
@@ -17,12 +24,15 @@ namespace TinyNetHelpers.Sample
     public enum Priority
     {
         [Display(Name = "Bassa")]
+        [EnumMember(Value = "Bassa priorita")]
         Low,
 
         [Display(Name = "Media")]
+        [EnumMember(Value = "Media priorita")]
         Medium,
 
         [Display(Name = "Alta")]
+        [EnumMember(Value = "Alta priorita")]
         High
     };
 
@@ -43,10 +53,38 @@ namespace TinyNetHelpers.Sample
 
         private static async Task Main(string[] args)
         {
+            var dateTime = new DateTime(2020, 1, 1);
+            var time = new TimeSpan(15, 42, 0);
+
+            var list = new Dictionary<int, string> { [1] = "First Value", [2] = "Second Value" };
+
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
+
+            jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+
+            var oldJson = JsonConvert.SerializeObject(list, jsonSerializerSettings);
+            var oldResult = JsonConvert.DeserializeObject<Dictionary<int, string>>(oldJson, jsonSerializerSettings);
+
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+            jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
+            jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
+            jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
+
+            var json = System.Text.Json.JsonSerializer.Serialize(list, jsonSerializerOptions);
+            var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<int, string>>(json, jsonSerializerOptions);
+
+            return;
+
             var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
-
-            var description = connectionTypes.GetDescription();
-
             foreach (var connectionType in connectionTypes.GetFlags())
             {
                 Foo(connectionType);

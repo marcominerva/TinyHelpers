@@ -28,7 +28,6 @@ namespace TinyNetHelpers.Extensions
 
                 // Get the Display attributes
                 var displayAttributes = fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false) as DisplayAttribute[];
-
                 if (displayAttributes.Any())
                 {
                     // Return the first if there was a match.
