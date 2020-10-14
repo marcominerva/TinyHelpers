@@ -56,7 +56,7 @@ namespace TinyNetHelpers.Sample
             var dateTime = new DateTime(2020, 1, 1);
             var time = new TimeSpan(15, 42, 0);
 
-            var list = new Dictionary<int, string> { [1] = "First Value", [2] = "Second Value" };
+            var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -66,7 +66,7 @@ namespace TinyNetHelpers.Sample
             jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
             var oldJson = JsonConvert.SerializeObject(list, jsonSerializerSettings);
-            var oldResult = JsonConvert.DeserializeObject<Dictionary<int, string>>(oldJson, jsonSerializerSettings);
+            var oldResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(oldJson, jsonSerializerSettings);
 
 
             var jsonSerializerOptions = new JsonSerializerOptions
@@ -80,9 +80,7 @@ namespace TinyNetHelpers.Sample
             jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
             var json = System.Text.Json.JsonSerializer.Serialize(list, jsonSerializerOptions);
-            var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<int, string>>(json, jsonSerializerOptions);
-
-            return;
+            var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(json, jsonSerializerOptions);
 
             var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
             foreach (var connectionType in connectionTypes.GetFlags())

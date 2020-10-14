@@ -25,7 +25,7 @@ namespace TinyNetHelpers.EntityFrameworkCore.Extensions
             defaultJsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         }
 
-        public static PropertyBuilder<T> HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? jsonSerializerOptions = null, bool required = false)
+        public static PropertyBuilder<T> HasJsonConversion<T>(this PropertyBuilder<T> propertyBuilder, JsonSerializerOptions? jsonSerializerOptions = null)
         {
             var options = jsonSerializerOptions ?? defaultJsonSerializerOptions;
 
@@ -45,12 +45,12 @@ namespace TinyNetHelpers.EntityFrameworkCore.Extensions
             propertyBuilder.HasConversion(converter);
             propertyBuilder.Metadata.SetValueConverter(converter);
             propertyBuilder.Metadata.SetValueComparer(comparer);
-            propertyBuilder.HasColumnType("nvarchar(MAX)").IsRequired(required);
+            propertyBuilder.HasColumnType("nvarchar(MAX)");
 
             return propertyBuilder;
         }
 
-        public static PropertyBuilder<IEnumerable<string>> HasArrayConversion(this PropertyBuilder<IEnumerable<string>> propertyBuilder, string separator = ";", bool required = false)
+        public static PropertyBuilder<IEnumerable<string>> HasArrayConversion(this PropertyBuilder<IEnumerable<string>> propertyBuilder, string separator = ";")
         {
             var converter = new ValueConverter<IEnumerable<string>, string>
             (
@@ -68,7 +68,7 @@ namespace TinyNetHelpers.EntityFrameworkCore.Extensions
             propertyBuilder.HasConversion(converter);
             propertyBuilder.Metadata.SetValueConverter(converter);
             propertyBuilder.Metadata.SetValueComparer(comparer);
-            propertyBuilder.HasColumnType("nvarchar(MAX)").IsRequired(required);
+            propertyBuilder.HasColumnType("nvarchar(MAX)");
 
             return propertyBuilder;
         }
