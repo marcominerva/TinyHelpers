@@ -1,15 +1,15 @@
-name: Publish TinyHelpers on NuGet
+name: Publish Tiny .NET Helpers on NuGet
  
 on:
   push:
     branches: [ master ]
-    paths: [ 'TinyNetHelpers/**' ]
+    paths: [ 'TinyHelpers/**' ]
   workflow_dispatch:
 
 env:
   NETCORE_VERSION: '3.1.403'
-  PROJECT_NAME: TinyNetHelpers 
-  PROJECT_FILE: TinyNetHelpers.csproj
+  PROJECT_NAME: TinyHelpers 
+  PROJECT_FILE: TinyHelpers.csproj
 
 jobs:
   build:
