@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Authors>Marco Minerva</Authors>
+    <Company>Marco Minerva</Company>
+    <Product>Tiny .NET Helpers</Product>
+    <Title>Translator Service</Title>
+    <Description>A collection of helper methods and classes for .NET that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>
+    <PackageIcon>Toolbox.png</PackageIcon>
+    <PackageTags>csharp visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
+    <RepositoryBranch>master</RepositoryBranch>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Toolbox.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
