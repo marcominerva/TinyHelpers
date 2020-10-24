@@ -1,9 +1,14 @@
-name: Publish TinyNetHelpers on NuGet
+name: Publish TinyHelpers on NuGet
 
+env:
+  NETCORE_VERSION: '3.1.403'
+  PROJECT_NAME: TinyNetHelpers 
+  PROJECT_FILE: TinyNetHelpers.csproj
+  
 on:
   push:
     branches: [ master ]
-    paths: [ 'TinyNetHelpers/**' ]
+    paths: [ '${{ env.PROJECT_NAME }}/**' ]
   workflow_dispatch:
   
 jobs:
@@ -12,25 +17,25 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2.3.2
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
         
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1.6.0
+    - name: Setup .NET Core SDK ${{ env.NETCORE_VERSION }}
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.402
+        dotnet-version: ${{ env.NETCORE_VERSION }}
         
     - name: Nerdbank.GitVersioning 
       uses: dotnet/nbgv@v0.3.1
       id: nbgv
       with:        
-        path: TinyNetHelpers     
+        path: ${{ env.PROJECT_NAME }}     
 
     - name: Publish on NuGet        
       uses: rohith/publish-nuget@v2
       with:          
-        PROJECT_FILE_PATH: TinyNetHelpers/TinyNetHelpers.csproj
+        PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
         VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
-        TAG_FORMAT: core-v*
+        TAG_FORMAT: v*
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
