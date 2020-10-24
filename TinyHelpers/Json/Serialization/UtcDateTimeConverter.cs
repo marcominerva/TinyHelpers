@@ -11,5 +11,8 @@ namespace TinyHelpers.Json.Serialization
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
             => writer.WriteStringValue((value.Kind == DateTimeKind.Unspecified ? value : value.ToUniversalTime()).ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+
+        public void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options, string? format = null)
+            => writer.WriteStringValue((value.Kind == DateTimeKind.Unspecified ? value : value.ToUniversalTime()).ToString(format ?? "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
     }
 }
