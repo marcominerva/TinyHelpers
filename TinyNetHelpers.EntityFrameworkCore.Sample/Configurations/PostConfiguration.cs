@@ -15,8 +15,8 @@ namespace TinyNetHelpers.EntityFrameworkCore.Sample.Configurations
             builder.Property(x => x.Title).HasMaxLength(80).IsRequired();
             builder.Property(x => x.Content).IsRequired();
 
-            builder.Property(x => x.Authors).HasArrayConversion(required: true);
-            builder.Property(x => x.Reviews).HasJsonConversion(required: false);
+            builder.Property(x => x.Authors).HasArrayConversion().IsRequired();
+            builder.Property(x => x.Reviews).HasJsonConversion();
         }
     }
 }
