@@ -6,17 +6,15 @@ namespace TinyHelpers.Json.Serialization
 {
     public class TimeSpanConverter : JsonConverter<TimeSpan>
     {
-        private readonly string? _format;
+        private readonly string? serializationFormat;
 
-        public TimeSpanConverter(string? format = null)
-		{
-            _format = format;
-        }
+        public TimeSpanConverter(string? serializationFormat = null)
+            => this.serializationFormat = serializationFormat;
 
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             => TimeSpan.Parse(reader.GetString());
 
         public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options)
-            => writer.WriteStringValue(value.ToString(_format ?? string.Empty));
+            => writer.WriteStringValue(value.ToString(serializationFormat));
     }
 }
