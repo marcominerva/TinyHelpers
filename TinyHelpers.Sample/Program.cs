@@ -65,8 +65,8 @@ namespace TinyHelpers.Sample
 
             jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
-            var oldJson = JsonConvert.SerializeObject(list, jsonSerializerSettings);
-            var oldResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(oldJson, jsonSerializerSettings);
+            var oldJson = JsonConvert.SerializeObject(dateTime, jsonSerializerSettings);
+            var oldResult = JsonConvert.DeserializeObject<DateTime>(oldJson, jsonSerializerSettings);
 
 
             var jsonSerializerOptions = new JsonSerializerOptions
@@ -79,8 +79,8 @@ namespace TinyHelpers.Sample
             jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
             jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
-            var json = System.Text.Json.JsonSerializer.Serialize(list, jsonSerializerOptions);
-            var result = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(json, jsonSerializerOptions);
+            var json = System.Text.Json.JsonSerializer.Serialize(dateTime, jsonSerializerOptions);
+            var result = System.Text.Json.JsonSerializer.Deserialize<DateTime>(json, jsonSerializerOptions);
 
             var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
             foreach (var connectionType in connectionTypes.GetFlags())
