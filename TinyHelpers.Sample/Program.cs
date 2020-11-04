@@ -39,7 +39,6 @@ namespace TinyHelpers.Sample
     [Flags]
     public enum ConnectionTypes
     {
-        [Display(Name = "Cavo")]
         Wired = 1,
         WiFi = 2,
         Bluetooth = 4,
@@ -54,7 +53,7 @@ namespace TinyHelpers.Sample
         private static async Task Main(string[] args)
         {
             var dateTime = new DateTime(2020, 1, 1);
-            var time = new TimeSpan(15, 42, 0);
+            var time = new TimeSpan(15, 42, 36);
 
             var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
@@ -65,8 +64,8 @@ namespace TinyHelpers.Sample
 
             jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
-            var oldJson = JsonConvert.SerializeObject(dateTime, jsonSerializerSettings);
-            var oldResult = JsonConvert.DeserializeObject<DateTime>(oldJson, jsonSerializerSettings);
+            var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
+            var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
 
 
             var jsonSerializerOptions = new JsonSerializerOptions
@@ -79,10 +78,11 @@ namespace TinyHelpers.Sample
             jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
             jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
-            var json = System.Text.Json.JsonSerializer.Serialize(dateTime, jsonSerializerOptions);
-            var result = System.Text.Json.JsonSerializer.Deserialize<DateTime>(json, jsonSerializerOptions);
+            var json = System.Text.Json.JsonSerializer.Serialize(time, jsonSerializerOptions);
+            var result = System.Text.Json.JsonSerializer.Deserialize<TimeSpan>(json, jsonSerializerOptions);
 
             var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
+            var description = typeof(ConnectionTypes).GetDescriptions();
             foreach (var connectionType in connectionTypes.GetFlags())
             {
                 Foo(connectionType);
