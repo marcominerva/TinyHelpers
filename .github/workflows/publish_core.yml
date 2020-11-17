@@ -10,6 +10,7 @@ env:
   NETCORE_VERSION: '5.0.100'
   PROJECT_NAME: TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build:
