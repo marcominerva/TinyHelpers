@@ -7,12 +7,13 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '3.1.403'
+  NETCORE_VERSION: '5.0.100'
   PROJECT_NAME: TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
 
 jobs:
   build:
+    name: Publish on NuGet
     runs-on: ubuntu-latest
 
     steps:
@@ -26,16 +27,15 @@ jobs:
       with:
         dotnet-version: ${{ env.NETCORE_VERSION }}
         
-    - name: Nerdbank.GitVersioning 
-      uses: dotnet/nbgv@v0.3.1
-      id: nbgv
-      with:        
-        path: ${{ env.PROJECT_NAME }}     
+    - name: Install dependencies
+      run: dotnet restore ${{ env.PROJECT_NAME }}
+      
+    - name: Build
+      run: dotnet build ${{ env.PROJECT_NAME }} --configuration Release --no-restore 
 
     - name: Publish on NuGet        
       uses: rohith/publish-nuget@v2
       with:          
         PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
-        VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
         TAG_FORMAT: v*
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
