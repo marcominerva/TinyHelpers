@@ -102,7 +102,7 @@ namespace TinyHelpers.Json.Serialization
                 var token = reader.TokenType;
                 if (token == JsonTokenType.String)
                 {
-                    var enumString = reader.GetString();
+                    var enumString = reader.GetString()!;
 
                     // Case sensitive search attempted first.
                     if (transformedToRaw.TryGetValue(enumString, out var enumInfo))
