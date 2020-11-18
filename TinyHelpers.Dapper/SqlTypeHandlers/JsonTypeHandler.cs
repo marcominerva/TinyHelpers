@@ -31,7 +31,7 @@ namespace TinyHelpers.Dapper.SqlTypeHandlers
         public override T Parse(object value)
         {
             var json = value.ToString();
-            return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions)!;
         }
 
         public override void SetValue(IDbDataParameter parameter, T value)
