@@ -120,11 +120,7 @@ namespace TinyHelpers.Sample
             }
         }
 
-        private static void Foo(ConnectionTypes connectionType)
-        {
-            Console.WriteLine($"Analizzo la connessione {connectionType.ToString()}...");
-            // ...
-        }
+        private static void Foo(ConnectionTypes connectionType) => Console.WriteLine($"Analizzo la connessione {connectionType.ToString()}...");// ...
 
         private static IEnumerable<Person> GetPeople()
         {
