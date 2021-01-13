@@ -3,12 +3,12 @@ name: Publish Tiny .NET Helpers on NuGet
 on:
   push:
     branches: [ master ]
-    paths: [ 'TinyHelpers/**' ]
+    paths: [ 'src/TinyHelpers/**' ]
   workflow_dispatch:
 
 env:
   NETCORE_VERSION: '5.0.102'
-  PROJECT_NAME: TinyHelpers 
+  PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
