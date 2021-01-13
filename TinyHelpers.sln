@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFrameworkCore", "Enti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dapper", "Dapper", "{D14307D5-3ED2-4D77-AE05-C7B62AB6234F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyHelpers.Dapper", "TinyHelpers.Dapper\TinyHelpers.Dapper.csproj", "{FCFE0510-0F7C-41B1-8E70-A54FE7217955}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyHelpers.Dapper", "TinyHelpers.Dapper\TinyHelpers.Dapper.csproj", "{FCFE0510-0F7C-41B1-8E70-A54FE7217955}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyHelpers.Dapper.Sample", "TinyHelpers.Dapper.Sample\TinyHelpers.Dapper.Sample.csproj", "{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyHelpers.Dapper.Sample", "TinyHelpers.Dapper.Sample\TinyHelpers.Dapper.Sample.csproj", "{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
