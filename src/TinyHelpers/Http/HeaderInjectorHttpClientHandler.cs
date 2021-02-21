@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace TinyHelpers.Http
 {
-    public class HeadersInjectorHttpClientHandler : DelegatingHandler
+    public class HeaderInjectorHttpClientHandler : DelegatingHandler
     {
         private readonly Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders;
 
-        public HeadersInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders, HttpMessageHandler? innerHandler = null)
-            : base(innerHandler ?? new HttpClientHandler())
+        public HeaderInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders)
+            => this.getHeaders = getHeaders ?? throw new ArgumentNullException(nameof(getHeaders));
+
+        public HeaderInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders, HttpMessageHandler innerHandler)
+            : base(innerHandler)
             => this.getHeaders = getHeaders ?? throw new ArgumentNullException(nameof(getHeaders));
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
