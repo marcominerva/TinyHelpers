@@ -10,10 +10,7 @@ namespace TinyHelpers.Http
     {
         private readonly Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders;
 
-        public HeaderInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders)
-            => this.getHeaders = getHeaders ?? throw new ArgumentNullException(nameof(getHeaders));
-
-        public HeaderInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders, HttpMessageHandler innerHandler)
+        public HeaderInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders, HttpMessageHandler? innerHandler = null)
             : base(innerHandler)
             => this.getHeaders = getHeaders ?? throw new ArgumentNullException(nameof(getHeaders));
 
