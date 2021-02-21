@@ -11,7 +11,8 @@ namespace TinyHelpers.Http
     {
         private readonly Func<HttpRequestMessage, Task<Dictionary<string, string>>> getQueryString;
 
-        public QueryStringInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getQueryString)
+        public QueryStringInjectorHttpClientHandler(Func<HttpRequestMessage, Task<Dictionary<string, string>>> getQueryString, HttpMessageHandler? innerHandler = null)
+            : base(innerHandler ?? new HttpClientHandler())
             => this.getQueryString = getQueryString ?? throw new ArgumentNullException(nameof(getQueryString));
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
