@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TinyHelpers.Http
 {
-    internal class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
+    public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     {
         private readonly Func<HttpRequestMessage, Task<string>> getToken;
 
