@@ -10,10 +10,7 @@ namespace TinyHelpers.Http
     {
         private readonly Func<HttpRequestMessage, Task<string>> getToken;
 
-        public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken)
-            => this.getToken = getToken ?? throw new ArgumentNullException(nameof(getToken));
-
-        public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, HttpMessageHandler innerHandler)
+        public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, HttpMessageHandler? innerHandler = null)
             : base(innerHandler)
             => this.getToken = getToken ?? throw new ArgumentNullException(nameof(getToken));
 
