@@ -9,16 +9,13 @@ namespace TinyHelpers.Extensions
 {
     public static class EnumExtensions
     {
-        public static string? GetDescription(this Enum @enum)
+        public static string GetDescription(this Enum @enum)
         {
             var descriptions = new List<string>();
-
-            // Get the type
             var type = @enum.GetType();
 
             foreach (var item in @enum.GetFlags())
             {
-                // Get FieldInfo for this type
                 var enumDescription = item.ToString();
 
                 var fieldInfo = type.GetRuntimeField(enumDescription);
@@ -27,11 +24,52 @@ namespace TinyHelpers.Extensions
                 descriptions.Add(enumDescription);
             }
 
-            return string.Join(", ", descriptions);
+            if (descriptions.Any())
+            {
+                return string.Join(", ", descriptions);
+            }
+
+            return @enum.ToString();
         }
 
         public static IEnumerable<T> GetFlags<T>(this T @enum) where T : Enum
-            => Enum.GetValues(@enum.GetType()).Cast<T>().Where(e => @enum.HasFlag(e));
+        {
+            var values = Enum.GetValues(@enum.GetType()).Cast<T>();
+            var bits = Convert.ToInt64(@enum);
+            var results = new List<T>();
+
+            for (var i = values.Count() - 1; i >= 0; i--)
+            {
+                var mask = Convert.ToInt64(values.ElementAt(i));
+                if (i == 0 && mask == 0L)
+                {
+                    break;
+                }
+
+                if ((bits & mask) == mask)
+                {
+                    results.Add(values.ElementAt(i));
+                    bits -= mask;
+                }
+            }
+
+            if (bits != 0L)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            if (Convert.ToInt64(@enum) != 0L)
+            {
+                return results.Reverse<T>();
+            }
+
+            if (bits == Convert.ToInt64(@enum) && values.Count() > 0 && Convert.ToInt64(values.ElementAt(0)) == 0L)
+            {
+                return values.Take(1);
+            }
+
+            return Enumerable.Empty<T>();
+        }
 
         public static Dictionary<int, string> GetDescriptions(this Type enumType)
         {
