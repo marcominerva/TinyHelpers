@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ namespace TinyHelpers.Json.Serialization
 
         public DateOnlyConverter() : this(null)
         {
+            Debug.Write("Ciao");
         }
 
         public DateOnlyConverter(string? serializationFormat)
