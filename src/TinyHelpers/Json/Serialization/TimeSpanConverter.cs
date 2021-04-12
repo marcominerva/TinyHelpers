@@ -8,6 +8,10 @@ namespace TinyHelpers.Json.Serialization
     {
         private readonly string serializationFormat;
 
+        public TimeSpanConverter() : this(null)
+        {
+        }
+
         public TimeSpanConverter(string? serializationFormat = null)
             => this.serializationFormat = serializationFormat ?? @"hh\:mm\:ss";
 
