@@ -17,7 +17,7 @@ namespace TinyHelpers.Json.Serialization
             => this.serializationFormat = serializationFormat ?? "yyyy-MM-dd";
 
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            => DateTime.Parse(reader.GetString(), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).Date;
+            => DateTimeOffset.Parse(reader.GetString(), CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal).Date;
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
             => writer.WriteStringValue(value.ToString(serializationFormat));
