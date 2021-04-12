@@ -7,10 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '5.0.201'
+  NETCORE_VERSION: '5.0.202'
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build:
@@ -29,7 +28,7 @@ jobs:
         dotnet-version: ${{ env.NETCORE_VERSION }}
         
     - name: Nerdbank.GitVersioning 
-      uses: dotnet/nbgv@v0.3.1
+      uses: dotnet/nbgv@v0.4.0
       id: nbgv
       with:        
         path: ${{ env.PROJECT_NAME }}     
