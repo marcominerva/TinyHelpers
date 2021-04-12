@@ -12,7 +12,7 @@ namespace TinyHelpers.Json.Serialization
         {
         }
 
-        public TimeSpanConverter(string? serializationFormat = null)
+        public TimeSpanConverter(string? serializationFormat)
             => this.serializationFormat = serializationFormat ?? @"hh\:mm\:ss";
 
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
