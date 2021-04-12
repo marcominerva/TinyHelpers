@@ -8,6 +8,10 @@ namespace TinyHelpers.Json.Serialization
     {
         private readonly string serializationFormat;
 
+        public UtcDateTimeConverter() : this(null)
+        {
+        }
+
         public UtcDateTimeConverter(string? serializationFormat = null)
             => this.serializationFormat = serializationFormat ?? "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ";
 
