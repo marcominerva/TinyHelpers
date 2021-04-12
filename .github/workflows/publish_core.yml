@@ -32,7 +32,7 @@ jobs:
       id: nbgv
       with:        
         path: ${{ env.PROJECT_NAME }}
-    - run: echo 'NuGetPackageVersion=${{ steps.nbgv.outputs.NuGetPackageVersion }}, SemVer2=${{ steps.nbgv.outputs.SemVer2 }}'
+    - run: echo 'NuGetPackageVersion=${{ steps.nbgv.outputs.MajorMinorVersion }}.${{ steps.nbgv.outputs.BuildNumber }}'
         
     - name: Publish on NuGet        
       uses: brandedoutcast/publish-nuget@v2.5.5
