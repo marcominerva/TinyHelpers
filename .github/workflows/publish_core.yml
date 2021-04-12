@@ -11,7 +11,7 @@ env:
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-
+  
 jobs:
   build:
     name: Publish on NuGet
@@ -32,8 +32,8 @@ jobs:
       uses: dotnet/nbgv@v0.3.1
       id: nbgv
       with:        
-        path: ${{ env.PROJECT_NAME }}     
-
+        path: ${{ env.PROJECT_NAME }}
+        
     - name: Publish on NuGet        
       uses: rohith/publish-nuget@v2
       with:          
