@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '5.0.102'
+  NETCORE_VERSION: '5.0.202'
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
