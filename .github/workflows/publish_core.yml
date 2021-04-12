@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '5.0.202'
+  NETCORE_VERSION: '5.0.102'
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -33,10 +33,9 @@ jobs:
       id: nbgv
       with:        
         path: ${{ env.PROJECT_NAME }}
-    - run: echo 'NuGetPackageVersion=${{ steps.nbgv.outputs.MajorMinorVersion }}.${{ steps.nbgv.outputs.BuildNumber }}'
         
     - name: Publish on NuGet        
-      uses: brandedoutcast/publish-nuget@v2.5.5
+      uses: rohith/publish-nuget@v2
       with:          
         PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
         VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
