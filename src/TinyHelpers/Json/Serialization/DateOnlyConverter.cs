@@ -11,7 +11,6 @@ namespace TinyHelpers.Json.Serialization
 
         public DateOnlyConverter() : this(null)
         {
-
         }
 
         public DateOnlyConverter(string? serializationFormat)
