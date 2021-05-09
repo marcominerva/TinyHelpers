@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -53,7 +54,10 @@ namespace TinyHelpers.Sample
         private static async Task Main(string[] args)
         {
             var dateTime = new DateTime(2020, 1, 1);
-            var time = new TimeSpan(15, 42, 36);
+
+            var test = TimeSpan.Parse("1:14:30:15");
+
+            var str = test.ToString(null, CultureInfo.InvariantCulture);
 
             var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
@@ -63,6 +67,9 @@ namespace TinyHelpers.Sample
             };
 
             jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+
+
+            var time = new TimeSpan(25, 42, 36);
 
             var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
             var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
@@ -78,7 +85,7 @@ namespace TinyHelpers.Sample
             jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
             jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
-            var json = System.Text.Json.JsonSerializer.Serialize(time, jsonSerializerOptions);
+            var json = System.Text.Json.JsonSerializer.Serialize(test, jsonSerializerOptions);
             var result = System.Text.Json.JsonSerializer.Deserialize<TimeSpan>(json, jsonSerializerOptions);
 
             var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
