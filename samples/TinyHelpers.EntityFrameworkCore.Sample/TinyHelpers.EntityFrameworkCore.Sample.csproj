@@ -7,10 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TinyHelpers.EntityFrameworkCore\TinyHelpers.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\TinyHelpers.EntityFrameworkCore\TinyHelpers.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
