@@ -7,10 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TinyHelpers.Dapper\TinyHelpers.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\TinyHelpers.Dapper\TinyHelpers.Dapper.csproj" />
   </ItemGroup>
 
 </Project>

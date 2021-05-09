@@ -38,7 +38,7 @@ var jsonSerializerOptions = new JsonSerializerOptions
 };
 
 jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
-jsonSerializerOptions.Converters.Add(new TimeSpanTicksConverter());
+jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
 jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
 var Test = new Test { Time = test };
