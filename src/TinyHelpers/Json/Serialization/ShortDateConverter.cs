@@ -5,15 +5,15 @@ using System.Text.Json.Serialization;
 
 namespace TinyHelpers.Json.Serialization
 {
-    public class DateOnlyConverter : JsonConverter<DateTime>
+    public class ShortDateConverter : JsonConverter<DateTime>
     {
         private readonly string serializationFormat;
 
-        public DateOnlyConverter() : this(null)
+        public ShortDateConverter() : this(null)
         {
         }
 
-        public DateOnlyConverter(string? serializationFormat)
+        public ShortDateConverter(string? serializationFormat)
             => this.serializationFormat = serializationFormat ?? "yyyy-MM-dd";
 
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
