@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '5.0.202'
+  NETCORE_VERSION: '5.0.203'
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj
   NBGV_GitEngine: LibGit2
