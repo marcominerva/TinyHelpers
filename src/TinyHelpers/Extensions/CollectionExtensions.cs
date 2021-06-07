@@ -35,6 +35,23 @@ namespace TinyHelpers.Extensions
             return source;
         }
 
+        public static async Task<IEnumerable<TResult>?> SelectAsync<TSource, TResult>(this IEnumerable<TSource>? source, Func<TSource, Task<TResult>> asyncSelector, CancellationToken cancellationToken = default)
+        {
+            if (source != null)
+            {
+                var result = new List<TResult>();
+                foreach (var item in source)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result.Add(await asyncSelector(item).ConfigureAwait(false));
+                }
+
+                return result;
+            }
+
+            return null;
+        }
+
         public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> enumerable) where T : class
             => enumerable.Select((item, index) => new WithIndex<T>(item, index));
     }
