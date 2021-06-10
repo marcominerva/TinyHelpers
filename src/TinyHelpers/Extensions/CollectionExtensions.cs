@@ -8,6 +8,9 @@ namespace TinyHelpers.Extensions
 {
     public static class CollectionExtensions
     {
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
+            => source.GroupBy(keySelector, comparer).Select(x => x.First());
+
         public static IEnumerable<T>? ForEach<T>(this IEnumerable<T>? source, Action<T> action)
         {
             if (source != null)
@@ -52,8 +55,8 @@ namespace TinyHelpers.Extensions
             return null;
         }
 
-        public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> enumerable) where T : class
-            => enumerable.Select((item, index) => new WithIndex<T>(item, index));
+        public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
+            => source.Select((item, index) => new WithIndex<T>(item, index));
     }
 
     public readonly struct WithIndex<T> where T : class
