@@ -6,6 +6,7 @@ namespace TinyHelpers.Extensions
 {
     public static class TaskExtensions
     {
+#if NETSTANDARD2_0
         public static async Task WaitAsync(this Task task, TimeSpan timeout)
         {
             using var timeoutCancellationTokenSource = new CancellationTokenSource();
@@ -35,5 +36,6 @@ namespace TinyHelpers.Extensions
                 throw new TimeoutException();
             }
         }
+#endif
     }
 }
