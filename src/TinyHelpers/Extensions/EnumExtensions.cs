@@ -63,7 +63,7 @@ namespace TinyHelpers.Extensions
                 return results.Reverse<T>();
             }
 
-            if (bits == Convert.ToInt64(@enum) && values.Count() > 0 && Convert.ToInt64(values.ElementAt(0)) == 0L)
+            if (bits == Convert.ToInt64(@enum) && values.Any() && Convert.ToInt64(values.ElementAt(0)) == 0L)
             {
                 return values.Take(1);
             }

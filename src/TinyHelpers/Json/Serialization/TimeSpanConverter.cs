@@ -17,7 +17,17 @@ namespace TinyHelpers.Json.Serialization
             => this.serializationFormat = serializationFormat ?? "c";
 
         public override TimeSpan Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            => TimeSpan.Parse(reader.GetString());
+        {
+            var value = reader.GetString();
+            if (value == null)
+            {
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
+                throw new ArgumentNullException(nameof(value));
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+            }
+
+            return TimeSpan.Parse(value);
+        }
 
         public override void Write(Utf8JsonWriter writer, TimeSpan value, JsonSerializerOptions options)
             => writer.WriteStringValue(value.ToString(serializationFormat));
