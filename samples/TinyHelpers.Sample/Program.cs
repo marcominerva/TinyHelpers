@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
