@@ -4,7 +4,9 @@ using System.Text.Json;
 //var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
 //var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
 
+var time = new TimeSpan(25, 42, 36);
 
+var test = JsonSerializer.Serialize(time);
 
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 //jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
