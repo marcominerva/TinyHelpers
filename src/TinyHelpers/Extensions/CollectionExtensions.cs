@@ -38,7 +38,7 @@ namespace TinyHelpers.Extensions
             return source;
         }
 
-        public static async Task<IEnumerable<TResult>?> SelectAsync<TSource, TResult>(this IEnumerable<TSource>? source, Func<TSource, Task<TResult>> asyncSelector, CancellationToken cancellationToken = default)
+        public static async Task<IEnumerable<TResult>?> ConvertAsync<TSource, TResult>(this IEnumerable<TSource>? source, Func<TSource, Task<TResult>> asyncConverter, CancellationToken cancellationToken = default)
         {
             if (source != null)
             {
@@ -46,7 +46,7 @@ namespace TinyHelpers.Extensions
                 foreach (var item in source)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    result.Add(await asyncSelector(item).ConfigureAwait(false));
+                    result.Add(await asyncConverter(item).ConfigureAwait(false));
                 }
 
                 return result;
