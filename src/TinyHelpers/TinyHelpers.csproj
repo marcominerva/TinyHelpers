@@ -7,7 +7,7 @@
     <Authors>Marco Minerva</Authors>
     <Company>Marco Minerva</Company>
     <Product>Tiny .NET Helpers</Product>
-    <Title>Translator Service</Title>
+    <Title>Tiny .NET Helpers</Title>
     <Description>A collection of helper methods and classes for .NET that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>

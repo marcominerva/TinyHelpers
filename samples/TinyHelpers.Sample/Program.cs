@@ -77,7 +77,7 @@ foreach (var (person, i) in people.WithIndex())
 }
 
 var task = Task.Delay(5000);
-await task.TimeoutAfterAsync(TimeSpan.FromSeconds(10));
+await task.WaitAsync(TimeSpan.FromSeconds(10));
 
 var syncObject = new AsyncLock();
 using (await syncObject.LockAsync())
