@@ -58,17 +58,4 @@ namespace TinyHelpers.Extensions
         public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
             => source.Select((item, index) => new WithIndex<T>(item, index));
     }
-
-    public readonly struct WithIndex<T> where T : class
-    {
-        public T? Value { get; }
-
-        public int Index { get; }
-
-        internal WithIndex(T? value, int index)
-            => (Value, Index) = (value, index);
-
-        public void Deconstruct(out T? value, out int index)
-            => (value, index) = (Value, Index);
-    }
 }
