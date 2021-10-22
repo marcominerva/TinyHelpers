@@ -16,6 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
     <RepositoryBranch>master</RepositoryBranch>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +33,7 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+	<None Include="..\..\docs\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
