@@ -55,6 +55,17 @@ namespace TinyHelpers.Extensions
             return null;
         }
 
+        public static async ValueTask<List<TSource>> ToListAsync<TSource>(this IAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
+        {
+            var list = new List<TSource>();
+            await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
+            {
+                list.Add(item);
+            }
+
+            return list;
+        }
+
         public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
             => source.Select((item, index) => new WithIndex<T>(item, index));
     }

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,6 +11,13 @@ using System.Threading.Tasks;
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 using TinyHelpers.Threading;
+
+
+var lines = await GetNumbersAsync().ToListAsync();
+foreach (var product in lines)
+{
+    Console.WriteLine(product);
+}
 
 var dateTime = new DateTime(2020, 1, 1);
 var test = TimeSpan.Parse("1.14:30:16");
@@ -97,6 +105,16 @@ static IEnumerable<Person> GetPeople()
              };
 
     return people;
+}
+
+static async IAsyncEnumerable<int> GetNumbersAsync()
+{
+    var nums = Enumerable.Range(0, 10).ToArray();
+    foreach (var num in nums)
+    {
+        await Task.Delay(1000);
+        yield return num;
+    }
 }
 
 public class Test
