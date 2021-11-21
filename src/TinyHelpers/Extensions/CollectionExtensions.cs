@@ -8,8 +8,10 @@ namespace TinyHelpers.Extensions
 {
     public static class CollectionExtensions
     {
+#if NETSTANDARD2_0
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
             => source.GroupBy(keySelector, comparer).Select(x => x.First());
+#endif
 
         public static IEnumerable<T>? ForEach<T>(this IEnumerable<T>? source, Action<T> action)
         {
