@@ -19,13 +19,6 @@ namespace TinyHelpers.Json.Serialization
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString();
-            if (value == null)
-            {
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
-                throw new ArgumentNullException(nameof(value));
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
-            }
-
             return DateTimeOffset.Parse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal).Date;
         }
 

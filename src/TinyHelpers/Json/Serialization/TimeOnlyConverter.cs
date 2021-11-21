@@ -19,7 +19,6 @@ namespace TinyHelpers.Json.Serialization
         public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString();
-            ArgumentNullException.ThrowIfNull(value);
             return TimeOnly.Parse(value);
         }
 

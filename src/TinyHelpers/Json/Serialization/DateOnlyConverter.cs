@@ -19,7 +19,6 @@ namespace TinyHelpers.Json.Serialization
         public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var value = reader.GetString();
-            ArgumentNullException.ThrowIfNull(value);
             return DateOnly.Parse(value);
         }
 
