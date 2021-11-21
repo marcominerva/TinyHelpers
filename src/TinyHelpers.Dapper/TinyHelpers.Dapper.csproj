@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.90" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.205">
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.240">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
