@@ -1,156 +1,187 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using TinyHelpers.Extensions;
+﻿using System.Text.Json;
+using Newtonsoft.Json;
 using TinyHelpers.Json.Serialization;
-using TinyHelpers.Threading;
-
-
-var lines = await GetNumbersAsync().ToListAsync();
-foreach (var product in lines)
-{
-    Console.WriteLine(product);
-}
-
-var dateTime = new DateTime(2020, 1, 1);
-var test = TimeSpan.Parse("1.14:30:16");
-
-
-var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
 var jsonSerializerSettings = new JsonSerializerSettings
 {
     DateTimeZoneHandling = DateTimeZoneHandling.Utc
 };
 
-jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
-
-var time = new TimeSpan(25, 42, 36);
+var time = DateTime.Now;
 
 var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
-var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
 
 
-var jsonSerializerOptions = new JsonSerializerOptions
-{
-    PropertyNameCaseInsensitive = true,
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-};
+//var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
+//var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
 
+var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
-jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
-jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
+jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
 
-var Test = new Test { Time = test };
+//var test = DateOnly.FromDateTime(DateTime.Now);
+var json = System.Text.Json.JsonSerializer.Serialize(time, jsonSerializerOptions);
+var obj = System.Text.Json.JsonSerializer.Deserialize<DateTime>(json, jsonSerializerOptions);
 
-var json = System.Text.Json.JsonSerializer.Serialize(Test, jsonSerializerOptions);
-var result = System.Text.Json.JsonSerializer.Deserialize<Test>(json, jsonSerializerOptions);
+var test2 = TimeOnly.FromDateTime(DateTime.Now);
+var json2 = System.Text.Json.JsonSerializer.Serialize(test2, jsonSerializerOptions);
+var obj2 = System.Text.Json.JsonSerializer.Deserialize<TimeOnly>(json2, jsonSerializerOptions);
 
-var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
-var description = typeof(ConnectionTypes).GetDescriptions();
-foreach (var connectionType in connectionTypes.GetFlags())
-{
-    Foo(connectionType);
-}
-
-connectionTypes.GetFlags().ForEach(c => Foo(c));
-
-var priority = Priority.Medium;
-Console.WriteLine($"La priorità è {priority.GetDescription()}");
-
-//var a = "Marco";
-//var b = "marco";
-
-//if (a.EqualsIgnoreCase(b))
-//{
-
-//}
-
-//var inputName = "";
-//var name = inputName.GetValueOrDefault("sconosciuto");
-
-var people = GetPeople();
-
-foreach (var (person, i) in people.WithIndex())
-{
-    Console.WriteLine($"Elaboro la persona {i}...");
-}
-
-var task = Task.Delay(5000);
-await task.WaitAsync(TimeSpan.FromSeconds(10));
-
-var syncObject = new AsyncLock();
-using (await syncObject.LockAsync())
-{
-    await Task.Delay(1000);
-}
-
-static void Foo(ConnectionTypes connectionType) => Console.WriteLine($"Analizzo la connessione {connectionType.ToString()}...");// ...
-
-static IEnumerable<Person> GetPeople()
-{
-    var people = new List<Person>
-           {
-                new Person { FirstName = "Donald", LastName = "Duck" },
-                new Person { FirstName = "Mickey", LastName = "Mouse" },
-                new Person { FirstName = "Daisy", LastName = "Duck" }
-             };
-
-    return people;
-}
-
-static async IAsyncEnumerable<int> GetNumbersAsync()
-{
-    var nums = Enumerable.Range(0, 10).ToArray();
-    foreach (var num in nums)
-    {
-        await Task.Delay(1000);
-        yield return num;
-    }
-}
-
-public class Test
-{
-    public TimeSpan Time { get; set; }
-}
+Console.ReadLine();
 
 public class Person
 {
-    [JsonPropertyName("first_name")]
-    public string? FirstName { get; set; }
+    public Person(string firstName, string lastName, string city)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        City = city;
+    }
 
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+    public string City { get; }
 }
 
-public enum Priority
-{
-    [Display(Name = "Bassa")]
-    [EnumMember(Value = "Bassa priorita")]
-    Low,
 
-    [Display(Name = "Media")]
-    [EnumMember(Value = "Media priorita")]
-    Medium,
+//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
+//using System;
+//using System.Collections.Generic;
+//using System.ComponentModel.DataAnnotations;
+//using System.Runtime.Serialization;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
+//using System.Threading.Tasks;
+//using TinyHelpers.Extensions;
+//using TinyHelpers.Json.Serialization;
+//using TinyHelpers.Threading;
 
-    [Display(Name = "Alta")]
-    [EnumMember(Value = "Alta priorita")]
-    High
-};
+//var dateTime = new DateTime(2020, 1, 1);
+//var test = TimeSpan.Parse("1.14:30:16");
 
-[Flags]
-public enum ConnectionTypes
-{
-    Wired = 1,
-    WiFi = 2,
-    Bluetooth = 4,
-    [Display(Name = "Via Satellite")]
-    Satellite = 8
-};
+
+//var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
+
+//var jsonSerializerSettings = new JsonSerializerSettings
+//{
+//    DateTimeZoneHandling = DateTimeZoneHandling.Utc
+//};
+
+//jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+
+
+//var time = new TimeSpan(25, 42, 36);
+
+//var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
+//var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
+
+
+//var jsonSerializerOptions = new JsonSerializerOptions
+//{
+//    PropertyNameCaseInsensitive = true,
+//    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+//};
+
+//jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
+//jsonSerializerOptions.Converters.Add(new TimeSpanConverter());
+//jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
+
+//var Test = new Test { Time = test };
+
+//var json = System.Text.Json.JsonSerializer.Serialize(Test, jsonSerializerOptions);
+//var result = System.Text.Json.JsonSerializer.Deserialize<Test>(json, jsonSerializerOptions);
+
+//var connectionTypes = ConnectionTypes.Wired | ConnectionTypes.Satellite;
+//var description = typeof(ConnectionTypes).GetDescriptions();
+//foreach (var connectionType in connectionTypes.GetFlags())
+//{
+//    Foo(connectionType);
+//}
+
+//connectionTypes.GetFlags().ForEach(c => Foo(c));
+
+//var priority = Priority.Medium;
+//Console.WriteLine($"La priorità è {priority.GetDescription()}");
+
+////var a = "Marco";
+////var b = "marco";
+
+////if (a.EqualsIgnoreCase(b))
+////{
+
+////}
+
+////var inputName = "";
+////var name = inputName.GetValueOrDefault("sconosciuto");
+
+//var people = GetPeople();
+
+//foreach (var (person, i) in people.WithIndex())
+//{
+//    Console.WriteLine($"Elaboro la persona {i}...");
+//}
+
+//var task = Task.Delay(5000);
+//await task.WaitAsync(TimeSpan.FromSeconds(10));
+
+//var syncObject = new AsyncLock();
+//using (await syncObject.LockAsync())
+//{
+//    await Task.Delay(1000);
+//}
+
+//static void Foo(ConnectionTypes connectionType) => Console.WriteLine($"Analizzo la connessione {connectionType.ToString()}...");// ...
+
+//static IEnumerable<Person> GetPeople()
+//{
+//    var people = new List<Person>
+//           {
+//                new Person { FirstName = "Donald", LastName = "Duck" },
+//                new Person { FirstName = "Mickey", LastName = "Mouse" },
+//                new Person { FirstName = "Daisy", LastName = "Duck" }
+//             };
+
+//    return people;
+//}
+
+//public class Test
+//{
+//    public TimeSpan Time { get; set; }
+//}
+
+//public class Person
+//{
+//    [JsonPropertyName("first_name")]
+//    public string? FirstName { get; set; }
+
+//    public string? LastName { get; set; }
+//}
+
+//public enum Priority
+//{
+//    [Display(Name = "Bassa")]
+//    [EnumMember(Value = "Bassa priorita")]
+//    Low,
+
+//    [Display(Name = "Media")]
+//    [EnumMember(Value = "Media priorita")]
+//    Medium,
+
+//    [Display(Name = "Alta")]
+//    [EnumMember(Value = "Alta priorita")]
+//    High
+//};
+
+//[Flags]
+//public enum ConnectionTypes
+//{
+//    Wired = 1,
+//    WiFi = 2,
+//    Bluetooth = 4,
+//    [Display(Name = "Via Satellite")]
+//    Satellite = 8
+//};

@@ -1,39 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <Authors>Marco Minerva</Authors>
-    <Company>Marco Minerva</Company>
-    <Product>Tiny .NET Helpers</Product>
-    <Title>Tiny .NET Helpers</Title>
-    <Description>A collection of helper methods and classes for .NET that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>
-    <PackageIcon>Toolbox.png</PackageIcon>
-    <PackageTags>csharp visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
-    <RepositoryBranch>master</RepositoryBranch>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Marco Minerva</Authors>
+		<Company>Marco Minerva</Company>
+		<Product>Tiny .NET Helpers</Product>
+		<Title>Tiny .NET Helpers</Title>
+		<Description>A collection of helper methods and classes for .NET that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>
+		<PackageIcon>Toolbox.png</PackageIcon>
+		<PackageTags>csharp visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
+		<RepositoryBranch>master</RepositoryBranch>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.240">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="System.Text.Json" Version="6.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\..\Toolbox.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-	<None Include="..\..\docs\README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\Toolbox.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\..\docs\README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
 </Project>

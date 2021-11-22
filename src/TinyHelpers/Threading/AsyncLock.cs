@@ -1,25 +1,22 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿namespace TinyHelpers.Threading;
 
-namespace TinyHelpers.Threading
+public class AsyncLock : IDisposable
 {
-    public class AsyncLock : IDisposable
+    private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+
+    public async Task<AsyncLock> LockAsync()
     {
-        private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        await semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        return this;
+    }
 
-        public async Task<AsyncLock> LockAsync()
+    public void Dispose()
+    {
+        if (semaphoreSlim.CurrentCount == 0)
         {
-            await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-            return this;
+            semaphoreSlim.Release();
         }
 
-        public void Dispose()
-        {
-            if (semaphoreSlim.CurrentCount == 0)
-            {
-                semaphoreSlim.Release();
-            }
-        }
+        GC.SuppressFinalize(this);
     }
 }
