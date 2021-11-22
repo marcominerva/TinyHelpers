@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NETCORE_VERSION: '5.0.402'
+  NET_VERSION: '6.x'
   PROJECT_NAME: src/TinyHelpers 
   PROJECT_FILE: TinyHelpers.csproj  
   
@@ -22,10 +22,10 @@ jobs:
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
         
-    - name: Setup .NET Core SDK ${{ env.NETCORE_VERSION }}
+    - name: Setup .NET Core SDK ${{ env.NET_VERSION }}
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ env.NETCORE_VERSION }}
+        dotnet-version: ${{ env.NET_VERSION }}
         
     - name: Nerdbank.GitVersioning 
       uses: dotnet/nbgv@v0.4
