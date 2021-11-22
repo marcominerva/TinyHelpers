@@ -1,20 +1,33 @@
 ﻿using System.Text.Json;
+using Newtonsoft.Json;
 using TinyHelpers.Json.Serialization;
+
+var jsonSerializerSettings = new JsonSerializerSettings
+{
+    DateTimeZoneHandling = DateTimeZoneHandling.Utc
+};
+
+
+var time = DateTime.Now;
+
+var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
+
 
 //var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
 //var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
 
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
 jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
 jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
 
-var test = DateOnly.FromDateTime(DateTime.Now);
-var json = JsonSerializer.Serialize(test, jsonSerializerOptions);
-var obj = JsonSerializer.Deserialize<DateOnly>(json, jsonSerializerOptions);
+//var test = DateOnly.FromDateTime(DateTime.Now);
+var json = System.Text.Json.JsonSerializer.Serialize(time, jsonSerializerOptions);
+var obj = System.Text.Json.JsonSerializer.Deserialize<DateTime>(json, jsonSerializerOptions);
 
-//var test2 = TimeOnly.FromDateTime(DateTime.Now);
-//var json2 = JsonSerializer.Serialize(test2, jsonSerializerOptions);
-//var obj2 = JsonSerializer.Deserialize<TimeOnly>(json2, jsonSerializerOptions);
+var test2 = TimeOnly.FromDateTime(DateTime.Now);
+var json2 = System.Text.Json.JsonSerializer.Serialize(test2, jsonSerializerOptions);
+var obj2 = System.Text.Json.JsonSerializer.Deserialize<TimeOnly>(json2, jsonSerializerOptions);
 
 Console.ReadLine();
 

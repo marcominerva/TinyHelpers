@@ -14,7 +14,7 @@ public class TimeOnlyConverter : JsonConverter<TimeOnly>
 
     public TimeOnlyConverter(string? serializationFormat)
     {
-        this.serializationFormat = serializationFormat ?? "HH:mm:ss";
+        this.serializationFormat = serializationFormat ?? "HH:mm:ss.fff";
     }
 
     public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
