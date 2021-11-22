@@ -1,20 +1,16 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
+using TinyHelpers.Json.Serialization;
 
 //var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
 //var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
 
-var time = new TimeSpan(25, 42, 36);
-
-var test = JsonSerializer.Serialize(time);
-
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-//jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
-//jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
+jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
 
-//var test = DateOnly.FromDateTime(DateTime.Now);
-//var json = JsonSerializer.Serialize(test, jsonSerializerOptions);
-//var obj = JsonSerializer.Deserialize<DateOnly>(json, jsonSerializerOptions);
+var test = DateOnly.FromDateTime(DateTime.Now);
+var json = JsonSerializer.Serialize(test, jsonSerializerOptions);
+var obj = JsonSerializer.Deserialize<DateOnly>(json, jsonSerializerOptions);
 
 //var test2 = TimeOnly.FromDateTime(DateTime.Now);
 //var json2 = JsonSerializer.Serialize(test2, jsonSerializerOptions);
