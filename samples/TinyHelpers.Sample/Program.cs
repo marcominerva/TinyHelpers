@@ -1,6 +1,10 @@
 ﻿using System.Text.Json;
 using Newtonsoft.Json;
+using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
+
+var str = "Pippo Pluto";
+var str2 = str.ReplaceIgnoreCase("pippo", string.Empty);
 
 var jsonSerializerSettings = new JsonSerializerSettings
 {
@@ -21,9 +25,9 @@ jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
 jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
 jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
 
-//var test = DateOnly.FromDateTime(DateTime.Now);
-var json = System.Text.Json.JsonSerializer.Serialize(time, jsonSerializerOptions);
-var obj = System.Text.Json.JsonSerializer.Deserialize<DateTime>(json, jsonSerializerOptions);
+var test = DateTime.Now.TimeOfDay;
+var json = System.Text.Json.JsonSerializer.Serialize(test, jsonSerializerOptions);
+var obj = System.Text.Json.JsonSerializer.Deserialize<TimeSpan>(json, jsonSerializerOptions);
 
 var test2 = TimeOnly.FromDateTime(DateTime.Now);
 var json2 = System.Text.Json.JsonSerializer.Serialize(test2, jsonSerializerOptions);
