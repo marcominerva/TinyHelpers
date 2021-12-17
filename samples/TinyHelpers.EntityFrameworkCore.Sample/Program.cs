@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using TinyHelpers.EntityFrameworkCore.Extensions;
 using TinyHelpers.EntityFrameworkCore.Sample;
 
 using var dataContext = new DataContext();
+
+var posts = await dataContext.Posts.Where(p => p.Date > new DateOnly(2021, 1, 1)).ToListAsync();
+
+Console.ReadLine();
 
 //var post = new Post
 //{
@@ -22,13 +24,13 @@ using var dataContext = new DataContext();
 
 //await dataContext.SaveChangesAsync();
 
-await dataContext.ExecuteTransactionAsync(async () =>
-{
-    var posts = await dataContext.Posts.ToListAsync();
-    var post = posts.First();
-    post.Reviews.First().User = "Topolino";
-    await dataContext.SaveChangesAsync();
-});
+//await dataContext.ExecuteTransactionAsync(async () =>
+//{
+//    var posts = await dataContext.Posts.ToListAsync();
+//    var post = posts.First();
+//    post.Reviews.First().User = "Topolino";
+//    await dataContext.SaveChangesAsync();
+//});
 
 // Exception
 //var posts = await dataContext.Posts.Where(p => p.Reviews.Any())
