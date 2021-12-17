@@ -1,24 +1,36 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TinyHelpers.EntityFrameworkCore.Sample;
+using TinyHelpers.EntityFrameworkCore.Sample.Entities;
 
 using var dataContext = new DataContext();
 
-var posts = await dataContext.Posts.Where(p => p.Date > new DateOnly(2021, 1, 1)).ToListAsync();
+var list = new List<Review>
+    {
+        new Review { User = "Pippo", Score = 5 },
+        new Review { User = "PlutO", Score = 4 }
+    };
+
+var posts = await dataContext.Posts.Where(p => p.Reviews == list).ToListAsync();
+
+var post = new Post
+{
+    Title = "TinyHelpers",
+    Content = "A collection of helper methods and classes that I use everyday. I have packed them in a single library to avoid code duplication.",
+    //Authors = new string[] { "Marco", "Bot" },
+    Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
+    Reviews = new List<Review>
+    {
+        new Review { User = "Pippo", Score = 5 },
+        new Review { User = "Pluto", Score = 4 }
+    }
+};
+
+dataContext.Posts.Add(post);
+//await dataContext.SaveChangesAsync();
 
 Console.ReadLine();
 
-//var post = new Post
-//{
-//    Title = "TinyHelpers",
-//    Content = "A collection of helper methods and classes that I use everyday. I have packed them in a single library to avoid code duplication.",
-//    Authors = new string[] { "Marco", "Bot" },
-//    Date = DateTime.UtcNow,
-//    Reviews = new List<Review>
-//    {
-//        new Review { User = "Pippo", Date = DateTime.UtcNow, Score = 5 },
-//        new Review { User = "Pluto", Date = DateTime.UtcNow, Score = 4 }
-//    }
-//};
+
 
 //dataContext.Posts.Add(post);
 

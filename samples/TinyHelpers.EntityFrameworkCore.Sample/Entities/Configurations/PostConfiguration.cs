@@ -17,7 +17,7 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         builder.Property(x => x.Date).HasDateOnlyConversion();
         builder.Property(x => x.Time).HasTimeOnlyConversion();
 
-        builder.Property(x => x.Authors).HasArrayConversion().IsRequired();
+        builder.Property(x => x.Authors).HasArrayConversion();
         builder.Property(x => x.Reviews).HasJsonConversion();
     }
 }
