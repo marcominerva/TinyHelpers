@@ -68,6 +68,9 @@ public static class EnumExtensions
         return Enumerable.Empty<T>();
     }
 
+    public static Dictionary<int, string?> GetDescriptions<T>() where T : Enum
+        => GetDescriptions(typeof(T));
+
     public static Dictionary<int, string?> GetDescriptions(this Type enumType)
     {
         var descriptions = new Dictionary<int, string?>();
@@ -86,24 +89,19 @@ public static class EnumExtensions
 
     private static string? GetFieldInfoDescription(FieldInfo fieldInfo, string? defaultValue)
     {
-        var enumDescription = defaultValue;
+        string? enumDescription;
 
-        var displayAttributes = fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false) as DisplayAttribute[];
-        if (displayAttributes?.Any() ?? false)
+        var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>();
+        if (displayAttribute?.ResourceType == null)
         {
-            // Return the first if there was a match.
-            var displayAttribute = displayAttributes.First();
-            if (displayAttribute.ResourceType == null)
-            {
-                enumDescription = displayAttribute.Name;
-            }
-            else
-            {
-                var resourceManager = new ResourceManager(displayAttribute.ResourceType);
-                enumDescription = resourceManager.GetString(displayAttribute.Name!);
-            }
+            enumDescription = displayAttribute?.Name;
+        }
+        else
+        {
+            var resourceManager = new ResourceManager(displayAttribute.ResourceType);
+            enumDescription = resourceManager.GetString(displayAttribute.Name!) ?? displayAttribute.Name;
         }
 
-        return enumDescription;
+        return enumDescription ?? defaultValue;
     }
 }

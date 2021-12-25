@@ -1,8 +1,8 @@
-﻿using Dapper;
-using System.Data;
+﻿using System.Data;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Dapper;
 
 namespace TinyHelpers.Dapper.SqlTypeHandlers;
 

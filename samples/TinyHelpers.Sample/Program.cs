@@ -1,7 +1,11 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text.Json;
 using Newtonsoft.Json;
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
+
+var testEnum = typeof(int).GetDescriptions();
 
 var str = "Pippo Pluto";
 var str2 = str.ReplaceIgnoreCase("pippo", string.Empty);
@@ -50,6 +54,19 @@ public class Person
     public string City { get; }
 }
 
+public enum Priority
+{
+    [Display(Name = "Bassa")]
+    [EnumMember(Value = "Bassa priorita")]
+    Low,
+
+    [Display(Name = "Media")]
+    [EnumMember(Value = "Media priorita")]
+    Medium,
+
+    [EnumMember(Value = "Alta priorita")]
+    High
+};
 
 //using Newtonsoft.Json;
 //using Newtonsoft.Json.Converters;
