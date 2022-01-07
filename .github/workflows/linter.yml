@@ -40,7 +40,7 @@ jobs:
       # Run Linter against code base #
       ################################
       - name: Lint Code Base
-        uses: github/super-linter@v3
+        uses: github/super-linter@v3.17.0
         env:
           LINTER_RULES_PATH: '.'
           EDITORCONFIG_FILE_NAME: '.editorconfig'
