@@ -19,6 +19,5 @@ internal class JsonOptions
 
         Default.Converters.Add(new DateOnlyConverter());
         Default.Converters.Add(new TimeOnlyConverter());
-        Default.Converters.Add(new StringEnumMemberConverter());
     }
 }

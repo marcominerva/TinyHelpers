@@ -38,5 +38,5 @@ jobs:
       with:          
         PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
         VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
-        TAG_FORMAT: v*
+        TAG_FORMAT: core_v*
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
