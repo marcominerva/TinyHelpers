@@ -18,7 +18,7 @@ public class HeaderInjectorHttpClientHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var headers = await getHeaders(request).ConfigureAwait(false);
-        if (headers != null)
+        if (headers is not null)
         {
             foreach (var header in headers)
             {

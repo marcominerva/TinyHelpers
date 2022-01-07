@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 
-var testEnum = typeof(int).GetDescriptions();
+var testEnum = typeof(Priority).GetDescriptions();
 
 var str = "Pippo Pluto";
 var str2 = str.ReplaceIgnoreCase("pippo", string.Empty);

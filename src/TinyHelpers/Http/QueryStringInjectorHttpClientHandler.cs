@@ -22,7 +22,7 @@ public class QueryStringInjectorHttpClientHandler : DelegatingHandler
         var queryStringParameters = HttpUtility.ParseQueryString(request.RequestUri!.Query);
 
         var queryString = await getQueryString(request).ConfigureAwait(false);
-        if (queryString != null)
+        if (queryString is not null)
         {
             foreach (var parameter in queryString)
             {

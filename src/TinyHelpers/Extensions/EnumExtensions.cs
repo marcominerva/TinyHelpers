@@ -92,7 +92,7 @@ public static class EnumExtensions
         string? enumDescription;
 
         var displayAttribute = fieldInfo.GetCustomAttribute<DisplayAttribute>();
-        if (displayAttribute?.ResourceType == null)
+        if (displayAttribute?.ResourceType is null)
         {
             enumDescription = displayAttribute?.Name;
         }
