@@ -21,7 +21,7 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     {
         // See if the request has an authorize header
         var auth = request.Headers.Authorization;
-        if (auth != null)
+        if (auth is not null)
         {
             var token = await getToken(request).ConfigureAwait(false);
             request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);

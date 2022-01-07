@@ -1,10 +1,9 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using TinyHelpers.Dapper.Sample.Models;
 using TinyHelpers.Dapper.SqlTypeHandlers;
-
 
 const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Sample;Integrated Security=True";
 

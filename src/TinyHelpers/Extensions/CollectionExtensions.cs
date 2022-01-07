@@ -9,7 +9,7 @@ public static class CollectionExtensions
 
     public static IEnumerable<T>? ForEach<T>(this IEnumerable<T>? source, Action<T> action)
     {
-        if (source != null)
+        if (source is not null)
         {
             foreach (var item in source)
             {
@@ -22,7 +22,7 @@ public static class CollectionExtensions
 
     public static async Task<IEnumerable<T>?> ForEachAsync<T>(this IEnumerable<T>? source, Func<T, Task> action, CancellationToken cancellationToken = default)
     {
-        if (source != null)
+        if (source is not null)
         {
             foreach (var item in source)
             {
@@ -36,7 +36,7 @@ public static class CollectionExtensions
 
     public static async Task<IEnumerable<TResult>?> SelectAsync<TSource, TResult>(this IEnumerable<TSource>? source, Func<TSource, Task<TResult>> asyncSelector, CancellationToken cancellationToken = default)
     {
-        if (source != null)
+        if (source is not null)
         {
             var result = new List<TResult>();
             foreach (var item in source)

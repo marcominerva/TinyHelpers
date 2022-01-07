@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TinyHelpers.Dapper.Sample.Models;
+﻿namespace TinyHelpers.EntityFrameworkCore.Sample.Entities;
 
 public class Post
 {
@@ -13,7 +10,9 @@ public class Post
 
     public IEnumerable<string> Authors { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateOnly? Date { get; set; }
+
+    public TimeOnly? Time { get; set; }
 
     public IList<Review> Reviews { get; set; }
 }

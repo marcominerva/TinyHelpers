@@ -5,15 +5,36 @@
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<Authors>Marco Minerva</Authors>
+		<Company>Marco Minerva</Company>
+		<Product>Tiny Helpers for Entity Framework Core</Product>
+		<Title>Tiny Helpers for Entity Framework Core</Title>
+		<Description>A collection of helper methods and classes for Entity Framework Core that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>
+		<PackageIcon>Toolbox.png</PackageIcon>
+		<PackageTags>csharp entityframework entityframeworkcore ef efcore visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
+		<RepositoryBranch>master</RepositoryBranch>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.255">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Text.Json" Version="6.0.0" />
+		<PackageReference Include="TinyHelpers" Version="1.4.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\Toolbox.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>

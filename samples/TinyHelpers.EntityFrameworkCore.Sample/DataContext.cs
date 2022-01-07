@@ -1,34 +1,43 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using TinyHelpers.EntityFrameworkCore.Sample.Configurations;
-using TinyHelpers.EntityFrameworkCore.Sample.Models;
+using TinyHelpers.EntityFrameworkCore.Extensions;
+using TinyHelpers.EntityFrameworkCore.Sample.Entities;
 
-namespace TinyHelpers.EntityFrameworkCore.Sample
+namespace TinyHelpers.EntityFrameworkCore.Sample;
+
+public class DataContext : DbContext
 {
-    public class DataContext : DbContext
+    public const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SampleDatabase;Integrated Security=True";
+
+    public DbSet<Post> Posts { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        public const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Sample;Integrated Security=True";
-
-        public DataContext()
+        optionsBuilder.UseSqlServer(ConnectionString, options =>
         {
-        }
+            options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), null);
+        });
 
+        base.OnConfiguring(optionsBuilder);
+    }
 
-        public DbSet<Post> Posts { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Post>(builder =>
         {
-            optionsBuilder.UseSqlServer(ConnectionString, options =>
-            {
-                options.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), null);
-            });
+            builder.Property(x => x.Title).HasMaxLength(80).IsRequired();
+            builder.Property(x => x.Content).IsRequired();
 
-            base.OnConfiguring(optionsBuilder);
-        }
+            // Date is a DateOnly property (.NET 6)
+            builder.Property(x => x.Date).HasDateOnlyConversion();
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfiguration(new PostConfiguration());
-        }
+            // Time is a TimeOnly property (.NET 6)
+            builder.Property(x => x.Time).HasTimeOnlyConversion();
+
+            // Reviews is a complex type, this Converter will automatically JSON-de/serialize it
+            // in a string column.
+            builder.Property(x => x.Reviews).HasJsonConversion();
+
+            builder.Property(x => x.Authors).HasArrayConversion();
+        });
     }
 }
