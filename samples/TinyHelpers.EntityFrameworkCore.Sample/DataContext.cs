@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TinyHelpers.EntityFrameworkCore.Extensions;
 using TinyHelpers.EntityFrameworkCore.Sample.Entities;
 
 namespace TinyHelpers.EntityFrameworkCore.Sample;
@@ -21,5 +21,23 @@ public class DataContext : DbContext
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        => modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    {
+        modelBuilder.Entity<Post>(builder =>
+        {
+            builder.Property(x => x.Title).HasMaxLength(80).IsRequired();
+            builder.Property(x => x.Content).IsRequired();
+
+            // Date is a DateOnly property (.NET 6)
+            builder.Property(x => x.Date).HasDateOnlyConversion();
+
+            // Time is a TimeOnly property (.NET 6)
+            builder.Property(x => x.Time).HasTimeOnlyConversion();
+
+            // Reviews is a complex type, this Converter will automatically JSON-de/serialize it
+            // in a string column.
+            builder.Property(x => x.Reviews).HasJsonConversion();
+
+            builder.Property(x => x.Authors).HasArrayConversion();
+        });
+    }
 }

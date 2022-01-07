@@ -1,0 +1,42 @@
+name: Publish Tiny Helpers for Entity Framework Core on NuGet
+ 
+on:
+  push:
+    branches: [ master ]
+    paths: [ 'src/TinyHelpers.EntityFrameworkCore/**' ]
+  workflow_dispatch:
+
+env:
+  NET_VERSION: '6.x'
+  PROJECT_NAME: src/TinyHelpers.EntityFrameworkCore 
+  PROJECT_FILE: TinyHelpers.EntityFrameworkCore.csproj  
+  
+jobs:
+  build:
+    name: Publish on NuGet
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+        
+    - name: Setup .NET Core SDK ${{ env.NET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.NET_VERSION }}
+        
+    - name: Nerdbank.GitVersioning 
+      uses: dotnet/nbgv@v0.4
+      id: nbgv
+      with:        
+        path: ${{ env.PROJECT_NAME }}
+        
+    - name: Publish on NuGet        
+      uses: rohith/publish-nuget@v2
+      with:          
+        PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
+        VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+        TAG_FORMAT: v*
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}

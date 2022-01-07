@@ -26,11 +26,9 @@ var post = new Post
 };
 
 dataContext.Posts.Add(post);
-//await dataContext.SaveChangesAsync();
+await dataContext.SaveChangesAsync();
 
 Console.ReadLine();
-
-
 
 //dataContext.Posts.Add(post);
 
