@@ -11,7 +11,7 @@
 		<Title>Tiny Helpers for Entity Framework Core</Title>
 		<Description>A collection of helper methods and classes for Entity Framework Core that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/marcominerva/TinyHelpers</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.EntityFrameworkCore</PackageProjectUrl>
 		<PackageIcon>Toolbox.png</PackageIcon>
 		<PackageTags>csharp entityframework entityframeworkcore ef efcore visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
 		<RepositoryType>git</RepositoryType>
