@@ -11,10 +11,22 @@ public static class PropertyBuilderExtensions
         => propertyBuilder.HasConversion<DateOnlyConverter, DateOnlyComparer>();
 
     public static PropertyBuilder<TimeOnly> HasTimeOnlyConversion<TimeOnly>(this PropertyBuilder<TimeOnly> propertyBuilder)
-    => propertyBuilder.HasConversion<TimeOnlyConverter, TimeOnlyComparer>();
+        => propertyBuilder.HasConversion<TimeOnlyConverter, TimeOnlyComparer>();
 
-    public static PropertyBuilder<T?> HasJsonConversion<T>(this PropertyBuilder<T?> propertyBuilder, JsonSerializerOptions? jsonSerializerOptions = null)
+    public static PropertyBuilder<T?> HasJsonConversion<T>(this PropertyBuilder<T?> propertyBuilder, JsonSerializerOptions? jsonSerializerOptions = null, bool useUtcDate = false, bool serializeEnumAsString = false)
     {
+        jsonSerializerOptions ??= new(JsonOptions.Default);
+
+        if (useUtcDate)
+        {
+            jsonSerializerOptions.Converters.Add(new Json.Serialization.UtcDateTimeConverter());
+        }
+
+        if (serializeEnumAsString)
+        {
+            jsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        }
+
         var converter = new JsonStringConverter<T>(jsonSerializerOptions);
         var comparer = new JsonStringComparer<T>(jsonSerializerOptions);
 
