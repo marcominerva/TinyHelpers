@@ -62,6 +62,18 @@ public static class CollectionExtensions
         return list;
     }
 
+    public static void Remove<T>(this ICollection<T> collection, Func<T, bool> predicate)
+    {
+        for (var i = collection.Count - 1; i >= 0; i--)
+        {
+            var element = collection.ElementAt(i);
+            if (predicate(element))
+            {
+                collection.Remove(element);
+            }
+        }
+    }
+
     public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
         => source.Select((item, index) => new WithIndex<T>(item, index));
 }
