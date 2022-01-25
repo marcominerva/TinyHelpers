@@ -43,4 +43,13 @@ public static class PropertyBuilderExtensions
         propertyBuilder.HasConversion(converter, comparer);
         return propertyBuilder;
     }
+
+    public static PropertyBuilder<string[]> HasArrayConversion(this PropertyBuilder<string[]> propertyBuilder, string separator = ";")
+    {
+        var converter = new StringArrayConverter(separator);
+        var comparer = new StringArrayComparer();
+
+        propertyBuilder.HasConversion(converter, comparer);
+        return propertyBuilder;
+    }
 }
