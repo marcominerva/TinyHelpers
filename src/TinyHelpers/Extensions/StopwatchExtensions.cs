@@ -4,12 +4,12 @@ namespace TinyHelpers.Extensions;
 
 public static class StopwatchExtensions
 {
-    public static TimeSpan GetElapsedAndRestart(this Stopwatch sw)
+    public static TimeSpan GetElapsedAndRestart(this Stopwatch stopwatch)
     {
-        sw.Stop();
-        var result = sw.Elapsed;
+        stopwatch.Stop();
+        var result = stopwatch.Elapsed;
 
-        sw.Restart();
+        stopwatch.Restart();
 
         return result;
     }
