@@ -17,7 +17,6 @@ var jsonSerializerSettings = new JsonSerializerSettings
 
 
 var time = DateTime.Now;
-
 var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
 
 
@@ -29,9 +28,9 @@ jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
 jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
 jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
 
-var test = DateTime.Now.TimeOfDay;
+var test = DateTime.Now;
 var json = System.Text.Json.JsonSerializer.Serialize(test, jsonSerializerOptions);
-var obj = System.Text.Json.JsonSerializer.Deserialize<TimeSpan>(json, jsonSerializerOptions);
+var obj = System.Text.Json.JsonSerializer.Deserialize<DateTime?>(json, jsonSerializerOptions);
 
 var test2 = TimeOnly.FromDateTime(DateTime.Now);
 var json2 = System.Text.Json.JsonSerializer.Serialize(test2, jsonSerializerOptions);
