@@ -90,8 +90,8 @@ public static class CollectionExtensions
         => source?.Any() ?? false;
 
     public static int GetCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
-        => source?.Count(predicate) ?? 0;
+        => source?.Count(predicate!) ?? 0;
 
     public static long GetLongCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
-        => source?.LongCount(predicate) ?? 0;
+        => source?.LongCount(predicate!) ?? 0;
 }
