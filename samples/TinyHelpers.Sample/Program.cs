@@ -20,7 +20,11 @@ var time = DateTime.Now;
 var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
 
 
-//var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
+var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
+var values = Array.Empty<string>().ToList();
+
+var isEmpty = values.IsNotNullOrEmpty();
+
 //var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
 
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
