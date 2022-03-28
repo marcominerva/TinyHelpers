@@ -33,10 +33,18 @@ jobs:
       with:        
         path: ${{ env.PROJECT_NAME }}
         
-    - name: Publish on NuGet        
-      uses: rohith/publish-nuget@v2
-      with:          
-        PROJECT_FILE_PATH: '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
-        VERSION_STATIC: ${{ steps.nbgv.outputs.NuGetPackageVersion }}
-        TAG_FORMAT: core_v*
-        NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: Package
+      run: dotnet pack -c Release -o . '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
+      
+    - name: Publish on NuGet
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json  
+      
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tag_name: core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          draft: false
+          prerelease: false

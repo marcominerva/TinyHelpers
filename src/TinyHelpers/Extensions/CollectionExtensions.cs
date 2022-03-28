@@ -76,4 +76,22 @@ public static class CollectionExtensions
 
     public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
         => source.Select((item, index) => new WithIndex<T>(item, index));
+
+    public static bool IsEmpty<T>(this IEnumerable<T> source)
+        => !source.Any();
+
+    public static bool IsNotEmpty<T>(this IEnumerable<T> source)
+        => source.Any();
+
+    public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
+        => !source?.Any() ?? true;
+
+    public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> source)
+        => source?.Any() ?? false;
+
+    public static int GetCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
+        => source?.Count(predicate!) ?? 0;
+
+    public static long GetLongCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
+        => source?.LongCount(predicate!) ?? 0;
 }
