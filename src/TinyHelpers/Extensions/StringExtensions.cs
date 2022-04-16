@@ -26,12 +26,10 @@ public static class StringExtensions
     public static string Repeat(this string str, int times)
     {
         var s = new StringBuilder();
-        
         for (int i = 0; i < times; i++)
         {
             s.Append(str);
         }
-        
         return s.ToString();
     }
 }
