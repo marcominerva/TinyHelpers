@@ -21,4 +21,16 @@ public static class StringExtensions
 
     public static string? GetValueOrDefault(this string? input, string? defaultValue = default, bool whitespaceAsEmpty = true)
         => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
+
+    public static string Repeat(this string str, int times)
+    {
+        var s = new StringBuilder();
+        
+        for (int i = 0; i < count; i++)
+        {
+            (() => s.Append(str))
+        }
+        
+        return s.ToString();
+    }
 }
