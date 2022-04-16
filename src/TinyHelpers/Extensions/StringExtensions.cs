@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TinyHelpers.Extensions;
 
@@ -26,9 +27,9 @@ public static class StringExtensions
     {
         var s = new StringBuilder();
         
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < times; i++)
         {
-            (() => s.Append(str))
+            s.Append(str);
         }
         
         return s.ToString();
