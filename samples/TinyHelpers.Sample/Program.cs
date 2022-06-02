@@ -1,25 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Text.Json;
-using TinyHelpers.Json.Serialization;
-
-var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
-jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
-jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
-
-
-var test = DateTime.MaxValue;
-var json = JsonSerializer.Serialize(test, jsonSerializerOptions);
-json = "\"9999-12-31T23:59:59.9999999Z\"";
-var obj = JsonSerializer.Deserialize<DateTime?>(json, jsonSerializerOptions);
-
-var test2 = TimeOnly.FromDateTime(DateTime.Now);
-var json2 = JsonSerializer.Serialize(test2, jsonSerializerOptions);
-var obj2 = JsonSerializer.Deserialize<TimeOnly>(json2, jsonSerializerOptions);
 
 Console.ReadLine();
-
 
 public class Person
 {
@@ -66,7 +48,6 @@ public enum Priority
 //var dateTime = new DateTime(2020, 1, 1);
 //var test = TimeSpan.Parse("1.14:30:16");
 
-
 //var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
 //var jsonSerializerSettings = new JsonSerializerSettings
@@ -76,12 +57,10 @@ public enum Priority
 
 //jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
-
 //var time = new TimeSpan(25, 42, 36);
 
 //var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
 //var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
-
 
 //var jsonSerializerOptions = new JsonSerializerOptions
 //{
