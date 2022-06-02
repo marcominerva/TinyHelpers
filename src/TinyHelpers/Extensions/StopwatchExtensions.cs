@@ -7,10 +7,10 @@ public static class StopwatchExtensions
     public static TimeSpan GetElapsedAndRestart(this Stopwatch stopwatch)
     {
         stopwatch.Stop();
-        var result = stopwatch.Elapsed;
+        var elapsed = stopwatch.Elapsed;
 
         stopwatch.Restart();
 
-        return result;
+        return elapsed;
     }
 }

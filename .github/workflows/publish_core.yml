@@ -42,7 +42,7 @@ jobs:
     - name: Create release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
           tag_name: core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
           release_name: Release core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}

@@ -1,44 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Text.Json;
-using Newtonsoft.Json;
-using TinyHelpers.Extensions;
-using TinyHelpers.Json.Serialization;
-
-var testEnum = typeof(Priority).GetDescriptions();
-
-var str = "Pippo Pluto";
-var str2 = str.ReplaceIgnoreCase("pippo", string.Empty);
-
-var jsonSerializerSettings = new JsonSerializerSettings
-{
-    DateTimeZoneHandling = DateTimeZoneHandling.Utc
-};
-
-
-var time = DateTime.Now;
-var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
-
-
-var list = new List<Person> { new("Marco", "Minerva", "Taggia"), new("Donald", "Duck", "Paperopoli"), new("Marco", "Minerva", "Taggia") };
-var values = Array.Empty<string>().ToList();
-
-var isEmpty = values.IsNotNullOrEmpty();
-
-//var result = list.DistinctBy(p => new { p.FirstName, p.LastName }).ToList();
-
-var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
-jsonSerializerOptions.Converters.Add(new DateOnlyConverter());
-jsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
-
-var test = DateTime.Now;
-var json = System.Text.Json.JsonSerializer.Serialize(test, jsonSerializerOptions);
-var obj = System.Text.Json.JsonSerializer.Deserialize<DateTime?>(json, jsonSerializerOptions);
-
-var test2 = TimeOnly.FromDateTime(DateTime.Now);
-var json2 = System.Text.Json.JsonSerializer.Serialize(test2, jsonSerializerOptions);
-var obj2 = System.Text.Json.JsonSerializer.Deserialize<TimeOnly>(json2, jsonSerializerOptions);
 
 Console.ReadLine();
 
@@ -87,7 +48,6 @@ public enum Priority
 //var dateTime = new DateTime(2020, 1, 1);
 //var test = TimeSpan.Parse("1.14:30:16");
 
-
 //var list = new Dictionary<string, string> { ["A"] = "First Value", ["B"] = "Second Value" };
 
 //var jsonSerializerSettings = new JsonSerializerSettings
@@ -97,12 +57,10 @@ public enum Priority
 
 //jsonSerializerSettings.Converters.Add(new StringEnumConverter());
 
-
 //var time = new TimeSpan(25, 42, 36);
 
 //var oldJson = JsonConvert.SerializeObject(time, jsonSerializerSettings);
 //var oldResult = JsonConvert.DeserializeObject<TimeSpan>(oldJson, jsonSerializerSettings);
-
 
 //var jsonSerializerOptions = new JsonSerializerOptions
 //{
