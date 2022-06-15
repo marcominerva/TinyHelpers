@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TinyHelpers.EntityFrameworkCore.Comparers;
 using TinyHelpers.EntityFrameworkCore.Converters;
@@ -24,7 +25,7 @@ public static class PropertyBuilderExtensions
 
         if (serializeEnumAsString)
         {
-            jsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+            jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         }
 
         var converter = new JsonStringConverter<T>(jsonSerializerOptions);

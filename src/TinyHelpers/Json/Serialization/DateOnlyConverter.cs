@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace TinyHelpers.Json.Serialization;
 
-#if NET6_0
+#if NET6_0_OR_GREATER
 public class DateOnlyConverter : JsonConverter<DateOnly>
 {
     private readonly string serializationFormat;
