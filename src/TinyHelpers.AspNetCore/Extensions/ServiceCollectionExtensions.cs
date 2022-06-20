@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel;
+using System.Globalization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TinyHelpers.AspNetCore.TypeConverters;
@@ -20,6 +23,20 @@ public static class ServiceCollectionExtensions
     {
         TypeDescriptor.AddAttributes(typeof(DateOnly), new TypeConverterAttribute(typeof(DateOnlyTypeConverter)));
         TypeDescriptor.AddAttributes(typeof(TimeOnly), new TypeConverterAttribute(typeof(TimeOnlyTypeConverter)));
+
+        return services;
+    }
+
+    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
+    {
+        var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
+
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
+        });
 
         return services;
     }
