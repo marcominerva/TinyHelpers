@@ -9,7 +9,7 @@ on:
     # Remove the line above to run when pushing to master  
     paths: [ 'src/TinyHelpers/**' ]
   pull_request:   
-    branches: [master]
+    branches: [master, develop]
     paths: [ 'src/TinyHelpers/**' ]    
   workflow_dispatch:
   

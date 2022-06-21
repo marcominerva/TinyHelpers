@@ -1,0 +1,50 @@
+name: Publish Tiny Helpers for ASP.NET Core on NuGet
+ 
+on:
+  push:
+    branches: [ master ]
+    paths: [ 'src/TinyHelpers.AspNetCore/**' ]
+  workflow_dispatch:
+
+env:
+  NET_VERSION: '6.x'
+  PROJECT_NAME: src/TinyHelpers.AspNetCore 
+  PROJECT_FILE: TinyHelpers.AspNetCore.csproj  
+  
+jobs:
+  build:
+    name: Publish on NuGet
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+        
+    - name: Setup .NET Core SDK ${{ env.NET_VERSION }}
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.NET_VERSION }}
+        
+    - name: Nerdbank.GitVersioning 
+      uses: dotnet/nbgv@v0.4
+      id: nbgv
+      with:        
+        path: ${{ env.PROJECT_NAME }}
+        
+    - name: Package
+      run: dotnet pack -c Release -o . '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
+      
+    - name: Publish on NuGet
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json  
+      
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+          tag_name: ef_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release aspnetcore_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          draft: false
+          prerelease: false
