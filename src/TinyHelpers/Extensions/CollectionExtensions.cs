@@ -86,10 +86,10 @@ public static class CollectionExtensions
     public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
         => !source?.Any() ?? true;
 
-    public static bool IsNotNullOrEmpty<T>(this IEnumerable<T> source)
+    public static bool IsNotNullOrEmpty<T>(this IEnumerable<T>? source)
         => source?.Any() ?? false;
 
-    public static bool HasItems<T>(this IEnumerable<T> source)
+    public static bool HasItems<T>(this IEnumerable<T>? source)
         => source.IsNotNullOrEmpty();
 
     public static int GetCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
