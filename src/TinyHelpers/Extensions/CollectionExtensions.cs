@@ -93,8 +93,8 @@ public static class CollectionExtensions
         => source.IsNotNullOrEmpty();
 
     public static int GetCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
-        => source?.Count(predicate!) ?? 0;
+        => (predicate is null ? source?.Count() : source?.Count(predicate)) ?? 0;
 
     public static long GetLongCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
-        => source?.LongCount(predicate!) ?? 0;
+        => (predicate is null ? source?.LongCount() : source?.LongCount(predicate)) ?? 0;
 }
