@@ -6,32 +6,28 @@ namespace TinyHelpers.AspNetCore.Attributes;
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 public class FileSizeAttribute : ValidationAttribute
 {
-    private readonly int maxFileSizeInMB;
+    private readonly int maxFileSizeInBytes;
 
-    public FileSizeAttribute(int maxFileSizeInMB)
+    public FileSizeAttribute(int maxFileSizeInBytes)
     {
-        this.maxFileSizeInMB = maxFileSizeInMB;
+        this.maxFileSizeInBytes = maxFileSizeInBytes;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value == null)
+        if (value is IFormFile formFile)
         {
-            return ValidationResult.Success;
-        }
-
-        IFormFile? formFile = value as IFormFile;
-
-        if (formFile == null)
-        {
-            return ValidationResult.Success;
-        }
-
-        if (formFile.Length > maxFileSizeInMB * 1024 * 1024)
-        {
-            return new ValidationResult($"File size cannot be bigger than {maxFileSizeInMB} MB");
+            if (formFile.Length > maxFileSizeInBytes)
+            {
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
+            }
         }
 
         return ValidationResult.Success;
+    }
+
+    public override string FormatErrorMessage(string name = "File")
+    {
+        return $"{name} size cannot be bigger than {maxFileSizeInBytes} Bytes";
     }
 }
