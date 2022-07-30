@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
 namespace TinyHelpers.AspNetCore.Attributes;
@@ -9,25 +10,25 @@ public class FileSizeAttribute : ValidationAttribute
     private readonly int maxFileSizeInBytes;
 
     public FileSizeAttribute(int maxFileSizeInBytes)
+        : base("{0} size cannot be bigger than {1} Bytes")
     {
         this.maxFileSizeInBytes = maxFileSizeInBytes;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value is IFormFile formFile)
+        if (value is IFormFile formFile &&
+            formFile.Length > maxFileSizeInBytes)
         {
-            if (formFile.Length > maxFileSizeInBytes)
-            {
-                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
-            }
+            return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
         }
 
         return ValidationResult.Success;
     }
 
-    public override string FormatErrorMessage(string name = "File")
+    public override string FormatErrorMessage(string name)
     {
-        return $"{name} size cannot be bigger than {maxFileSizeInBytes} Bytes";
+        return string.Format(CultureInfo.CurrentCulture,
+            ErrorMessageString, name, maxFileSizeInBytes);
     }
 }
