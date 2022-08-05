@@ -1,6 +1,7 @@
 # Tiny Helpers for Entity Framework Core
 
 [![GitHub Super-Linter](https://github.com/marcominerva/TinyHelpers/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+![CodeQL](https://github.com/marcominerva/TinyCMS/actions/workflows/codeql.yml/badge.svg)
 [![NuGet](https://img.shields.io/nuget/v/TinyHelpers.EntityFrameworkCore.svg?style=flat-square)](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore)
 [![Nuget](https://img.shields.io/nuget/dt/TinyHelpers.EntityFrameworkCore)](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore)
 
