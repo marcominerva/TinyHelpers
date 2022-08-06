@@ -4,21 +4,20 @@ using Microsoft.AspNetCore.Http;
 
 namespace TinyHelpers.AspNetCore.Attributes;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
 public class FileSizeAttribute : ValidationAttribute
 {
     private readonly int maxFileSizeInBytes;
 
     public FileSizeAttribute(int maxFileSizeInBytes)
-        : base("{0} size cannot be bigger than {1} Bytes")
+        : base("The {0} field size cannot be bigger than {1} bytes")
     {
         this.maxFileSizeInBytes = maxFileSizeInBytes;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-        if (value is IFormFile formFile &&
-            formFile.Length > maxFileSizeInBytes)
+        if (value is IFormFile formFile && formFile.Length > maxFileSizeInBytes)
         {
             return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
         }
@@ -27,8 +26,5 @@ public class FileSizeAttribute : ValidationAttribute
     }
 
     public override string FormatErrorMessage(string name)
-    {
-        return string.Format(CultureInfo.CurrentCulture,
-            ErrorMessageString, name, maxFileSizeInBytes);
-    }
+        => string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, maxFileSizeInBytes);
 }
