@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace TinyHelpers.AspNetCore.Attributes;
 
-[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class FileSizeAttribute : ValidationAttribute
 {
     private readonly int maxFileSizeInBytes;
