@@ -8,7 +8,9 @@ on:
     branches: [ master, develop]
     paths: [ 'src/**' ]
   workflow_dispatch:
-  
+  schedule:
+    - cron: '0 0 1,15 * *'
+    
 jobs:
   analyze:
     name: Analyze
