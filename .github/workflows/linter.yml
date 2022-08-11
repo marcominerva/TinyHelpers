@@ -5,12 +5,12 @@ name: Lint Code Base
 #############################
 on:
   push:
-    branches-ignore: [master]
+    branches-ignore: [ master ]
     # Remove the line above to run when pushing to master  
-    paths: [ 'src/TinyHelpers/**' ]
+    paths: [ 'src/**' ]
   pull_request:   
-    branches: [master, develop]
-    paths: [ 'src/TinyHelpers/**' ]    
+    branches: [ master, develop ]
+    paths: [ 'src/**' ]    
   workflow_dispatch:
   
 ###############
@@ -31,7 +31,7 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
@@ -40,7 +40,7 @@ jobs:
       # Run Linter against code base #
       ################################
       - name: Lint Code Base
-        uses: github/super-linter@v3.17.0
+        uses: github/super-linter@v4
         env:
           LINTER_RULES_PATH: '.'
           EDITORCONFIG_FILE_NAME: '.editorconfig'

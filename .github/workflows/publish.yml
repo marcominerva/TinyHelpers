@@ -18,11 +18,11 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
         
-    - name: Setup .NET Core SDK ${{ env.NET_VERSION }}
+    - name: Setup .NET SDK ${{ env.NET_VERSION }}
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.NET_VERSION }}
