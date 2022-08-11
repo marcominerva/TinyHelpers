@@ -17,7 +17,7 @@ public class ContentTypeAttribute : ValidationAttribute
     }
 
     public ContentTypeAttribute(ContentTypeGroup contentTypeGroup)
-        : base("The {0} field should have one of the following content-types {1}")
+        : base("The {0} field should have one of the following Content-Types {1}")
     {
         switch (contentTypeGroup)
         {
