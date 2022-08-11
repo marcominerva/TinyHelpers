@@ -1,9 +1,10 @@
 # Tiny Helpers for ASP.NET Core
 
-[![GitHub Super-Linter](https://github.com/marcominerva/TinyHelpers/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Lint Code Base](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml)
 [![CodeQL](https://github.com/marcominerva/TinyHelpers/actions/workflows/codeql.yml/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/codeql.yml)
 [![NuGet](https://img.shields.io/nuget/v/TinyHelpers.AspNetCore.svg?style=flat-square)](https://www.nuget.org/packages/TinyHelpers.AspNetCore)
 [![Nuget](https://img.shields.io/nuget/dt/TinyHelpers.AspNetCoreCore)](https://www.nuget.org/packages/TinyHelpers.AspNetCore)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcominerva/TinyHelpers/blob/master/LICENSE)
 
 A collection of helper methods and classes for ASP.NET Core that I use everyday. I have packed them in a single library to avoid code duplication.
 
