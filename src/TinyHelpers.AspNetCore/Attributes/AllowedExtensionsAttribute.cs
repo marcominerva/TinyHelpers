@@ -12,7 +12,7 @@ public class AllowedExtensionsAttribute : ValidationAttribute
     public AllowedExtensionsAttribute(params string[] extensions)
         : base("Only files with the following extensions are supported: {0}")
     {
-        this.extensions = extensions.Select(e => e.ToLower().Replace("*.", string.Empty));
+        this.extensions = extensions.Select(e => e.ToLowerInvariant().Replace("*.", string.Empty));
     }
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
