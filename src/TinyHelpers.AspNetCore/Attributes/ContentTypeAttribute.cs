@@ -34,7 +34,7 @@ public class ContentTypeAttribute : ValidationAttribute
     public ContentTypeAttribute(FileType fileType)
         : base(DefaultErrorMessage)
     {
-        validContentTypes = (IEnumerable<string>) (fileType switch
+        validContentTypes = (IEnumerable<string>)(fileType switch
         {
             FileType.Image => imageContentTypes,
             FileType.Video => videoContentTypes,
