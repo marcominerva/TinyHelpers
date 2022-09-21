@@ -6,7 +6,7 @@
 [![Nuget](https://img.shields.io/nuget/dt/TinyHelpers.EntityFrameworkCore)](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcominerva/TinyHelpers/blob/master/LICENSE)
 
-A collection of helper methods and classes for Entity Framework Core that I use everyday. I have packed them in a single library to avoid code duplication.
+A collection of helper methods and classes for Entity Framework Core that I use every day. I have packed them in a single library to avoid code duplication.
 
 **Installation**
 
