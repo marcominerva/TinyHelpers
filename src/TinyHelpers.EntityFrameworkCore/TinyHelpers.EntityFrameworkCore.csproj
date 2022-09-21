@@ -9,7 +9,7 @@
 		<Company>Marco Minerva</Company>
 		<Product>Tiny Helpers for Entity Framework Core</Product>
 		<Title>Tiny Helpers for Entity Framework Core</Title>
-		<Description>A collection of helper methods and classes for Entity Framework Core that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
+		<Description>A collection of helper methods and classes for Entity Framework Core that I use every day. I have packed them in a single library to avoid code duplication.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.EntityFrameworkCore</PackageProjectUrl>
 		<PackageIcon>Toolbox.png</PackageIcon>
@@ -21,12 +21,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.7" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.5.108">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.9" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.5.113">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="TinyHelpers" Version="1.5.29" />
+		<PackageReference Include="TinyHelpers" Version="1.5.30" />
 	</ItemGroup>
 
 	<ItemGroup>

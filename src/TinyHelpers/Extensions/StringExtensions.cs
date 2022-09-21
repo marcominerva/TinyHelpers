@@ -22,6 +22,9 @@ public static class StringExtensions
     public static string? GetValueOrDefault(this string? input, string? defaultValue = default, bool whitespaceAsEmpty = true)
         => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
 
-    public static bool HasValue(this string? input, bool allowEmptyString = false)
+    public static bool HasValue(this string? input)
+    => input.HasValue(allowEmptyString: false);
+
+    public static bool HasValue(this string? input, bool allowEmptyString)
         => !(allowEmptyString ? input is null : string.IsNullOrWhiteSpace(input));
 }

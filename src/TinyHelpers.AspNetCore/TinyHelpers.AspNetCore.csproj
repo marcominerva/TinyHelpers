@@ -9,7 +9,7 @@
         <Company>Marco Minerva</Company>
         <Product>Tiny Helpers for ASP.NET Core</Product>
         <Title>Tiny Helpers for ASP.NET Core</Title>
-        <Description>A collection of helper methods and classes for ASP.NET Core that I use everyday. I have packed them in a single library to avoid code duplication.</Description>
+        <Description>A collection of helper methods and classes for ASP.NET Core that I use every day. I have packed them in a single library to avoid code duplication.</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore</PackageProjectUrl>
         <PackageIcon>Toolbox.png</PackageIcon>
@@ -21,7 +21,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.108">
+        <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.113">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
