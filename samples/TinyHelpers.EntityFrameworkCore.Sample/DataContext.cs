@@ -6,7 +6,7 @@ namespace TinyHelpers.EntityFrameworkCore.Sample;
 
 public class DataContext : DbContext
 {
-    public const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SampleDatabase;Integrated Security=True";
+    public const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SampleDB;Integrated Security=True";
 
     public DbSet<Post> Posts { get; set; }
 
