@@ -12,7 +12,7 @@ env:
   PROJECT_FILE: TinyHelpers.csproj  
   
 jobs:
-  build:
+  publish:
     name: Publish on NuGet
     runs-on: ubuntu-latest
 
@@ -23,7 +23,7 @@ jobs:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
         
     - name: Setup .NET SDK ${{ env.NET_VERSION }}
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.NET_VERSION }}
         

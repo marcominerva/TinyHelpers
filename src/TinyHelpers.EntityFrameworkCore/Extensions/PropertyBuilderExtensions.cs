@@ -41,7 +41,7 @@ public static class PropertyBuilderExtensions
         var converter = new StringArrayConverter(separator);
         var comparer = new StringArrayComparer();
 
-        propertyBuilder.HasConversion(converter, comparer);
+        propertyBuilder.HasConversion(converter!, comparer);
         return propertyBuilder;
     }
 
