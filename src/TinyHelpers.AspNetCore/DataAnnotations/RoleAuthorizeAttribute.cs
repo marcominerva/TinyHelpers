@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace TinyHelpers.AspNetCore.Attributes;
+namespace TinyHelpers.AspNetCore.DataAnnotations;
 
 public class RoleAuthorizeAttribute : AuthorizeAttribute
 {

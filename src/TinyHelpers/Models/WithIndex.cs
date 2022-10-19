@@ -1,4 +1,4 @@
-﻿namespace TinyHelpers;
+﻿namespace TinyHelpers.Models;
 
 public readonly struct WithIndex<T> where T : class
 {

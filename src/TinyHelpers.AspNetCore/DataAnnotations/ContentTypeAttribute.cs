@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
-namespace TinyHelpers.AspNetCore.Attributes;
+namespace TinyHelpers.AspNetCore.DataAnnotations;
 
 public enum FileType
 {
@@ -23,16 +21,16 @@ public class ContentTypeAttribute : ValidationAttribute
     private static readonly IEnumerable<string> videoContentTypes = new[] { "video/mp4", "video/ogg", "video/quicktime", "video/mpeg", "video/x-la-asf", "video/x-ms-asf", "video/x-msvideo", "video/x-sgi-movie" };
     private static readonly IEnumerable<string> audioContentTypes = new[] { "audio/basic", "audio/mid", "audio/mpeg", "audio/x-wav", "audio/x-mpegurl", "audio/x-pn-realaudio" };
 
-    private const string DefaultErrorMessage = "The {0} field should have one of the following Content-Types: {1}";
+    private const string defaultErrorMessage = "The {0} field should have one of the following Content-Types: {1}";
 
     public ContentTypeAttribute(params string[] validContentTypes)
-        : base(DefaultErrorMessage)
+        : base(defaultErrorMessage)
     {
         this.validContentTypes = validContentTypes.Select(s => s.ToLowerInvariant());
     }
 
     public ContentTypeAttribute(FileType fileType)
-        : base(DefaultErrorMessage)
+        : base(defaultErrorMessage)
     {
         validContentTypes = fileType switch
         {

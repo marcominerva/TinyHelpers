@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using TinyHelpers.Json.Serialization;
+using TinyHelpers.Sample;
 
 // Use converters to customize JSON serialization.
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
@@ -15,4 +16,7 @@ Console.WriteLine(result);
 
 Console.ReadLine();
 
-public record class Person(string FirstName, string LastName, string City);
+namespace TinyHelpers.Sample
+{
+    public record class Person(string FirstName, string LastName, string City);
+}

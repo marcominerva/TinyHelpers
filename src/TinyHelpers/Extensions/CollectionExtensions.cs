@@ -1,4 +1,6 @@
-﻿namespace TinyHelpers.Extensions;
+﻿using TinyHelpers.Models;
+
+namespace TinyHelpers.Extensions;
 
 public static class CollectionExtensions
 {
