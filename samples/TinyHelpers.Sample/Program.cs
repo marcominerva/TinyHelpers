@@ -16,7 +16,4 @@ Console.WriteLine(result);
 
 Console.ReadLine();
 
-namespace TinyHelpers.Sample
-{
-    public record class Person(string FirstName, string LastName, string City);
-}
+public record class Person(string FirstName, string LastName, string City);
