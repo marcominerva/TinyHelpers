@@ -14,17 +14,6 @@ The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers).
 
     Install-Package TinyHelpers
 
-### Tech Stack
-
-- C#
-- .NET
-  
-### Authors
-
-- [@marcominerva](https://www.github.com/marcominerva)
-- [@andreatosato](https://www.github.com/andreatosato)
-- [@kasuken](https://www.github.com/kasuken)
-
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
