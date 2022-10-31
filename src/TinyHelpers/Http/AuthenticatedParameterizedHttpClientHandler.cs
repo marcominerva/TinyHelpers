@@ -44,7 +44,7 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
         await CheckAddTokenAsync(request).ConfigureAwait(false);
 
         var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-        if (response.StatusCode == HttpStatusCode.Unauthorized && refreshToken != null)
+        if (response.StatusCode == HttpStatusCode.Unauthorized && refreshToken is not null)
         {
             try
             {
@@ -63,11 +63,11 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
         async Task CheckAddTokenAsync(HttpRequestMessage request)
         {
             // See if the request has an authorize header
-            var auth = request.Headers.Authorization;
+            var authorization = request.Headers.Authorization;
             if (request.Headers.Authorization is not null || !checkAuthorizationHeader)
             {
                 var token = await getToken(request).ConfigureAwait(false);
-                request.Headers.Authorization = new AuthenticationHeaderValue(auth?.Scheme ?? authorizationScheme, token);
+                request.Headers.Authorization = new AuthenticationHeaderValue(authorization?.Scheme ?? authorizationScheme, token);
             }
         }
     }

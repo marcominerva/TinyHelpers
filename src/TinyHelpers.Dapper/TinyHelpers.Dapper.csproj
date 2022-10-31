@@ -1,11 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
+        <Authors>Marco Minerva</Authors>
+        <Company>Marco Minerva</Company>
+        <Product>Tiny Helpers for Dapper</Product>
+        <Title>Tiny Helpers for Dapper</Title>
+        <Description>A collection of helper methods and classes for Dapper that I use every day. I have packed them in a single library to avoid code duplication.</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.Dapper</PackageProjectUrl>
+        <PackageIcon>Toolbox.png</PackageIcon>
+        <PackageTags>csharp dapper visual-studio net netcore netstandard desktop web mobile utilities helpers</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
+        <RepositoryBranch>master</RepositoryBranch>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
@@ -13,7 +26,15 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Text.Json" Version="6.0.6" />
+		<PackageReference Include="TinyHelpers" Version="1.5.37" />
 	</ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\Toolbox.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
 </Project>

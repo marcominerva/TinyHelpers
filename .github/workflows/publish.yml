@@ -44,7 +44,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
-          tag_name: core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release core_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          tag_name: v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release v${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false
