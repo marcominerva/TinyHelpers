@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using TinyHelpers.Dapper.Sample.Models;
-using TinyHelpers.Dapper.SqlTypeHandlers;
+using TinyHelpers.Dapper.TypeHandlers;
 
 const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Sample;Integrated Security=True";
 
 using var connection = new SqlConnection(ConnectionString);
 JsonTypeHandler<IList<Review>>.Configure();
-ArrayTypeHandler.Configure();
+StringEnumerableTypeHandler.Configure();
 
 var posts = await connection.QueryAsync<Post>("SELECT Id, Title, Content, Date, Authors, Reviews FROM Posts");
 
