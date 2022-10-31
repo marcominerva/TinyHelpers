@@ -2,7 +2,7 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
-namespace TinyHelpers.AspNetCore.Attributes;
+namespace TinyHelpers.AspNetCore.DataAnnotations;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class AllowedExtensionsAttribute : ValidationAttribute

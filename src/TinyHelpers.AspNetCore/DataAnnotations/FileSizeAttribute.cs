@@ -2,7 +2,7 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
-namespace TinyHelpers.AspNetCore.Attributes;
+namespace TinyHelpers.AspNetCore.DataAnnotations;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class FileSizeAttribute : ValidationAttribute
@@ -15,7 +15,7 @@ public class FileSizeAttribute : ValidationAttribute
         this.maxFileSizeInBytes = maxFileSizeInBytes;
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value is IFormFile formFile && formFile.Length > maxFileSizeInBytes)
         {

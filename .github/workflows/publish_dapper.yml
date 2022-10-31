@@ -1,15 +1,15 @@
-name: Publish Tiny Helpers for ASP.NET Core on NuGet
+name: Publish Tiny Helpers for Dapper on NuGet
  
 on:
   push:
     branches: [ master ]
-    paths: [ 'src/TinyHelpers.AspNetCore/**' ]
+    paths: [ 'src/TinyHelpers.Dapper/**' ]
   workflow_dispatch:
 
 env:
   NET_VERSION: '6.x'
-  PROJECT_NAME: src/TinyHelpers.AspNetCore 
-  PROJECT_FILE: TinyHelpers.AspNetCore.csproj  
+  PROJECT_NAME: src/TinyHelpers.Dapper 
+  PROJECT_FILE: TinyHelpers.Dapper.csproj  
   
 jobs:
   publish:
@@ -44,7 +44,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
-          tag_name: aspnetcore_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release aspnetcore_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          tag_name: dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false
