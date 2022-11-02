@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 
 // Use converters to customize JSON serialization.
@@ -12,6 +13,10 @@ Console.Write(json);
 
 var result = JsonSerializer.Deserialize<Person>(json, jsonSerializerOptions);
 Console.WriteLine(result);
+
+var list = new List<int> { 1, 2, 3 };
+list = list.AsQueryable().WhereIf(true, i => i == 2).ToList();
+Console.WriteLine(list);
 
 Console.ReadLine();
 

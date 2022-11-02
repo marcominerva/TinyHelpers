@@ -1,9 +1,11 @@
-﻿namespace TinyHelpers.Extensions;
+﻿using System.Linq.Expressions;
+
+namespace TinyHelpers.Extensions;
 
 public static class CollectionExtensions
 {
 #if NETSTANDARD2_0
-    public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
         => source.GroupBy(keySelector, comparer).Select(x => x.First());
 #endif
 
@@ -20,7 +22,7 @@ public static class CollectionExtensions
         return source;
     }
 
-    public static async Task<IEnumerable<T>?> ForEachAsync<T>(this IEnumerable<T>? source, Func<T, Task> action, CancellationToken cancellationToken = default)
+    public static async Task<IEnumerable<TSource>?> ForEachAsync<TSource>(this IEnumerable<TSource>? source, Func<TSource, Task> action, CancellationToken cancellationToken = default)
     {
         if (source is not null)
         {
@@ -51,7 +53,7 @@ public static class CollectionExtensions
         return null;
     }
 
-    public static async ValueTask<List<TSource>> ToListAsync<TSource>(this IAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
+    public static async ValueTask<IEnumerable<TSource>> ToListAsync<TSource>(this IAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
     {
         var list = new List<TSource>();
         await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
@@ -62,7 +64,7 @@ public static class CollectionExtensions
         return list;
     }
 
-    public static void Remove<T>(this ICollection<T> collection, Func<T, bool> predicate)
+    public static void Remove<TSource>(this ICollection<TSource> collection, Func<TSource, bool> predicate)
     {
         for (var i = collection.Count - 1; i >= 0; i--)
         {
@@ -74,27 +76,33 @@ public static class CollectionExtensions
         }
     }
 
-    public static IEnumerable<WithIndex<T>> WithIndex<T>(this IEnumerable<T> source) where T : class
-        => source.Select((item, index) => new WithIndex<T>(item, index));
+    public static IEnumerable<WithIndex<TSource>> WithIndex<TSource>(this IEnumerable<TSource> source) where TSource : class
+        => source.Select((item, index) => new WithIndex<TSource>(item, index));
 
-    public static bool IsEmpty<T>(this IEnumerable<T> source)
+    public static bool IsEmpty<TSource>(this IEnumerable<TSource> source)
         => !source.Any();
 
-    public static bool IsNotEmpty<T>(this IEnumerable<T> source)
+    public static bool IsNotEmpty<TSource>(this IEnumerable<TSource> source)
         => source.Any();
 
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T>? source)
+    public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource>? source)
         => !source?.Any() ?? true;
 
-    public static bool IsNotNullOrEmpty<T>(this IEnumerable<T>? source)
+    public static bool IsNotNullOrEmpty<TSource>(this IEnumerable<TSource>? source)
         => source?.Any() ?? false;
 
-    public static bool HasItems<T>(this IEnumerable<T>? source)
+    public static bool HasItems<TSource>(this IEnumerable<TSource>? source)
         => source.IsNotNullOrEmpty();
 
-    public static int GetCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
+    public static int GetCount<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate = null)
         => (predicate is null ? source?.Count() : source?.Count(predicate)) ?? 0;
 
-    public static long GetLongCount<T>(this IEnumerable<T>? source, Func<T, bool>? predicate = null)
+    public static long GetLongCount<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate = null)
         => (predicate is null ? source?.LongCount() : source?.LongCount(predicate)) ?? 0;
+
+    public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> source, bool condition, Func<TSource, bool> predicate)
+        => condition ? source.Where(predicate) : source;
+
+    public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> source, bool condition, Expression<Func<TSource, bool>> predicate)
+        => condition ? source.Where(predicate) : source;
 }
