@@ -45,6 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
           tag_name: ef_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release ef_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release Entity Framework Core ${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false

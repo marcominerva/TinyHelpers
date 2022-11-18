@@ -19,11 +19,17 @@ public static class StringExtensions
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
         => Regex.Replace(input, pattern, replacement, RegexOptions.IgnoreCase);
 
-    public static string? GetValueOrDefault(this string? input, string? defaultValue = default, bool whitespaceAsEmpty = true)
+    public static string? GetValueOrDefault(this string? input)
+        => input.GetValueOrDefault(defaultValue: default, whitespaceAsEmpty: true);
+
+    public static string? GetValueOrDefault(this string? input, string? defaultValue)
+        => input.GetValueOrDefault(defaultValue, whitespaceAsEmpty: true);
+
+    public static string? GetValueOrDefault(this string? input, string? defaultValue, bool whitespaceAsEmpty)
         => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
 
     public static bool HasValue(this string? input)
-    => input.HasValue(allowEmptyString: false);
+        => input.HasValue(allowEmptyString: false);
 
     public static bool HasValue(this string? input, bool allowEmptyString)
         => !(allowEmptyString ? input is null : string.IsNullOrWhiteSpace(input));

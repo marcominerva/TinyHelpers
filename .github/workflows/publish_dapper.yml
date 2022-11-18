@@ -45,6 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
           tag_name: dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release Dapper ${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false

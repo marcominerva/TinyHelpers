@@ -145,6 +145,9 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sug
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:suggestion
 
+# Struct preferences
+csharp_style_prefer_readonly_struct = true:suggestion
+
 #### C# Formatting Rules ####
 
 # New line preferences
