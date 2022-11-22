@@ -1,6 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
+//var options = new JsonSerializerOptions();
+//options.Converters.Add(new ShortDateConverter());
+//options.Converters.Add(new DateOnlyConverter());
+//options.Converters.Add(new TimeOnlyConverter());
+
+//var date = DateTimeOffset.UtcNow;
+//var json = JsonSerializer.Serialize(date, options);
+//var result = JsonSerializer.Deserialize<DateTime>(json, options);
+
+//var date = DateOnly.FromDateTime(DateTime.UtcNow);
+//var json = JsonSerializer.Serialize(date, options);
+//var result = JsonSerializer.Deserialize<DateOnly>(json, options);
+
+//var time = TimeOnly.FromDateTime(DateTime.UtcNow);
+//var json = JsonSerializer.Serialize(time, options);
+//var result = JsonSerializer.Deserialize<TimeOnly>(json, options);
+
 Console.ReadLine();
 
 public class Person

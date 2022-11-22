@@ -20,7 +20,12 @@ public class DateOnlyConverter : JsonConverter<DateOnly>
     public override DateOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString();
-        return DateOnly.Parse(value!);
+        if (DateOnly.TryParse(value, out var date))
+        {
+            return date;
+        }
+
+        return DateOnly.MinValue;
     }
 
     public override void Write(Utf8JsonWriter writer, DateOnly value, JsonSerializerOptions options)

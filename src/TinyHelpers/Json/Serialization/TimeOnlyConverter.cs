@@ -20,7 +20,12 @@ public class TimeOnlyConverter : JsonConverter<TimeOnly>
     public override TimeOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var value = reader.GetString();
-        return TimeOnly.Parse(value!);
+        if (TimeOnly.TryParse(value, out var time))
+        {
+            return time;
+        }
+
+        return TimeOnly.MinValue;
     }
 
     public override void Write(Utf8JsonWriter writer, TimeOnly value, JsonSerializerOptions options)
