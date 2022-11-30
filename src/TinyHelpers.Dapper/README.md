@@ -18,7 +18,7 @@ The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.D
 
 The library provides some Type Handlers to handle data types that are not natively supported by Dapper. They can be explicitly used calling the corresponding `Configure` methods:
 
-    // using TinyHelpers.Dapper.TypeHandler;
+    // using TinyHelpers.Dapper.TypeHandlers;
 
     // Automatically serializes and deserializes Person class in JSON string.
     JsonTypeHandler.Configure<Person>();
@@ -28,6 +28,10 @@ The library provides some Type Handlers to handle data types that are not native
 
     // Handles all IEnumerable<string> properties.
     StringEnumerableTypeHandler.Configure();
+
+    // Handles DateOnly and TimeOnly propertites.
+    DateOnlyTypeHandler.Configure();
+    TimeOnlyTypeHandler.Configure();
 
 **Contribute**
 
