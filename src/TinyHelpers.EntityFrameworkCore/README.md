@@ -23,10 +23,10 @@ The library provides some [Value Converters](https://docs.microsoft.com/ef/core/
     {
         modelBuilder.Entity<Post>(builder =>
         {           
-            // Date is a DateOnly property (.NET 6)
+            // Date is a DateOnly property (.NET 6 or higher).
             builder.Property(x => x.Date).HasDateOnlyConversion();
         
-            // Time is a TimeOnly property (.NET 6)
+            // Time is a TimeOnly property (.NET 6 or higher).
             builder.Property(x => x.Time).HasTimeOnlyConversion();
        
             // Comments is a complex type, this Converter will automatically JSON-de/serialize it

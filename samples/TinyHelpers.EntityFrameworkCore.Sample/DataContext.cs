@@ -27,10 +27,10 @@ public class DataContext : DbContext
             builder.Property(x => x.Title).HasMaxLength(80).IsRequired();
             builder.Property(x => x.Content).IsRequired();
 
-            // Date is a DateOnly property (.NET 6 or higher)
+            // Date is a DateOnly property (.NET 6 or higher).
             builder.Property(x => x.Date).HasDateOnlyConversion();
 
-            // Time is a TimeOnly property (.NET 6 or higher)
+            // Time is a TimeOnly property (.NET 6 or higher).
             builder.Property(x => x.Time).HasTimeOnlyConversion();
 
             // Reviews is a complex type, this Converter will automatically JSON-de/serialize it
