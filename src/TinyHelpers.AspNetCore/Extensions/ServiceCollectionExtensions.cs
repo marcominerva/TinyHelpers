@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using TinyHelpers.AspNetCore.TypeConverters;
 
 namespace TinyHelpers.AspNetCore.Extensions;
@@ -39,6 +40,15 @@ public static class ServiceCollectionExtensions
             options.SupportedUICultures = supportedCultures;
             options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
         });
+
+        return services;
+    }
+
+    public static IServiceCollection Replace<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.Replace(new ServiceDescriptor(serviceType: typeof(TService), implementationType: typeof(TImplementation), lifetime));
 
         return services;
     }
