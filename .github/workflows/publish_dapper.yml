@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '6.x'
+  NET_VERSION: '7.x'
   PROJECT_NAME: src/TinyHelpers.Dapper 
   PROJECT_FILE: TinyHelpers.Dapper.csproj  
   
@@ -26,7 +26,8 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.NET_VERSION }}
-        
+        dotnet-quality: 'ga'
+                
     - name: Nerdbank.GitVersioning 
       uses: dotnet/nbgv@v0.4
       id: nbgv
@@ -45,6 +46,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
           tag_name: dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release dapper_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: Release Dapper ${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false
