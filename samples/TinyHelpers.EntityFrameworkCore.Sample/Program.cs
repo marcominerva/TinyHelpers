@@ -20,7 +20,7 @@ var post = new Post
     Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
     Reviews = new List<Review>
     {
-        new Review { User = "Pippo", Score = 5 },
+        new Review { User = "Pippo", Score = 5, Time=TimeOnly.FromDateTime(DateTime.Now) },
         new Review { User = "Pluto", Score = 4 }
     }
 };
