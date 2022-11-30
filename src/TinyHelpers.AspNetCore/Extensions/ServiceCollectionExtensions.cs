@@ -10,7 +10,7 @@ namespace TinyHelpers.AspNetCore.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static T ConfigureAndGet<T>(this IServiceCollection services, IConfiguration configuration, string sectionName) where T : class
+    public static T? ConfigureAndGet<T>(this IServiceCollection services, IConfiguration configuration, string sectionName) where T : class
     {
         var section = configuration.GetSection(sectionName);
         var settings = section.Get<T>();
@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         return settings;
     }
 
+#if NET6_0
     public static IServiceCollection AddDateOnlyTimeOnly(this IServiceCollection services)
     {
         TypeDescriptor.AddAttributes(typeof(DateOnly), new TypeConverterAttribute(typeof(DateOnlyTypeConverter)));
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+#endif
 
     public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
     {

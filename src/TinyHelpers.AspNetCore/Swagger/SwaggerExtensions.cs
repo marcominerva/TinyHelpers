@@ -20,13 +20,13 @@ public static class SwaggerExtensions
 
     public static void AddDateOnlyTimeOnly(this SwaggerGenOptions options)
     {
-        options.MapType<DateOnly>(() => new OpenApiSchema
+        options.MapType<DateOnly>(() => new()
         {
             Type = "string",
             Format = "date"
         });
 
-        options.MapType<TimeOnly>(() => new OpenApiSchema
+        options.MapType<TimeOnly>(() => new()
         {
             Type = "string",
             Format = "time",
@@ -40,11 +40,11 @@ public static class SwaggerExtensions
             Description = description,
             Content = new Dictionary<string, OpenApiMediaType>
             {
-                [MediaTypeNames.Application.Json] = new OpenApiMediaType
+                [MediaTypeNames.Application.Json] = new()
                 {
-                    Schema = new OpenApiSchema
+                    Schema = new()
                     {
-                        Reference = new OpenApiReference
+                        Reference = new()
                         {
                             Id = nameof(ProblemDetails),
                             Type = ReferenceType.Schema
