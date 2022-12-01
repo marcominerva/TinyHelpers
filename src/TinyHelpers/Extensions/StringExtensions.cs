@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace TinyHelpers.Extensions;
 
@@ -19,18 +20,24 @@ public static class StringExtensions
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
         => Regex.Replace(input, pattern, replacement, RegexOptions.IgnoreCase);
 
+    [return: NotNullIfNotNull(nameof(input))]
     public static string? GetValueOrDefault(this string? input)
-        => input.GetValueOrDefault(defaultValue: default, whitespaceAsEmpty: true);
+        => input.GetValueOrDefault(defaultValue: default, whiteSpaceAsEmpty: true);
 
-    public static string? GetValueOrDefault(this string? input, string? defaultValue)
-        => input.GetValueOrDefault(defaultValue, whitespaceAsEmpty: true);
+    [return: NotNullIfNotNull(nameof(input))]
+    public static string? GetValueOrDefault([NotNullIfNotNull(nameof(input))] this string? input, string? defaultValue)
+        => input.GetValueOrDefault(defaultValue, whiteSpaceAsEmpty: true);
 
-    public static string? GetValueOrDefault(this string? input, string? defaultValue, bool whitespaceAsEmpty)
-        => whitespaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
+    [return: NotNullIfNotNull(nameof(input))]
+    public static string? GetValueOrDefault([NotNullIfNotNull(nameof(input))] this string? input, string? defaultValue, bool whiteSpaceAsEmpty)
+        => whiteSpaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
 
-    public static bool HasValue(this string? input)
-        => input.HasValue(allowEmptyString: false);
+    public static bool HasValue([NotNullWhen(true)] this string? input)
+        => input.HasValue(allowEmptyString: false, whiteSpaceAsEmpty: true);
 
-    public static bool HasValue(this string? input, bool allowEmptyString)
-        => !(allowEmptyString ? input is null : string.IsNullOrWhiteSpace(input));
+    public static bool HasValue([NotNullWhen(true)] this string? input, bool allowEmptyString)
+        => input.HasValue(allowEmptyString, whiteSpaceAsEmpty: true);
+
+    public static bool HasValue([NotNullWhen(true)] this string? input, bool allowEmptyString, bool whiteSpaceAsEmpty)
+        => allowEmptyString ? input is not null : whiteSpaceAsEmpty ? !string.IsNullOrWhiteSpace(input) : !string.IsNullOrEmpty(input);
 }

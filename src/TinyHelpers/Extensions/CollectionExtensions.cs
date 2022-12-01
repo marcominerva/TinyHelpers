@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 
 namespace TinyHelpers.Extensions;
 
@@ -85,13 +86,13 @@ public static class CollectionExtensions
     public static bool IsNotEmpty<TSource>(this IEnumerable<TSource> source)
         => source.Any();
 
-    public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource>? source)
+    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)] this IEnumerable<TSource>? source)
         => !source?.Any() ?? true;
 
-    public static bool IsNotNullOrEmpty<TSource>(this IEnumerable<TSource>? source)
+    public static bool IsNotNullOrEmpty<TSource>([NotNullWhen(true)] this IEnumerable<TSource>? source)
         => source?.Any() ?? false;
 
-    public static bool HasItems<TSource>(this IEnumerable<TSource>? source)
+    public static bool HasItems<TSource>([NotNullWhen(true)] this IEnumerable<TSource>? source)
         => source.IsNotNullOrEmpty();
 
     public static int GetCount<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate = null)

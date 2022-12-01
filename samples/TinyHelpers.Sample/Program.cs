@@ -2,6 +2,11 @@
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 
+var str = " ";
+
+var hasValue = str.HasValue(false, false);
+Console.WriteLine(hasValue);
+
 // Distinct By (.NET Standard 2.0)
 var people = new List<Person>
 {
@@ -31,6 +36,16 @@ var list = new List<int> { 1, 2, 3 };
 list = list.AsQueryable().WhereIf(true, i => i == 2).ToList();
 Console.WriteLine(list);
 
+Test(list);
+
 Console.ReadLine();
+
+static void Test(IEnumerable<int>? list)
+{
+    if (list.HasItems())
+    {
+        Console.WriteLine(list.Count());
+    }
+}
 
 public record class Person(string FirstName, string LastName, string City);
