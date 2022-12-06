@@ -10,9 +10,9 @@ A collection of helper methods and classes for Dapper that I use every day. I ha
 
 **Installation**
 
-The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.Dapper). Just search *TinyHelpers.Dapper* in the **Package Manager GUI** or run the following command in the **Package Manager Console**:
+The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.Dapper). Just search for *TinyHelpers.Dapper* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    Install-Package TinyHelpers.Dapper
+    dotnet add package TinyHelpers.Dapper
 
 **Usage**
 

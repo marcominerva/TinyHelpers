@@ -10,9 +10,9 @@ A collection of helper methods and classes for .NET that I use every day. I have
 
 **Installation**
 
-The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers). Just search *TinyHelpers* in the **Package Manager GUI** or run the following command in the **Package Manager Console**:
+The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers). Just search for *TinyHelpers* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    Install-Package TinyHelpers
+    dotnet add package TinyHelpers
 
 **Contribute**
 
