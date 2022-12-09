@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TinyHelpers</name>
+    </assembly>
+    <members>
+        <member name="M:TinyHelpers.Extensions.StringExtensions.HasValue(System.String)">
+            <summary>
+            Checks whether the given string contains an actual value, not allowing empty or whitespace strings.
+            </summary>
+            <param name="input">The string to be validated</param>
+            <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise</returns>
+        </member>
+        <member name="M:TinyHelpers.Extensions.StringExtensions.HasValue(System.String,System.Boolean)">
+            <summary>
+            Checks whether the given string contains an actual value, with the ability to specify if allowing empty string and threating whitespace strings as empty.
+            </summary>
+            <param name="input">The string to be validated</param>
+            <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise</param>
+            <returns>true if the string has a value, false otherwise</returns>
+        </member>
+    </members>
+</doc>

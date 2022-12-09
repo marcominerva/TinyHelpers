@@ -5,6 +5,7 @@
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+        <DocumentationFile>TinyHelpers.xml</DocumentationFile>
 		<Authors>Marco Minerva</Authors>
 		<Company>Marco Minerva</Company>
 		<Product>Tiny .NET Helpers</Product>
@@ -19,6 +20,10 @@
 		<RepositoryBranch>master</RepositoryBranch>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="TinyHelpers.xml" />
+    </ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

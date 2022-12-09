@@ -4,7 +4,7 @@ using TinyHelpers.Json.Serialization;
 
 var str = " ";
 
-var hasValue = str.HasValue(false, false);
+var hasValue = str.HasValue();
 Console.WriteLine(hasValue);
 
 // Distinct By (.NET Standard 2.0)
