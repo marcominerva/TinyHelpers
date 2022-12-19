@@ -10,9 +10,9 @@ A collection of helper methods and classes for Entity Framework Core that I use 
 
 **Installation**
 
-The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore). Just search *TinyHelpers.EntityFrameworkCore* in the **Package Manager GUI** or run the following command in the **Package Manager Console**:
+The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore). Just search for *TinyHelpers.EntityFrameworkCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    Install-Package TinyHelpers.EntityFrameworkCore
+    dotnet add package TinyHelpers.EntityFrameworkCore
 
 **Usage**
 

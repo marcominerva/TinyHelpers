@@ -10,48 +10,42 @@ public static class CollectionExtensions
         => source.GroupBy(keySelector, comparer).Select(x => x.First());
 #endif
 
-    public static IEnumerable<T>? ForEach<T>(this IEnumerable<T>? source, Action<T> action)
+    public static IEnumerable<T> ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
-        if (source is not null)
+        foreach (var item in source)
         {
-            foreach (var item in source)
-            {
-                action(item);
-            }
+            action(item);
         }
 
         return source;
     }
 
-    public static async Task<IEnumerable<TSource>?> ForEachAsync<TSource>(this IEnumerable<TSource>? source, Func<TSource, Task> action, CancellationToken cancellationToken = default)
+    public static async Task<IEnumerable<TSource>> ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action, CancellationToken cancellationToken = default)
     {
-        if (source is not null)
+        foreach (var item in source)
         {
-            foreach (var item in source)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                await action.Invoke(item).ConfigureAwait(false);
-            }
+            cancellationToken.ThrowIfCancellationRequested();
+            await action.Invoke(item).ConfigureAwait(false);
         }
 
         return source;
     }
 
-    public static async Task<IEnumerable<TResult>?> SelectAsync<TSource, TResult>(this IEnumerable<TSource>? source, Func<TSource, Task<TResult>> asyncSelector, CancellationToken cancellationToken = default)
+    public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, Task<TResult>> selector, CancellationToken cancellationToken = default)
     {
-        if (source is not null)
+        if (source is null)
         {
-            var result = new List<TResult>();
-            foreach (var item in source)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                result.Add(await asyncSelector(item).ConfigureAwait(false));
-            }
-
-            return result;
+            throw new ArgumentNullException(nameof(source));
         }
 
-        return null;
+        var result = new List<TResult>();
+        foreach (var item in source)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            result.Add(await selector(item).ConfigureAwait(false));
+        }
+
+        return result;
     }
 
     public static async ValueTask<IEnumerable<TSource>> ToListAsync<TSource>(this IAsyncEnumerable<TSource> source, CancellationToken cancellationToken = default)
