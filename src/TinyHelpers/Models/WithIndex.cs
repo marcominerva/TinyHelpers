@@ -15,7 +15,7 @@ public readonly struct WithIndex<T> where T : class
     /// Gets or sets the index of the object.
     /// </summary>
     public int Index { get; }
-        
+
     internal WithIndex(T? value, int index)
         => (Value, Index) = (value, index);
 
