@@ -4,12 +4,11 @@ using System.Linq.Expressions;
 namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Extension methods for better manage collections
+/// Extension methods for collection management.
 /// </summary>
 public static class CollectionExtensions
 {
 #if NETSTANDARD2_0
-
     /// <summary>
     /// Returns distinct elements from a sequence according to a specified key selector function and using a specified comparer to compare keys.
     /// </summary>
