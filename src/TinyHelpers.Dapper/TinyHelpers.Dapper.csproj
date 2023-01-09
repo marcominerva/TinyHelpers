@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />		
-		<PackageReference Include="TinyHelpers" Version="2.0.7" />
+		<PackageReference Include="TinyHelpers" Version="2.0.13" />
 	</ItemGroup>
 
     <ItemGroup>

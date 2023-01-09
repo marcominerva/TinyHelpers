@@ -18,20 +18,42 @@ public static class SwaggerExtensions
     public static void AddAcceptLanguageHeader(this SwaggerGenOptions options)
         => options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 
-    public static void AddDateOnlyTimeOnly(this SwaggerGenOptions options)
+    public static void AddDateOnlyTypeMapping(this SwaggerGenOptions options, bool useCurrentDateAsExample = false)
+        => options.AddDateOnlyTypeMapping(useCurrentDateAsExample ? DateOnly.FromDateTime(DateTime.Now).ToString() : null);
+
+    public static void AddDateOnlyTypeMapping(this SwaggerGenOptions options, string? example)
     {
         options.MapType<DateOnly>(() => new()
         {
             Type = "string",
-            Format = "date"
+            Format = "date",
+            Example = example is not null ? new OpenApiString(example) : null
         });
+    }
 
+    public static void AddTimeOnlyTypeMapping(this SwaggerGenOptions options, bool useCurrentTimeAsExample = false)
+        => options.AddTimeOnlyTypeMapping(useCurrentTimeAsExample ? TimeOnly.FromDateTime(DateTime.Now).ToString("HH:mm:ss") : null);
+
+    public static void AddTimeOnlyTypeMapping(this SwaggerGenOptions options, string? example)
+    {
         options.MapType<TimeOnly>(() => new()
         {
             Type = "string",
             Format = "time",
-            Example = new OpenApiString(TimeOnly.FromDateTime(DateTime.Now).ToString("HH:mm:ss"))
+            Example = example is not null ? new OpenApiString(example) : null
         });
+    }
+
+    public static void AddDateOnlyTimeOnlyTypeMappings(this SwaggerGenOptions options, bool useCurrentDateAsExample = false, bool useCurrentTimeAsExample = false)
+    {
+        options.AddDateOnlyTypeMapping(useCurrentDateAsExample);
+        options.AddTimeOnlyTypeMapping(useCurrentTimeAsExample);
+    }
+
+    public static void AddDateOnlyTimeOnlyTypeMappings(this SwaggerGenOptions options, string? dateExample, string? timeExample)
+    {
+        options.AddDateOnlyTypeMapping(dateExample);
+        options.AddTimeOnlyTypeMapping(timeExample);
     }
 
     internal static OpenApiResponse GetResponse(string description)
