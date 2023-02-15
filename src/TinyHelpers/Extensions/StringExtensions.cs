@@ -23,7 +23,7 @@ public static class StringExtensions
     /// <param name="input">The original string</param>
     /// <param name="pattern">The string to be replaced, case insentive.</param>
     /// <param name="replacement">The string to replace all occurrences of <paramref name="pattern"/> </param>
-    /// <returns></returns>
+    /// <returns>A string that is equivalent to the <paramref name="input"/> string except that all instances of <paramref name="pattern"/> are replaced with <paramref name="replacement"/>.</returns>
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
         => Regex.Replace(input, Regex.Escape(pattern), replacement, RegexOptions.IgnoreCase);
 
