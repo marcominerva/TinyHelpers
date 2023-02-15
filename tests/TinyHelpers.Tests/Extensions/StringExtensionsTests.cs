@@ -46,7 +46,7 @@ public class StringExtensionsTests
         hasValue.Should().BeFalse();
         //Assert.False(hasValue);
     }
-    
+
     [Theory]
     [InlineData(@"\Welcome\world", @"\welcome", @"\hello", @"\hello\world")]
     [InlineData(@"\Welcome\world", @"\WELCOME", @"\hello", @"\hello\world")]
