@@ -17,8 +17,15 @@ public static class StringExtensions
     public static bool ContainsIgnoreCase(this string? a, string b)
         => a?.IndexOf(b, StringComparison.OrdinalIgnoreCase) >= 0;
 
+    /// <summary>
+    /// Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string, ignoring the letter casing.
+    /// </summary>
+    /// <param name="input">The original string</param>
+    /// <param name="pattern">The string to be replaced, case insentive.</param>
+    /// <param name="replacement">The string to replace all occurrences of <paramref name="pattern"/> </param>
+    /// <returns>A string that is equivalent to the <paramref name="input"/> string except that all instances of <paramref name="pattern"/> are replaced with <paramref name="replacement"/>.</returns>
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
-        => Regex.Replace(input, pattern, replacement, RegexOptions.IgnoreCase);
+        => Regex.Replace(input, Regex.Escape(pattern), replacement, RegexOptions.IgnoreCase);
 
     [return: NotNullIfNotNull(nameof(input))]
     public static string? GetValueOrDefault(this string? input)
