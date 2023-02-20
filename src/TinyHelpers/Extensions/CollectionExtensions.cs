@@ -27,7 +27,7 @@ public static class CollectionExtensions
     /// </summary>
     /// <typeparam name="T">The type of the data in the <code>source</code>.</typeparam>
     /// <param name="source">The sequence on whose elements apply the <code>action</code> to.</param>
-    /// <param name="action">The <see cref="Action{T}"/> delegate to perform on each element of the List<T>.</param>
+    /// <param name="action">The <see cref="Action{T}"/> delegate to perform on each element of the collection.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> whose elements are the result of invoking the <code>action</code> on each element of <code>source</code>.</returns>
     public static IEnumerable<T> ForEach<T>(this IEnumerable<T> source, Action<T> action)
     {
@@ -104,7 +104,7 @@ public static class CollectionExtensions
     }
 
     /// <summary>
-    /// Remove from a collection all the elements that meets the criteria specified by the <code>predicate</code>.
+    /// Removes from a collection all the elements that match the criteria specified by the <code>predicate</code>.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
     /// <param name="collection">The <see cref="ICollection{T}"/> to remove elements from.</param>

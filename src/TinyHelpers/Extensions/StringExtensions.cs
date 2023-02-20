@@ -22,7 +22,7 @@ public static class StringExtensions
     /// </summary>
     /// <param name="input">The original string</param>
     /// <param name="pattern">The string to be replaced, case insentive.</param>
-    /// <param name="replacement">The string to replace all occurrences of <paramref name="pattern"/> </param>
+    /// <param name="replacement">The string to be used to replace all occurrences of <paramref name="pattern"/>.</param>
     /// <returns>A string that is equivalent to the <paramref name="input"/> string except that all instances of <paramref name="pattern"/> are replaced with <paramref name="replacement"/>.</returns>
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
         => Regex.Replace(input, Regex.Escape(pattern), replacement, RegexOptions.IgnoreCase);
@@ -42,27 +42,27 @@ public static class StringExtensions
     /// <summary>
     /// Checks whether the given string contains an actual value, not allowing empty or whitespace values.
     /// </summary>
-    /// <param name="input">The string to be validated</param>
-    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise</returns>
+    /// <param name="input">The string to be validated.</param>
+    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise.</returns>
     public static bool HasValue([NotNullWhen(true)] this string? input)
         => input.HasValue(allowEmptyString: false, whiteSpaceAsEmpty: true);
 
     /// <summary>
     /// Checks whether the given string contains an actual value, allowing to specify if permitting empty strings, and treating whitespace strings as empty.
     /// </summary>
-    /// <param name="input">The string to be validated</param>
-    /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise</param>
-    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise</returns>
+    /// <param name="input">The string to be validated.</param>
+    /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise.</param>
+    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise.</returns>
     public static bool HasValue([NotNullWhen(true)] this string? input, bool allowEmptyString)
         => input.HasValue(allowEmptyString, whiteSpaceAsEmpty: true);
 
     /// <summary>
     /// Checks whether the given string contains an actual value, allowing to specify if permitting empty strings and if treating whitespace strings as empty.
     /// </summary>
-    /// <param name="input">The string to be validated</param>
-    /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise</param>
-    /// <param name="whiteSpaceAsEmpty"><see langword="true"/> if whitespace should be considered as empty string, <see langword="false"/> otherwise</param>
-    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise</returns>
+    /// <param name="input">The string to be validated.</param>
+    /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise.</param>
+    /// <param name="whiteSpaceAsEmpty"><see langword="true"/> if whitespace should be considered as empty string, <see langword="false"/> otherwise.</param>
+    /// <returns><see langword="true"/> if the string has a value, <see langword="false"/> otherwise.</returns>
     public static bool HasValue([NotNullWhen(true)] this string? input, bool allowEmptyString, bool whiteSpaceAsEmpty)
         => allowEmptyString ? input is not null : whiteSpaceAsEmpty ? !string.IsNullOrWhiteSpace(input) : !string.IsNullOrEmpty(input);
 }
