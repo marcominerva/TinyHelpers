@@ -4,7 +4,6 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -24,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TinyHelpers\TinyHelpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>
