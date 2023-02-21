@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using TinyHelpers.Extensions;
 
 namespace TinyHelpers.Tests.Extensions;
@@ -45,5 +45,20 @@ public class StringExtensionsTests
         // Assert
         hasValue.Should().BeFalse();
         //Assert.False(hasValue);
+    }
+
+    [Theory]
+    [InlineData(@"\Welcome\world", @"\welcome", @"\hello", @"\hello\world")]
+    [InlineData(@"\Welcome\world", @"\WELCOME", @"\hello", @"\hello\world")]
+    [InlineData(@"\Welcome\world", @".*", @"\hello", @"\Welcome\world")]
+    public void ReplaceIgnoreCase_Should_Replace_Ignoring_Case(string input, string pattern, string replacement, string expected)
+    {
+        // Arrange
+
+        // Act
+        var newString = input.ReplaceIgnoreCase(pattern, replacement);
+
+        // Assert
+        newString.Should().Be(expected);
     }
 }

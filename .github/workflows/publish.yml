@@ -8,8 +8,9 @@ on:
 
 env:
   NET_VERSION: '7.x'
-  PROJECT_NAME: src/TinyHelpers 
-  PROJECT_FILE: TinyHelpers.csproj  
+  PROJECT_NAME: src/TinyHelpers
+  PROJECT_FILE: TinyHelpers.csproj
+  RELEASE_NAME: TinyHelpers
   
 jobs:
   publish:
@@ -46,6 +47,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
       with:
           tag_name: v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: Release ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          release_name: ${{ env.RELEASE_NAME }} ${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false
