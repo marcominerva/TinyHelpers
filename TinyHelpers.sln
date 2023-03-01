@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyHelpers.AspNetCore", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7557B577-796C-4B78-ABBA-B41273B93161}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyHelpers.Tests", "tests\TinyHelpers.Tests\TinyHelpers.Tests.csproj", "{D5924748-5CC0-4A19-81D4-B8D3072B4F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyHelpers.Tests", "tests\TinyHelpers.Tests\TinyHelpers.Tests.csproj", "{D5924748-5CC0-4A19-81D4-B8D3072B4F99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{92585771-A0DE-442D-81C7-26FA6AD29C46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{D5924748-5CC0-4A19-81D4-B8D3072B4F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5924748-5CC0-4A19-81D4-B8D3072B4F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5924748-5CC0-4A19-81D4-B8D3072B4F99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92585771-A0DE-442D-81C7-26FA6AD29C46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92585771-A0DE-442D-81C7-26FA6AD29C46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92585771-A0DE-442D-81C7-26FA6AD29C46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92585771-A0DE-442D-81C7-26FA6AD29C46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{2F4825FD-6558-4867-A7BB-C0EB01EF658E} = {D9B13A31-9A6C-4FE7-88F9-252E085A0577}
 		{531AA81E-62E4-42B5-A7BB-CF3BC78CF87A} = {D9B13A31-9A6C-4FE7-88F9-252E085A0577}
 		{D5924748-5CC0-4A19-81D4-B8D3072B4F99} = {7557B577-796C-4B78-ABBA-B41273B93161}
+		{92585771-A0DE-442D-81C7-26FA6AD29C46} = {D9B13A31-9A6C-4FE7-88F9-252E085A0577}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {459F6E40-FA30-4F90-8A56-8AD7B199C2B6}
