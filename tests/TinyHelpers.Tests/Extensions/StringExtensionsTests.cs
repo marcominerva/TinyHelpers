@@ -61,4 +61,22 @@ public class StringExtensionsTests
         // Assert
         newString.Should().Be(expected);
     }
+
+    [Theory]
+    [InlineData(null, "")]
+    [InlineData("", "")]
+    [InlineData("m", "M")]
+    [InlineData("marco", "Marco")]
+    [InlineData("mARCo", "MARCo")]
+    [InlineData("42", "42")]
+    public void FirstCharToUpper(string input, string expected)
+    {
+        // Arrange
+
+        // Act
+        var newString = input.FirstCharToUpper();
+
+        // Assert
+        newString.Should().Be(expected);
+    }
 }
