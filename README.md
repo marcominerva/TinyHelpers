@@ -17,3 +17,4 @@ The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers).
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
+⚠️ Remember to work on the **develop** branch and not in the **master**. Create the Pull Request on develop as target.
