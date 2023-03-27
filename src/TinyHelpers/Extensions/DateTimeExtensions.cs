@@ -4,8 +4,10 @@
 /// Extension methods for <see cref="DateTime"/> type.
 /// </summary>
 /// <seealso cref="DateTime"/>
+#if NET6_0_OR_GREATER
 /// <seealso cref="DateOnly"/>
 /// <seealso cref="TimeOnly"/>
+#endif
 public static class DateTimeExtensions
 {
 #if NET6_0_OR_GREATER
