@@ -350,3 +350,6 @@ MigrationBackup/
 .ionide/
 
 /src/TinyHelpers/TinyHelpers.xml
+.idea/.idea.TinyHelpers/.idea/encodings.xml
+.idea/.idea.TinyHelpers/.idea/indexLayout.xml
+.idea/.idea.TinyHelpers/.idea/vcs.xml

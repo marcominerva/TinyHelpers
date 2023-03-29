@@ -1,4 +1,6 @@
-﻿namespace TinyHelpers.Extensions;
+﻿using Humanizer;
+
+namespace TinyHelpers.Extensions;
 
 /// <summary>
 /// Extension methods for <see cref="DateTime"/> type.
@@ -40,14 +42,14 @@ public static class DateTimeExtensions
         => TimeOnly.FromTimeSpan(timeSpan);
 #endif
 
-    public static string ToFriendlyDateTimeString(this DateTime Date)
+    public static string ToFriendlyDateTimeString(this DateTime Date, string format = "t")
     {
-        return FriendlyDate(Date) + " @ " + Date.ToString("t").ToLower();
+        return FriendlyDate(Date) + " @ " + Date.ToString(format).ToLower();
     }
 
-    public static string ToFriendlyShortDateString(this DateTime Date)
+    public static string ToFriendlyShortDateString(this DateTime Date, string format = "MMM dd")
     {
-        return $"{Date.ToString("MMM dd")}, {Date.Year}";
+        return $"{Date.ToString(format)}, {Date.Year}";
     }
 
     public static string ToFriendlyDateString(this DateTime Date)
@@ -57,25 +59,6 @@ public static class DateTimeExtensions
 
     static string FriendlyDate(DateTime date)
     {
-        string FormattedDate = "";
-        if (date.Date == DateTime.Today)
-        {
-            FormattedDate = "Today";
-        }
-        else if (date.Date == DateTime.Today.AddDays(-1))
-        {
-            FormattedDate = "Yesterday";
-        }
-        else if (date.Date > DateTime.Today.AddDays(-6))
-        {
-            // *** Show the Day of the week
-            FormattedDate = date.ToString("dddd").ToString();
-        }
-        else
-        {
-            FormattedDate = date.ToString("MMMM dd, yyyy");
-        }
-
-        return FormattedDate;
+        return date.Humanize();
     }
 }
