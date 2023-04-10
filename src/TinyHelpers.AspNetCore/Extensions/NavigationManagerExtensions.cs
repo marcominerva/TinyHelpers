@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace TinyHelpers.AspNetCore.Extensions;
 
 public static class NavigationManagerExtensions
 {
-    public static bool TryGetQueryString<T>(this NavigationManager navManager, string key, out T value)
+    public static bool TryGetQueryString<T>(this NavigationManager navManager, string key, [NotNullWhen(true)] out T? value)
     {
         var uri = navManager.ToAbsoluteUri(navManager.Uri);
 
@@ -19,7 +20,7 @@ public static class NavigationManagerExtensions
 
             if (typeof(T) == typeof(string))
             {
-                value = (T)(T)Convert.ChangeType(valueFromQueryString, typeof(string));
+                value = (T)Convert.ChangeType(valueFromQueryString, typeof(string));
                 return true;
             }
 
