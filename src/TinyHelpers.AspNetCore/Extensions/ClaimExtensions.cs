@@ -27,7 +27,7 @@ public static class ClaimExtensions
     /// </summary>
     /// <param name="claims">The claims list</param>
     /// <param name="type">The type of the claim to remove</param>
-    /// <returns> <see langword="true"/> if item was successfully removed; otherwise, <see langword="false"/>. This method also returns <see langword="false"/> if item is not found.</returns>
+    /// <returns><see langword="true"/> if item was successfully removed; otherwise, <see langword="false"/>. This method also returns <see langword="false"/> if item is not found.</returns>
     /// <seealso cref="Claim"/>
     public static bool Remove(this IList<Claim> claims, string type)
     {

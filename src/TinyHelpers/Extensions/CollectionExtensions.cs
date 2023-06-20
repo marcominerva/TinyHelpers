@@ -131,89 +131,89 @@ public static class CollectionExtensions
         => source.Select((item, index) => new WithIndex<TSource>(item, index));
 
     /// <summary>
-    /// Gets a value that indicates whether this sequence is empty.
+    /// Gets a value that indicates whether the <paramref name="source"/> collection is empty.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <returns>true if the <code>source</code> is empty; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if <paramref name="source"/> is empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsEmpty<TSource>(this IEnumerable<TSource> source)
         => !source.Any();
 
     /// <summary>
-    /// Gets a value that indicates whether this sequence is not empty.
+    /// Gets a value that indicates whether the <paramref name="source"/> collection is not empty.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <returns>true if the <code>source</code> is not empty; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if <paramref name="source"/> is not empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsNotEmpty<TSource>(this IEnumerable<TSource> source)
         => source.Any();
 
     /// <summary>
-    /// Gets a value that indicates whether this sequence is <code>null</code> or empty.
+    /// Gets a value that indicates whether the <paramref name="source"/> collection is <see langword="null"/> or empty.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <returns>true if the <code>source</code> is <code>null</code> or empty; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if <paramref name="source"/> is <see langword="null"/> or empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)] this IEnumerable<TSource>? source)
         => !source?.Any() ?? true;
 
     /// <summary>
-    /// Gets a value that indicates whether this sequence is not <code>null</code> or empty.
+    /// Gets a value that indicates whether the <paramref name="source"/> collection is not <see langword="null"/> or empty.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <returns>true if the <code>source</code> is not <code>null</code> and not empty; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="source"/> is not <see langword="null"/> and not empty; otherwise, <see langword="false"/>.</returns>
     public static bool IsNotNullOrEmpty<TSource>([NotNullWhen(true)] this IEnumerable<TSource>? source)
         => source?.Any() ?? false;
 
     /// <summary>
-    /// Gets a value that indicates whether this sequence has items.
+    /// Gets a value that indicates whether the <paramref name="source"/> collection contains items.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <returns>true if the <code>source</code> has any item; otherwise, false.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="source"/> contains any item; otherwise, <see langword="true"/>.</returns>
     public static bool HasItems<TSource>([NotNullWhen(true)] this IEnumerable<TSource>? source)
         => source.IsNotNullOrEmpty();
 
     /// <summary>
-    /// Gets the number of elements in the sequence.
+    /// Gets the number of elements in the <paramref name="source"/> collection.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
     /// <param name="predicate">The delegate function that defines the conditions of the elements to consider for the count.</param>
-    /// <returns>An <see cref="int"/> representing the number of elements that meet the criteria defined by the <code>predicate</code> function, if not <code>null</code>; the number of elements in the <code>source</code>, otherwise.</returns>
+    /// <returns>An <see cref="int"/> representing the number of elements that meet the criteria defined by the <paramref name="predicate"/> function, if not <see langword="null"/>; the number of elements in <paramref name="source"/>, otherwise.</returns>
     public static int GetCount<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate = null)
         => (predicate is null ? source?.Count() : source?.Count(predicate)) ?? 0;
 
     /// <summary>
-    /// Gets the number of elements in the sequence.
+    /// Gets the number of elements in the <paramref name="source"/> collection.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
     /// <param name="predicate">The delegate function that defines the conditions of the elements to consider for the count.</param>
-    /// <returns>A <see cref="long"/> representing the number of elements that meet the criteria defined by the <code>predicate</code> function, if not <code>null</code>; the number of elements in the <code>source</code>, otherwise.</returns>
+    /// <returns>A <see cref="long"/> representing the number of elements that meet the criteria defined by the <paramref name="predicate"/> function, if not <see langword="null"/>; the number of elements in <paramref name="source"/>, otherwise.</returns>
     public static long GetLongCount<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate = null)
         => (predicate is null ? source?.LongCount() : source?.LongCount(predicate)) ?? 0;
 
     /// <summary>
-    /// Filters a sequence of values based on a function, if given.
+    /// Filters a sequence of values based on a condition.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to check.</param>    
-    /// <param name="condition">A flag indicating whether a <code>predicate</code> function filter should be applied</param>
+    /// <param name="condition">A flag indicating whether a <paramref name="predicate"/> function filter should be applied.</param>
     /// <param name="predicate">The delegate function that defines the conditions of the elements to filter.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/>that contains elements from the input sequence that satisfy the condition specified by <code>predicate</code>, if given; the unfiltered <code>source</code>, otherwise.</returns>
+    /// <returns>An <see cref="IEnumerable{T}"/>that contains elements from the input sequence that satisfy the condition specified by <paramref name="predicate"/>; the unfiltered <paramref name="source"/>, otherwise.</returns>
     public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> source, bool condition, Func<TSource, bool> predicate)
         => condition ? source.Where(predicate) : source;
 
     /// <summary>
-    /// Filters a sequence of values based on a lambda expression, if given.
+    /// Filters a sequence of values based on a condition.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
     /// <param name="source">The <see cref="IQueryable{T}"/> to check.</param>    
-    /// <param name="condition">A flag indicating whether a <code>predicate</code> expression filter should be applied</param>
+    /// <param name="condition">A flag indicating whether a <paramref name="predicate"/> expression filter should be applied.</param>
     /// <param name="predicate">The lambda expression that defines the conditions of the elements to filter.</param>
-    /// <returns>An <see cref="IQueryable{T}"/>that contains elements from the input sequence that satisfy the condition specified by <code>predicate</code>, if given; the unfiltered <code>source</code>, otherwise.</returns>
+    /// <returns>An <see cref="IQueryable{T}"/>that contains elements from the input sequence that satisfy the condition specified by <paramref name="predicate"/>; the unfiltered <paramref name="source"/>, otherwise.</returns>
     public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> source, bool condition, Expression<Func<TSource, bool>> predicate)
         => condition ? source.Where(predicate) : source;
 }
