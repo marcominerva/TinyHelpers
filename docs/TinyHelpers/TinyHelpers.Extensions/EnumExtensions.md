@@ -1,6 +1,6 @@
 # EnumExtensions class
 
-Extension methods for Enum type.
+Contains extension methods for the Enum type.
 
 ```csharp
 public static class EnumExtensions
@@ -10,9 +10,9 @@ public static class EnumExtensions
 
 | name | description |
 | --- | --- |
-| static [GetDescription](EnumExtensions/GetDescription.md)(…) | Gets the description of the provided enum value. The description is retrieved from the DisplayAttribute if present and supports localization. |
-| static [GetDescriptions](EnumExtensions/GetDescriptions.md)(…) | Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute if present and supports localization. |
-| static [GetDescriptions&lt;T&gt;](EnumExtensions/GetDescriptions.md)() | Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute if present and supports localization. |
+| static [GetDescription](EnumExtensions/GetDescription.md)(…) | Gets the description of the provided enum value. The description is retrieved from the DisplayAttribute, if present, and supports localization. |
+| static [GetDescriptions](EnumExtensions/GetDescriptions.md)(…) | Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute, if present, and supports localization. |
+| static [GetDescriptions&lt;T&gt;](EnumExtensions/GetDescriptions.md)() | Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute, if present, and supports localization. |
 | static [GetFlags&lt;T&gt;](EnumExtensions/GetFlags.md)(…) | Provides an IEnumerable that represents each flag enum values. |
 
 ## See Also

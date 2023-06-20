@@ -11,8 +11,8 @@ public static class StringExtensions
     /// <summary>
     /// Determines whether two specified <see cref="string"/> objects have the same value, performing a case-insentive comparison.
     /// </summary>
-    /// <param name="a">The first string to compare, or null.</param>
-    /// <param name="b">The second string to compare, or null.</param>
+    /// <param name="a">The first string to compare.</param>
+    /// <param name="b">The second string to compare.</param>
     /// <returns><see langword="true"/> if the value of <paramref name="b"/> is the same as the value of <paramref name="b"/>, regardless the casing; otherwise, <see langword="false"/>. If both <paramref name="a"/> and <paramref name="b"/> are <see langword="null"/>, the method returns <see langword="true"/>.</returns>
     public static bool EqualsIgnoreCase(this string? a, string? b)
         => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
@@ -47,7 +47,7 @@ public static class StringExtensions
     /// <summary>
     /// Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string, ignoring the letter casing.
     /// </summary>
-    /// <param name="input">The original string</param>
+    /// <param name="input">The original string.</param>
     /// <param name="pattern">The string to be replaced, case insentive.</param>
     /// <param name="replacement">The string to be used to replace all occurrences of <paramref name="pattern"/>.</param>
     /// <returns>A string that is equivalent to the <paramref name="input"/> string except that all instances of <paramref name="pattern"/> are replaced with <paramref name="replacement"/>.</returns>
@@ -57,7 +57,7 @@ public static class StringExtensions
     /// <summary>
     /// Gets the actual value of this string instance, or <see langword="null"/> if the string is <see langword="null"/> or contains only whitespaces.
     /// </summary>
-    /// <param name="input">The string to check.</param>
+    /// <param name="input">The string to test.</param>
     /// <returns>The actual value of this string instance, or <see langword="null"/> if the string is <see langword="null"/> or contains only whitespaces.</returns>
     [return: NotNullIfNotNull(nameof(input))]
     public static string? GetValueOrDefault(this string? input)
@@ -66,7 +66,7 @@ public static class StringExtensions
     /// <summary>
     /// Gets the actual value of this string instance, or the specified <paramref name="defaultValue"/> if the string is <see langword="null"/> or contains only whitespaces.
     /// </summary>
-    /// <param name="input">The string to check.</param>
+    /// <param name="input">The string to test.</param>
     /// <param name="defaultValue">The value to return if the string is <see langword="null"/> or contains only whitespaces.</param>
     /// <returns>The actual value of this string instance, or <paramref name="defaultValue"/> if the string is <see langword="null"/> or contains only whitespaces.</returns>
     [return: NotNullIfNotNull(nameof(input))]
@@ -76,7 +76,7 @@ public static class StringExtensions
     /// <summary>
     /// Gets the actual value of this string instance, or the specified <paramref name="defaultValue"/> if the string is <see langword="null"/>, allowing to specify whether whitespaces must be considered as empty characters.
     /// </summary>
-    /// <param name="input">The string to check.</param>
+    /// <param name="input">The string to test.</param>
     /// <param name="defaultValue">The value to return if the string is <see langword="null"/> or empty according to the value of <paramref name="whiteSpaceAsEmpty"/> parameter.</param>
     /// <param name="whiteSpaceAsEmpty"><see langword="true"/> if whitespaces must be considered as empty characters; otherwise, <see langword="false"/>.</param>
     /// <returns>The actual value of this string instance, or <paramref name="defaultValue"/> if the string is <see langword="null"/> or contains only whitespaces.</returns>
@@ -87,7 +87,7 @@ public static class StringExtensions
     /// <summary>
     /// Checks whether the given string contains an actual value, not allowing empty or whitespace values.
     /// </summary>
-    /// <param name="input">The string to be validated.</param>
+    /// <param name="input">The string to test.</param>
     /// <returns><see langword="true"/> if the string has a value; otherwise, <see langword="false"/>.</returns>
     public static bool HasValue([NotNullWhen(true)] this string? input)
         => input.HasValue(allowEmptyString: false, whiteSpaceAsEmpty: true);
@@ -95,7 +95,7 @@ public static class StringExtensions
     /// <summary>
     /// Checks whether the given string contains an actual value, allowing to specify if permitting empty strings, and treating whitespace strings as empty.
     /// </summary>
-    /// <param name="input">The string to be validated.</param>
+    /// <param name="input">The string to test.</param>
     /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise.</param>
     /// <returns><see langword="true"/> if the string has a value; otherwise, <see langword="false"/>.</returns>
     public static bool HasValue([NotNullWhen(true)] this string? input, bool allowEmptyString)
@@ -104,7 +104,7 @@ public static class StringExtensions
     /// <summary>
     /// Checks whether the given string contains an actual value, allowing to specify if permitting empty strings and if treating whitespace strings as empty.
     /// </summary>
-    /// <param name="input">The string to be validated.</param>
+    /// <param name="input">The string to test.</param>
     /// <param name="allowEmptyString"><see langword="true"/> to allow empty string, <see langword="false"/> otherwise.</param>
     /// <param name="whiteSpaceAsEmpty"><see langword="true"/> if whitespace should be considered as empty string, <see langword="false"/> otherwise.</param>
     /// <returns><see langword="true"/> if the string has a value; otherwise, <see langword="false"/>.</returns>

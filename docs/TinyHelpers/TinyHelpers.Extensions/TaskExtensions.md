@@ -1,6 +1,6 @@
 # TaskExtensions class
 
-Extension methods for managing tasks
+Contains extension methods for the Task type.
 
 ```csharp
 public static class TaskExtensions

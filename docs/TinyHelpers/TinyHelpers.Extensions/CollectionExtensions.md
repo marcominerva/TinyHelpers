@@ -1,6 +1,6 @@
 # CollectionExtensions class
 
-Extension methods for collection management.
+Contains extension methods for collections.
 
 ```csharp
 public static class CollectionExtensions
@@ -19,7 +19,7 @@ public static class CollectionExtensions
 | static [IsNotEmpty&lt;TSource&gt;](CollectionExtensions/IsNotEmpty.md)(…) | Gets a value that indicates whether the *source* collection is not empty. |
 | static [IsNotNullOrEmpty&lt;TSource&gt;](CollectionExtensions/IsNotNullOrEmpty.md)(…) | Gets a value that indicates whether the *source* collection is not `null` or empty. |
 | static [IsNullOrEmpty&lt;TSource&gt;](CollectionExtensions/IsNullOrEmpty.md)(…) | Gets a value that indicates whether the *source* collection is `null` or empty. |
-| static [Remove&lt;TSource&gt;](CollectionExtensions/Remove.md)(…) | Removes from a collection all the elements that match the criteria specified by the |
+| static [Remove&lt;TSource&gt;](CollectionExtensions/Remove.md)(…) | Removes from a collection all the elements that match the criteria specified by the *predicate*. |
 | static [SelectAsync&lt;TSource,TResult&gt;](CollectionExtensions/SelectAsync.md)(…) | Asynchronously projects each element of a sequence into a new form. |
 | static [ToListAsync&lt;TSource&gt;](CollectionExtensions/ToListAsync.md)(…) | Creates an IEnumerable from an IAsyncEnumerable. |
 | static [WhereIf&lt;TSource&gt;](CollectionExtensions/WhereIf.md)(…) | Filters a sequence of values based on a condition. (2 methods) |

@@ -4,18 +4,18 @@
 
 | public type | description |
 | --- | --- |
-| struct [WithIndex&lt;T&gt;](./TinyHelpers/WithIndex-1.md) | Represents a generic object with its relative index within a collection. |
+| struct [WithIndex&lt;TValue&gt;](./TinyHelpers/WithIndex-1.md) | Represents a generic object with its relative index within a collection. |
 
 ## TinyHelpers.Extensions namespace
 
 | public type | description |
 | --- | --- |
-| static class [CollectionExtensions](./TinyHelpers.Extensions/CollectionExtensions.md) | Extension methods for collection management. |
-| static class [DateTimeExtensions](./TinyHelpers.Extensions/DateTimeExtensions.md) | Extension methods for DateTime type. |
-| static class [EnumExtensions](./TinyHelpers.Extensions/EnumExtensions.md) | Extension methods for Enum type. |
-| static class [StopwatchExtensions](./TinyHelpers.Extensions/StopwatchExtensions.md) | Extension methods for managing the Stopwatch object. |
+| static class [CollectionExtensions](./TinyHelpers.Extensions/CollectionExtensions.md) | Contains extension methods for collections. |
+| static class [DateTimeExtensions](./TinyHelpers.Extensions/DateTimeExtensions.md) | Contains extension methods for the DateTime type. |
+| static class [EnumExtensions](./TinyHelpers.Extensions/EnumExtensions.md) | Contains extension methods for the Enum type. |
+| static class [StopwatchExtensions](./TinyHelpers.Extensions/StopwatchExtensions.md) | Contains extension methods for managing the Stopwatch object. |
 | static class [StringExtensions](./TinyHelpers.Extensions/StringExtensions.md) | Contains extensions methods for the String type. |
-| static class [TaskExtensions](./TinyHelpers.Extensions/TaskExtensions.md) | Extension methods for managing tasks |
+| static class [TaskExtensions](./TinyHelpers.Extensions/TaskExtensions.md) | Contains extension methods for the Task type. |
 
 ## TinyHelpers.Http namespace
 

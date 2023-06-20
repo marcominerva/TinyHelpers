@@ -8,8 +8,8 @@ public static bool EqualsIgnoreCase(this string? a, string? b)
 
 | parameter | description |
 | --- | --- |
-| a | The first string to compare, or null. |
-| b | The second string to compare, or null. |
+| a | The first string to compare. |
+| b | The second string to compare. |
 
 ## Return Value
 

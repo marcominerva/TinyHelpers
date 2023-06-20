@@ -1,7 +1,7 @@
 ﻿namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Extension methods for <see cref="DateTime"/> type.
+/// Contains extension methods for the <see cref="DateTime"/> type.
 /// </summary>
 /// <seealso cref="DateTime"/>
 public static class DateTimeExtensions

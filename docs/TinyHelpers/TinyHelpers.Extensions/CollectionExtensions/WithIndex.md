@@ -9,7 +9,7 @@ public static IEnumerable<WithIndex<TSource>> WithIndex<TSource>(this IEnumerabl
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of |
+| TSource | The type of the elements. |
 | source | The IEnumerable to create an IEnumerable of [`WithIndex`](../../TinyHelpers/WithIndex-1.md) elements from. |
 
 ## Return Value
@@ -18,7 +18,7 @@ An IEnumerable of [`WithIndex`](../../TinyHelpers/WithIndex-1.md) elements that 
 
 ## See Also
 
-* struct [WithIndex&lt;T&gt;](../../TinyHelpers/WithIndex-1.md)
+* struct [WithIndex&lt;TValue&gt;](../../TinyHelpers/WithIndex-1.md)
 * class [CollectionExtensions](../CollectionExtensions.md)
 * namespace [TinyHelpers.Extensions](../../TinyHelpers.md)
 

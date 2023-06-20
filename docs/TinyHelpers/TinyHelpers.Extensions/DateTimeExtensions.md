@@ -1,6 +1,6 @@
 # DateTimeExtensions class
 
-Extension methods for DateTime type.
+Contains extension methods for the DateTime type.
 
 ```csharp
 public static class DateTimeExtensions

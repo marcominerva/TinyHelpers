@@ -8,7 +8,7 @@ public static bool HasValue(this string? input)
 
 | parameter | description |
 | --- | --- |
-| input | The string to be validated. |
+| input | The string to test. |
 
 ## Return Value
 
@@ -31,7 +31,7 @@ public static bool HasValue(this string? input, bool allowEmptyString)
 
 | parameter | description |
 | --- | --- |
-| input | The string to be validated. |
+| input | The string to test. |
 | allowEmptyString | `true` to allow empty string, `false` otherwise. |
 
 ## Return Value
@@ -55,7 +55,7 @@ public static bool HasValue(this string? input, bool allowEmptyString, bool whit
 
 | parameter | description |
 | --- | --- |
-| input | The string to be validated. |
+| input | The string to test. |
 | allowEmptyString | `true` to allow empty string, `false` otherwise. |
 | whiteSpaceAsEmpty | `true` if whitespace should be considered as empty string, `false` otherwise. |
 

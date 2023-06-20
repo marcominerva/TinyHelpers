@@ -1,6 +1,6 @@
 # StopwatchExtensions class
 
-Extension methods for managing the Stopwatch object.
+Contains extension methods for managing the Stopwatch object.
 
 ```csharp
 public static class StopwatchExtensions

@@ -1,15 +1,15 @@
-# WithIndex&lt;T&gt; structure
+# WithIndex&lt;TValue&gt; structure
 
 Represents a generic object with its relative index within a collection.
 
 ```csharp
-public struct WithIndex<T>
-    where T : class
+public struct WithIndex<TValue>
+    where TValue : class
 ```
 
 | parameter | description |
 | --- | --- |
-| T | The type of the object. |
+| TValue | The type of the object. |
 
 ## Public Members
 
@@ -21,6 +21,7 @@ public struct WithIndex<T>
 
 ## See Also
 
+* method [WithIndex&lt;TSource&gt;](../TinyHelpers.Extensions/CollectionExtensions/WithIndex.md)
 * namespace [TinyHelpers](../TinyHelpers.md)
 * [WithIndex.cs](https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers/Models/WithIndex.cs)
 

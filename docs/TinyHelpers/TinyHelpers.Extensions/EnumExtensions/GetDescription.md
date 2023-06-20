@@ -1,6 +1,6 @@
 # EnumExtensions.GetDescription method
 
-Gets the description of the provided enum value. The description is retrieved from the DisplayAttribute if present and supports localization.
+Gets the description of the provided enum value. The description is retrieved from the DisplayAttribute, if present, and supports localization.
 
 ```csharp
 public static string GetDescription(this Enum @enum)

@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Extension methods for managing the <see cref="Stopwatch"/> object.
+/// Contains extension methods for managing the <see cref="Stopwatch"/> object.
 /// </summary>
 /// <seealso cref="Stopwatch"/>
 public static class StopwatchExtensions

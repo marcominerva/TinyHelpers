@@ -8,7 +8,7 @@ public static string ReplaceIgnoreCase(this string input, string pattern, string
 
 | parameter | description |
 | --- | --- |
-| input | The original string |
+| input | The original string. |
 | pattern | The string to be replaced, case insentive. |
 | replacement | The string to be used to replace all occurrences of *pattern*. |
 

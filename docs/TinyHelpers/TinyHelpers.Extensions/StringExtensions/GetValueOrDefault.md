@@ -8,7 +8,7 @@ public static string? GetValueOrDefault(this string? input)
 
 | parameter | description |
 | --- | --- |
-| input | The string to check. |
+| input | The string to test. |
 
 ## Return Value
 
@@ -31,7 +31,7 @@ public static string? GetValueOrDefault(this string? input, string? defaultValue
 
 | parameter | description |
 | --- | --- |
-| input | The string to check. |
+| input | The string to test. |
 | defaultValue | The value to return if the string is `null` or contains only whitespaces. |
 
 ## Return Value
@@ -56,7 +56,7 @@ public static string? GetValueOrDefault(this string? input, string? defaultValue
 
 | parameter | description |
 | --- | --- |
-| input | The string to check. |
+| input | The string to test. |
 | defaultValue | The value to return if the string is `null` or empty according to the value of *whiteSpaceAsEmpty* parameter. |
 | whiteSpaceAsEmpty | `true` if whitespaces must be considered as empty characters; otherwise, `false`. |
 

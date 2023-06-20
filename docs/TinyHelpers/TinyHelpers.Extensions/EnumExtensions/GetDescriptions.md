@@ -1,6 +1,6 @@
 # EnumExtensions.GetDescriptions method (1 of 2)
 
-Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute if present and supports localization.
+Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute, if present, and supports localization.
 
 ```csharp
 public static Dictionary<int, string?> GetDescriptions(this Type enumType)
@@ -31,7 +31,7 @@ A dictionary containing the descriptions of each enum value.
 
 # EnumExtensions.GetDescriptions&lt;T&gt; method (2 of 2)
 
-Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute if present and supports localization.
+Gets the descriptions of all values of the provided enum type. Each description is retrieved from the DisplayAttribute, if present, and supports localization.
 
 ```csharp
 public static Dictionary<int, string?> GetDescriptions<T>()

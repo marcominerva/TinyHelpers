@@ -5,13 +5,13 @@ using System.Resources;
 namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Extension methods for <see cref="Enum"/> type.
+/// Contains extension methods for the <see cref="Enum"/> type.
 /// </summary>
 /// <seealso cref="Enum"/>
 public static class EnumExtensions
 {
     /// <summary>
-    /// Gets the description of the provided enum value. The description is retrieved from the <see cref="DisplayAttribute"/> if present and supports localization.
+    /// Gets the description of the provided enum value. The description is retrieved from the <see cref="DisplayAttribute"/>, if present, and supports localization.
     /// </summary>
     /// <param name="enum">The enum for which to get the description.</param>
     /// <returns>The description of the enum.</returns>
@@ -43,7 +43,7 @@ public static class EnumExtensions
     /// <summary>
     /// Provides an <see cref="IEnumerable{T}"/> that represents each flag enum values.
     /// </summary>
-    /// <param name="enum">The enum value.</param>
+    /// <param name="enum">The enum to get values.</param>
     /// <returns>The <see cref="IEnumerable{T}"/> that represents each flag enum values.</returns>
     /// <seealso cref="Enum"/>
     public static IEnumerable<T> GetFlags<T>(this T @enum) where T : Enum
@@ -86,7 +86,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Gets the descriptions of all values of the provided enum type. Each description is retrieved from the <see cref="DisplayAttribute"/> if present and supports localization.
+    /// Gets the descriptions of all values of the provided enum type. Each description is retrieved from the <see cref="DisplayAttribute"/>, if present, and supports localization.
     /// </summary>
     /// <typeparam name="T">The enum type for which to get the descriptions.</typeparam>
     /// <returns>A dictionary containing the descriptions of each enum value.</returns>
@@ -100,7 +100,7 @@ public static class EnumExtensions
         => GetDescriptions(typeof(T));
 
     /// <summary>
-    /// Gets the descriptions of all values of the provided enum type. Each description is retrieved from the <see cref="DisplayAttribute"/> if present and supports localization.
+    /// Gets the descriptions of all values of the provided enum type. Each description is retrieved from the <see cref="DisplayAttribute"/>, if present, and supports localization.
     /// </summary>
     /// <param name="enumType">The type on the enum for which to get the descriptions.</param>
     /// <returns>A dictionary containing the descriptions of each enum value.</returns>

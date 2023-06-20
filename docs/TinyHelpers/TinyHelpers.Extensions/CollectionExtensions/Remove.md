@@ -1,12 +1,6 @@
 # CollectionExtensions.Remove&lt;TSource&gt; method
 
-Removes from a collection all the elements that match the criteria specified by the
-
-```csharp
-predicate
-```
-
-.
+Removes from a collection all the elements that match the criteria specified by the *predicate*.
 
 ```csharp
 public static void Remove<TSource>(this ICollection<TSource> collection, 
@@ -15,7 +9,7 @@ public static void Remove<TSource>(this ICollection<TSource> collection,
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of |
+| TSource | The type of the elements. |
 | collection | The ICollection to remove elements from. |
 | predicate | The delegate function that defines the conditions of the elements to remove. |
 

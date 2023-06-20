@@ -8,7 +8,7 @@ public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource>? source)
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of *source*. |
+| TSource | The type of the elements. |
 | source | The IEnumerable to check. |
 
 ## Return Value

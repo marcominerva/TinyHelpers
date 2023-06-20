@@ -9,14 +9,14 @@ public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> so
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of *source*. |
+| TSource | The type of the elements. |
 | source | The IEnumerable to check. |
-| condition | A flag indicating whether a *predicate* function filter should be applied. |
+| condition | A flag indicating whether the *predicate* function filter should be applied. |
 | predicate | The delegate function that defines the conditions of the elements to filter. |
 
 ## Return Value
 
-An IEnumerablethat contains elements from the input sequence that satisfy the condition specified by *predicate*; the unfiltered *source*, otherwise.
+An IEnumerable that contains elements from the input sequence that satisfy the condition specified by *predicate*; the unfiltered *source*, otherwise.
 
 ## See Also
 
@@ -36,14 +36,14 @@ public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sour
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of *source*. |
+| TSource | The type of the elements. |
 | source | The IQueryable to check. |
-| condition | A flag indicating whether a *predicate* expression filter should be applied. |
+| condition | A flag indicating whether the *predicate* expression filter should be applied. |
 | predicate | The lambda expression that defines the conditions of the elements to filter. |
 
 ## Return Value
 
-An IQueryablethat contains elements from the input sequence that satisfy the condition specified by *predicate*; the unfiltered *source*, otherwise.
+An IQueryable that contains elements from the input sequence that satisfy the condition specified by *predicate*; the unfiltered *source*, otherwise.
 
 ## See Also
 

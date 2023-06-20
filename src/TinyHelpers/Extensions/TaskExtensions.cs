@@ -1,7 +1,7 @@
 ﻿namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Extension methods for managing tasks
+/// Contains extension methods for the <see cref="Task"/> type.
 /// </summary>
 public static class TaskExtensions
 {

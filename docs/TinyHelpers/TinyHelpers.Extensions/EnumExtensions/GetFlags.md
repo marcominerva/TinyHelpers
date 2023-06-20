@@ -9,7 +9,7 @@ public static IEnumerable<T> GetFlags<T>(this T @enum)
 
 | parameter | description |
 | --- | --- |
-| enum | The enum value. |
+| enum | The enum to get values. |
 
 ## Return Value
 

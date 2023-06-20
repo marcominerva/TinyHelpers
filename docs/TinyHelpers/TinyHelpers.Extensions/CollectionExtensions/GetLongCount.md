@@ -9,7 +9,7 @@ public static long GetLongCount<TSource>(this IEnumerable<TSource>? source,
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of *source*. |
+| TSource | The type of the elements. |
 | source | The IEnumerable to check. |
 | predicate | The delegate function that defines the conditions of the elements to consider for the count. |
 

@@ -8,12 +8,12 @@ public static bool HasItems<TSource>(this IEnumerable<TSource>? source)
 
 | parameter | description |
 | --- | --- |
-| TSource | The type of the elements of |
+| TSource | The type of the elements. |
 | source | The IEnumerable to check. |
 
 ## Return Value
 
-`true` if the *source* contains any item; otherwise, `true`.
+`true` if the *source* is not `null` and contains any item; otherwise, `false`.
 
 ## See Also
 
