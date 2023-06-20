@@ -127,6 +127,7 @@ public static class CollectionExtensions
     /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{T}"/> to create an <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{T}"/> elements from.</param>    
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{T}"/> elements that contains projected elements from the input sequence.</returns>
+    /// <seealso cref="WithIndex{TSource}(IEnumerable{TSource})"/>
     public static IEnumerable<WithIndex<TSource>> WithIndex<TSource>(this IEnumerable<TSource> source) where TSource : class
         => source.Select((item, index) => new WithIndex<TSource>(item, index));
 

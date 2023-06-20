@@ -14,6 +14,8 @@ The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers).
 
     dotnet add package TinyHelpers
 
+Check out the [documentation](https://github.com/marcominerva/TinyHelpers/tree/master/docs/TinyHelpers) for a list of all the available helpers.
+
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can.
