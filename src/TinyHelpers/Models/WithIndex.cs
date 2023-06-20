@@ -1,29 +1,32 @@
 ﻿namespace TinyHelpers;
 
 /// <summary>
-/// Represents a generic object with its relative index.
+/// Represents a generic object with its relative index within a collection.
 /// </summary>
-/// <typeparam name="T">The internal type of the object represented.</typeparam>
-public readonly struct WithIndex<T> where T : class
+/// <typeparam name="TValue">The type of the object.</typeparam>
+/// <seealso cref="Extensions.CollectionExtensions.WithIndex{TSource}(IEnumerable{TSource})"/>
+public readonly struct WithIndex<TValue> where TValue : class
 {
     /// <summary>
-    /// Gets or sets the value of the object.
+    /// Gets the value of the object.
     /// </summary>
-    public T? Value { get; }
+    public TValue? Value { get; }
 
     /// <summary>
-    /// Gets or sets the index of the object.
+    /// Gets the index of the object.
     /// </summary>
     public int Index { get; }
 
-    internal WithIndex(T? value, int index)
-        => (Value, Index) = (value, index);
+    internal WithIndex(TValue? value, int index)
+    {
+        (Value, Index) = (value, index);
+    }
 
     /// <summary>
     /// Separates value and index of the instance.
     /// </summary>
     /// <param name="value">The value of the instance.</param>
-    /// <param name="index">An <code>int</code> representing the index of the value of the instance.</param>
-    public void Deconstruct(out T? value, out int index)
+    /// <param name="index">The index of the value of the instance.</param>
+    public void Deconstruct(out TValue? value, out int index)
         => (value, index) = (Value, Index);
 }

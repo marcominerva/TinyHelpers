@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
@@ -8,25 +6,41 @@ using System.Text.Json.Serialization;
 
 namespace TinyHelpers.Json.Serialization;
 
+/// <summary>
+/// Converts an <see cref="Enum"/> value to or from JSON, keeping only the date part.
+/// </summary>
 public class StringEnumMemberConverter : JsonConverterFactory
 {
     private readonly JsonNamingPolicy? namingPolicy;
     private readonly bool allowIntegerValues;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StringEnumMemberConverter"/> class.
+    /// </summary>
     public StringEnumMemberConverter()
         : this(namingPolicy: null, allowIntegerValues: true)
     {
     }
 
-    public StringEnumMemberConverter(JsonNamingPolicy? namingPolicy = null, bool allowIntegerValues = true)
-        => (this.namingPolicy, this.allowIntegerValues) = (namingPolicy, allowIntegerValues);
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StringEnumMemberConverter"/> class with specified naming policy and integer values handling.
+    /// </summary>
+    /// <param name="namingPolicy">The naming policy used to resolve how property names and dictionary keys are formatted.</param>
+    /// <param name="allowIntegerValues">Specifies whether integer values are allowed for input.</param>
+    /// <seealso cref="JsonNamingPolicy"/>
+    public StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues)
+    {
+        (this.namingPolicy, this.allowIntegerValues) = (namingPolicy, allowIntegerValues);
+    }
 
+    /// <inheritdoc/>
     public override bool CanConvert(Type typeToConvert)
     {
         return typeToConvert.IsEnum
             || (typeToConvert.IsGenericType && TestNullableEnum(typeToConvert).IsNullableEnum);
     }
 
+    /// <inheritdoc/>
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         (var isNullableEnum, var underlyingType) = TestNullableEnum(typeToConvert);
@@ -47,7 +61,7 @@ public class StringEnumMemberConverter : JsonConverterFactory
 
     internal class StringGenericEnumMemberConverter<T> : JsonConverter<T>
     {
-        private const BindingFlags enumBindings = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
+        private const BindingFlags EnumBindings = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
 
         private readonly bool allowIntegerValues;
         private readonly Type? underlyingType;
@@ -64,7 +78,9 @@ public class StringEnumMemberConverter : JsonConverterFactory
             public ulong RawValue;
 
             public EnumInfo(string name, Enum enumValue, ulong rawValue)
-                => (Name, EnumValue, RawValue) = (name, enumValue, rawValue);
+            {
+                (Name, EnumValue, RawValue) = (name, enumValue, rawValue);
+            }
         }
 
         public StringGenericEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues, Type? underlyingType)
@@ -88,7 +104,7 @@ public class StringEnumMemberConverter : JsonConverterFactory
                 var rawValue = GetEnumValue(enumValue);
 
                 var name = builtInNames[i];
-                var field = enumType.GetField(name, enumBindings)!;
+                var field = enumType.GetField(name, EnumBindings)!;
                 var enumMemberAttribute = field.GetCustomAttribute<EnumMemberAttribute>(true);
                 var transformedName = enumMemberAttribute?.Value ?? namingPolicy?.ConvertName(name) ?? name;
 
