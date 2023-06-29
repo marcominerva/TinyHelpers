@@ -8,13 +8,15 @@
 
 A collection of helper methods and classes for Entity Framework Core that I use every day. I have packed them in a single library to avoid code duplication.
 
-**Installation**
+### Installation
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore). Just search for *TinyHelpers.EntityFrameworkCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
     dotnet add package TinyHelpers.EntityFrameworkCore
 
-**Usage**
+### Usage
+
+#### Converters
 
 The library provides some [Value Converters](https://docs.microsoft.com/ef/core/modeling/value-conversions) to handle data types that are not natively supported by Entity Framework Core. They can be explicitly used calling the [HasConversion](https://docs.microsoft.com/dotnet/api/microsoft.entityframeworkcore.metadata.builders.propertybuilder.hasconversion) method, or automatically via some extension methods: 
 
@@ -35,7 +37,29 @@ The library provides some [Value Converters](https://docs.microsoft.com/ef/core/
         });
     }
 
-**Contribute**
+#### Query Filters
+
+The library provides an extension method that allows to apply a global [Query Filter](https://docs.microsoft.com/ef/core/querying/filters) to entities:
+
+    public abstract class DeletableEntity
+    {
+        public bool IsDeleted { get; set; }
+    }
+
+    public class Person : DeletableEntity { }
+
+    public class City: DeletableEntity { }
+
+    public class PhoneNumber : DeletableEntity { }
+
+    // using TinyHelpers.EntityFrameworkCore.Extensions;
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Apply a filter to all the entities that inherit (directly or indirectly) from DeletableEntity.
+        modelBuilder.ApplyQueryFilter<DeletableEntity>(e => !e.IsDeleted);
+    }
+
+### Contributing
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
 
