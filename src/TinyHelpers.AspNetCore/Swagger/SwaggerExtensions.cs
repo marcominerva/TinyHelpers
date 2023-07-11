@@ -56,6 +56,22 @@ public static class SwaggerExtensions
         });
     }
 
+    public static IServiceCollection AddSwaggerOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(setupAction);
+
+        var parameters = new OpenApiOperationOptions();
+        setupAction.Invoke(parameters);
+
+        services.AddTransient(_ => parameters);
+
+        return services;
+    }
+
+    public static void AddOperationParameters(this SwaggerGenOptions options)
+        => options.OperationFilter<OpenApiParametersOperationFilter>();
+
     internal static OpenApiResponse GetResponse(string description)
         => new()
         {
