@@ -1,10 +1,12 @@
 using Microsoft.OpenApi.Models;
 using MinimalHelpers.OpenApi;
+using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddRequestLocalization("it", "en", "de");
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -46,6 +48,8 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.AddMissingSchemas();
 
+    options.AddAcceptLanguageHeader();
+
     // Enable Swagger integration for custom parameters.
     options.AddOperationParameters();
 });
@@ -65,7 +69,7 @@ app.MapGet("/api/sample", () =>
 {
     return TypedResults.NoContent();
 })
-;
+.WithOpenApi();
 
 app.Run();
 

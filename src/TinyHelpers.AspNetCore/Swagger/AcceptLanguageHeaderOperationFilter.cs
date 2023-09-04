@@ -25,18 +25,21 @@ internal class AcceptLanguageHeaderOperationFilter : IOperationFilter
         {
             operation.Parameters ??= new List<OpenApiParameter>();
 
-            operation.Parameters.Add(new()
+            if (!operation.Parameters.Any(p => p.Name == HeaderNames.AcceptLanguage && p.In == ParameterLocation.Header))
             {
-                Name = HeaderNames.AcceptLanguage,
-                In = ParameterLocation.Header,
-                Required = false,
-                Schema = new OpenApiSchema
+                operation.Parameters.Add(new()
                 {
-                    Type = "string",
-                    Enum = supportedLanguages,
-                    Default = supportedLanguages.First()
-                }
-            });
+                    Name = HeaderNames.AcceptLanguage,
+                    In = ParameterLocation.Header,
+                    Required = false,
+                    Schema = new OpenApiSchema
+                    {
+                        Type = "string",
+                        Enum = supportedLanguages,
+                        Default = supportedLanguages.First()
+                    }
+                });
+            }
         }
     }
 }
