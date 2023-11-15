@@ -7,9 +7,14 @@ namespace TinyHelpers.Json.Serialization;
 /// A converter for serializing and deserializing <see cref="DateTime"/> values converting them to UTC, if needed.
 /// </summary>
 /// <seealso cref="DateTime"/>
-public class UtcDateTimeConverter : JsonConverter<DateTime>
+/// <remarks>
+/// Initializes a new instance of the <see cref="UtcDateTimeConverter"/> class with a specified serialization format.
+/// </remarks>
+/// <param name="serializationFormat">The serialization format to use. The default is yyyy-MM-ddTHH:mm:ss.fffffffZ".</param>
+/// <seealso cref="UtcDateTimeConverter"/>
+public class UtcDateTimeConverter(string? serializationFormat) : JsonConverter<DateTime>
 {
-    private readonly string serializationFormat;
+    private readonly string serializationFormat = serializationFormat ?? "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffff'Z'";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UtcDateTimeConverter"/> class.
@@ -17,16 +22,6 @@ public class UtcDateTimeConverter : JsonConverter<DateTime>
     /// <seealso cref="UtcDateTimeConverter"/>
     public UtcDateTimeConverter() : this(null)
     {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UtcDateTimeConverter"/> class with a specified serialization format.
-    /// </summary>
-    /// <param name="serializationFormat">The serialization format to use. The default is yyyy-MM-ddTHH:mm:ss.fffffffZ".</param>
-    /// <seealso cref="UtcDateTimeConverter"/>
-    public UtcDateTimeConverter(string? serializationFormat)
-    {
-        this.serializationFormat = serializationFormat ?? "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffff'Z'";
     }
 
     /// <inheritdoc/>

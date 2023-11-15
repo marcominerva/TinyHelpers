@@ -9,28 +9,16 @@ namespace TinyHelpers.Json.Serialization;
 /// <summary>
 /// Converts an <see cref="Enum"/> value to or from JSON, keeping only the date part.
 /// </summary>
-public class StringEnumMemberConverter : JsonConverterFactory
+/// <param name="namingPolicy">The naming policy used to resolve how property names and dictionary keys are formatted.</param>
+/// <param name="allowIntegerValues">Specifies whether integer values are allowed for input.</param>
+public class StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues) : JsonConverterFactory
 {
-    private readonly JsonNamingPolicy? namingPolicy;
-    private readonly bool allowIntegerValues;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumMemberConverter"/> class.
     /// </summary>
     public StringEnumMemberConverter()
         : this(namingPolicy: null, allowIntegerValues: true)
     {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StringEnumMemberConverter"/> class with specified naming policy and integer values handling.
-    /// </summary>
-    /// <param name="namingPolicy">The naming policy used to resolve how property names and dictionary keys are formatted.</param>
-    /// <param name="allowIntegerValues">Specifies whether integer values are allowed for input.</param>
-    /// <seealso cref="JsonNamingPolicy"/>
-    public StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues)
-    {
-        (this.namingPolicy, this.allowIntegerValues) = (namingPolicy, allowIntegerValues);
     }
 
     /// <inheritdoc/>
@@ -95,8 +83,8 @@ public class StringEnumMemberConverter : JsonConverterFactory
             var builtInNames = enumType.GetEnumNames();
             var builtInValues = enumType.GetEnumValues();
 
-            rawToTransformed = new Dictionary<ulong, EnumInfo>();
-            transformedToRaw = new Dictionary<string, EnumInfo>();
+            rawToTransformed = [];
+            transformedToRaw = [];
 
             for (var i = 0; i < builtInNames.Length; i++)
             {
