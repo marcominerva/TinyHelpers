@@ -21,10 +21,11 @@ Console.WriteLine(distinctPeople);
 
 // Use converters to customize JSON serialization.
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
 jsonSerializerOptions.Converters.Add(new StringTrimmingConverter());
 
-var person = new Person("Donald ", "Duck ", " Duckburg  ");
-var json = JsonSerializer.Serialize(person);
+var person = new Person("Donald ", "Duck ", " Duckburg  ") { DateOfBirth = DateTime.Now };
+var json = JsonSerializer.Serialize(person, jsonSerializerOptions);
 
 Console.Write(json);
 
@@ -48,4 +49,7 @@ static void Test(IEnumerable<int>? list)
     }
 }
 
-public record class Person(string FirstName, string LastName, string City);
+public record class Person(string FirstName, string LastName, string City)
+{
+    public DateTime DateOfBirth { get; set; }
+}
