@@ -7,17 +7,12 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TinyHelpers.AspNetCore.Swagger;
 
-internal class AcceptLanguageHeaderOperationFilter : IOperationFilter
+internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationOptions> requestLocalizationOptions) : IOperationFilter
 {
-    private readonly List<IOpenApiAny>? supportedLanguages;
-
-    public AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationOptions> requestLocalizationOptions)
-    {
-        supportedLanguages = requestLocalizationOptions.Value
+    private readonly List<IOpenApiAny>? supportedLanguages = requestLocalizationOptions.Value
             .SupportedCultures?.Select(c => new OpenApiString(c.TwoLetterISOLanguageName))
             .Cast<IOpenApiAny>()
             .ToList();
-    }
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
