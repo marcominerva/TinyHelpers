@@ -37,7 +37,7 @@ public class StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allo
             typeof(StringGenericEnumMemberConverter<>).MakeGenericType(typeToConvert),
             BindingFlags.Instance | BindingFlags.Public,
             binder: null,
-            args: new object?[] { namingPolicy, allowIntegerValues, isNullableEnum ? underlyingType : null },
+            args: [namingPolicy, allowIntegerValues, isNullableEnum ? underlyingType : null],
             culture: null)!;
     }
 

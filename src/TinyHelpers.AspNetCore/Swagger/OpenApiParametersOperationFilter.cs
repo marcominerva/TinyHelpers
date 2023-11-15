@@ -4,15 +4,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TinyHelpers.AspNetCore.Swagger;
 
-internal class OpenApiParametersOperationFilter : IOperationFilter
+internal class OpenApiParametersOperationFilter(OpenApiOperationOptions openApiParameters) : IOperationFilter
 {
-    private readonly OpenApiOperationOptions openApiParameters;
-
-    public OpenApiParametersOperationFilter(OpenApiOperationOptions openApiParameters)
-    {
-        this.openApiParameters = openApiParameters;
-    }
-
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         if (openApiParameters?.Parameters.Any() ?? false)
@@ -33,7 +26,7 @@ public class OpenApiOperationOptions
     {
     }
 
-    public IList<OpenApiParameter> Parameters { get; init; } = new List<OpenApiParameter>();
+    public IList<OpenApiParameter> Parameters { get; init; } = [];
 }
 
 public static class OpenApiSchemaHelper
