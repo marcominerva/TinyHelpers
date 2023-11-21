@@ -3,24 +3,17 @@ using Dapper;
 
 namespace TinyHelpers.Dapper.TypeHandlers;
 
-public class StringArrayTypeHandler : SqlMapper.TypeHandler<string[]>
+public class StringArrayTypeHandler(string separator = ";") : SqlMapper.TypeHandler<string[]>
 {
-    private readonly string separator;
-
-    public StringArrayTypeHandler(string separator = ";")
-    {
-        this.separator = separator;
-    }
-
     public override string[] Parse(object value)
     {
         var content = value.ToString()!;
         return content.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public override void SetValue(IDbDataParameter parameter, string[] value)
+    public override void SetValue(IDbDataParameter parameter, string[]? value)
     {
-        var content = string.Join(separator, value);
+        var content = string.Join(separator, value!);
         parameter.Value = content;
     }
 
