@@ -12,27 +12,30 @@ A collection of helper methods and classes for Dapper that I use every day. I ha
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.Dapper). Just search for *TinyHelpers.Dapper* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
+```shell
     dotnet add package TinyHelpers.Dapper
+```
 
 **Usage**
 
 The library provides some Type Handlers to handle data types that are not natively supported by Dapper. They can be explicitly used calling the corresponding `Configure` methods:
 
-    // using TinyHelpers.Dapper.TypeHandlers;
+```csharp
+// using TinyHelpers.Dapper.TypeHandlers;
 
-    // Automatically serializes and deserializes Person class in JSON string.
-    JsonTypeHandler.Configure<Person>();
+// Automatically serializes and deserializes Person class in JSON string.
+JsonTypeHandler.Configure<Person>();
 
-    // Handles all string[] properties.
-    StringArrayTypeHandler.Configure();
+// Handles all string[] properties.
+StringArrayTypeHandler.Configure();
 
-    // Handles all IEnumerable<string> properties.
-    StringEnumerableTypeHandler.Configure();
+// Handles all IEnumerable<string> properties.
+StringEnumerableTypeHandler.Configure();
 
-    // Handles DateOnly and TimeOnly propertites.
-    DateOnlyTypeHandler.Configure();
-    TimeOnlyTypeHandler.Configure();
-
+// Handles DateOnly and TimeOnly properties.
+DateOnlyTypeHandler.Configure();
+TimeOnlyTypeHandler.Configure();
+```
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 

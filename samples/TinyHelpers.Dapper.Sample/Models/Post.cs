@@ -13,7 +13,7 @@ public class Post
 
     public IEnumerable<string> Authors { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateOnly? Date { get; set; }
 
     public IList<Review> Reviews { get; set; }
 }

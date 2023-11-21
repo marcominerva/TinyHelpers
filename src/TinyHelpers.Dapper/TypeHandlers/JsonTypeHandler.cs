@@ -2,17 +2,13 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Dapper;
+using TinyHelpers.Json.Serialization;
 
 namespace TinyHelpers.Dapper.TypeHandlers;
 
-public class JsonTypeHandler<T> : SqlMapper.TypeHandler<T>
+public class JsonTypeHandler<T>(JsonSerializerOptions? jsonSerializerOptions = null) : SqlMapper.TypeHandler<T>
 {
-    private readonly JsonSerializerOptions jsonSerializerOptions;
-
-    public JsonTypeHandler(JsonSerializerOptions? jsonSerializerOptions = null)
-    {
-        this.jsonSerializerOptions = jsonSerializerOptions ?? JsonOptions.Default;
-    }
+    private readonly JsonSerializerOptions jsonSerializerOptions = jsonSerializerOptions ?? JsonOptions.Default;
 
     public override T Parse(object value)
     {
@@ -20,7 +16,7 @@ public class JsonTypeHandler<T> : SqlMapper.TypeHandler<T>
         return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions)!;
     }
 
-    public override void SetValue(IDbDataParameter parameter, T value)
+    public override void SetValue(IDbDataParameter parameter, T? value)
     {
         var json = JsonSerializer.Serialize<object>(value!, jsonSerializerOptions);
         parameter.Value = json;
@@ -32,7 +28,7 @@ public class JsonTypeHandler<T> : SqlMapper.TypeHandler<T>
 
         if (useUtcDate)
         {
-            jsonSerializerOptions.Converters.Add(new Json.Serialization.UtcDateTimeConverter());
+            jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
         }
 
         if (serializeEnumAsString)

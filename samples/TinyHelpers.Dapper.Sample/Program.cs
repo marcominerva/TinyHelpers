@@ -5,9 +5,12 @@ using Microsoft.Data.SqlClient;
 using TinyHelpers.Dapper.Sample.Models;
 using TinyHelpers.Dapper.TypeHandlers;
 
-const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Sample;Integrated Security=True";
+const string ConnectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SampleDB;Integrated Security=True";
 
 using var connection = new SqlConnection(ConnectionString);
+
+DateOnlyTypeHandler.Configure();
+TimeOnlyTypeHandler.Configure();
 JsonTypeHandler<IList<Review>>.Configure();
 StringEnumerableTypeHandler.Configure();
 
@@ -21,7 +24,7 @@ var post = new Post
     Title = "TinyHelpers3",
     Content = "New Description",
     Authors = new string[] { "Andrea", "Calogero" },
-    Date = DateTime.UtcNow
+    Date = DateOnly.FromDateTime(DateTime.Now)
 };
 
 await connection.ExecuteAsync("INSERT INTO Posts(Id, Title, Content, Date, Authors, Reviews) VALUES(@Id, @Title, @Content, @Date, @Authors, @Reviews)",
