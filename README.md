@@ -12,7 +12,9 @@ A collection of helper methods and classes for .NET that I use every day. I have
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers). Just search for *TinyHelpers* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    dotnet add package TinyHelpers
+```shell
+dotnet add package TinyHelpers
+```
 
 Check out the [documentation](https://github.com/marcominerva/TinyHelpers/tree/master/docs/TinyHelpers) for a list of all the available helpers.
 

@@ -2,6 +2,7 @@
 
 namespace TinyHelpers.EntityFrameworkCore.Converters;
 
+#if NET6_0 || NET7_0
 public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
 {
     public DateOnlyConverter() : base(
@@ -10,3 +11,4 @@ public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
     {
     }
 }
+#endif
