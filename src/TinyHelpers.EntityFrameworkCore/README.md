@@ -12,7 +12,9 @@ A collection of helper methods and classes for Entity Framework Core that I use 
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.EntityFrameworkCore). Just search for *TinyHelpers.EntityFrameworkCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    dotnet add package TinyHelpers.EntityFrameworkCore
+```shell
+dotnet add package TinyHelpers.EntityFrameworkCore
+```
 
 ### Usage
 
@@ -20,44 +22,65 @@ The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.E
 
 The library provides some [Value Converters](https://docs.microsoft.com/ef/core/modeling/value-conversions) to handle data types that are not natively supported by Entity Framework Core. They can be explicitly used calling the [HasConversion](https://docs.microsoft.com/dotnet/api/microsoft.entityframeworkcore.metadata.builders.propertybuilder.hasconversion) method, or automatically via some extension methods: 
 
-    // using TinyHelpers.EntityFrameworkCore.Extensions;
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+```csharp
+// using TinyHelpers.EntityFrameworkCore.Extensions;
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Post>(builder =>
     {
-        modelBuilder.Entity<Post>(builder =>
-        {           
-            // Date is a DateOnly property (.NET 6 or higher).
-            builder.Property(x => x.Date).HasDateOnlyConversion();
-        
-            // Time is a TimeOnly property (.NET 6 or higher).
-            builder.Property(x => x.Time).HasTimeOnlyConversion();
-       
-            // Comments is a complex type, this Converter will automatically JSON-de/serialize it
-            // in a string column.
-            builder.Property(x => x.Comments).HasJsonConversion();
-        });
-    }
+        builder.Property(x => x.Title).HasMaxLength(80).IsRequired();
+        builder.Property(x => x.Content).IsRequired();
+
+        // Date is a DateOnly property (.NET 6 or 7).
+        //builder.Property(x => x.Date).HasDateOnlyConversion();
+
+        // Time is a TimeOnly property (.NET 6 or 7).
+        //builder.Property(x => x.Time).HasTimeOnlyConversion();
+
+        /* JSON SUPPORT */
+
+        // For .NET 6:
+        // Reviews is a complex type, this Converter will automatically JSON-de/serialize it
+        // in a string column.
+        // builder.Property(x => x.Reviews).HasJsonConversion();
+
+        // For .NET 7 or higher:
+        builder.OwnsMany(x => x.Reviews).ToJson();
+
+        /* COLLECTION OF PRIMITIVE TYPES */
+
+        // For .NET 6 and 7:
+        //builder.Property(x => x.Authors).HasArrayConversion();
+
+        // For .NET 8
+        // The support for collection of primitive types is built-in.
+    });
+}
+```
 
 #### Query Filters
 
 The library provides an extension method that allows to apply a global [Query Filter](https://docs.microsoft.com/ef/core/querying/filters) to entities:
 
-    public abstract class DeletableEntity
-    {
-        public bool IsDeleted { get; set; }
-    }
+```csharp
+public abstract class DeletableEntity
+{
+    public bool IsDeleted { get; set; }
+}
 
-    public class Person : DeletableEntity { }
+public class Person : DeletableEntity { }
 
-    public class City: DeletableEntity { }
+public class City: DeletableEntity { }
 
-    public class PhoneNumber : DeletableEntity { }
+public class PhoneNumber : DeletableEntity { }
 
-    // using TinyHelpers.EntityFrameworkCore.Extensions;
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Apply a filter to all the entities that inherit (directly or indirectly) from DeletableEntity.
-        modelBuilder.ApplyQueryFilter<DeletableEntity>(e => !e.IsDeleted);
-    }
+// using TinyHelpers.EntityFrameworkCore.Extensions;
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    // Apply a filter to all the entities that inherit (directly or indirectly) from DeletableEntity.
+    modelBuilder.ApplyQueryFilter<DeletableEntity>(e => !e.IsDeleted);
+}
+```
 
 ### Contributing
 

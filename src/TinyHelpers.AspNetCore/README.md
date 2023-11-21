@@ -12,7 +12,9 @@ A collection of helper methods and classes for ASP.NET Core that I use every day
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.AspNetCore). Just search for *TinyHelpers.AspNetCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
 
-    dotnet add package TinyHelpers.AspNetCore
+```shell
+dotnet add package TinyHelpers.AspNetCore
+```
 
 **Contribute**
 

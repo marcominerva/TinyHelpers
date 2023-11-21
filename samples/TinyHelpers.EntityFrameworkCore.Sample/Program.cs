@@ -4,14 +4,6 @@ using TinyHelpers.EntityFrameworkCore.Sample.Entities;
 
 using var dataContext = new DataContext();
 
-var list = new List<Review>
-    {
-        new Review { User = "Pippo", Score = 5 },
-        new Review { User = "Pluto", Score = 4 }
-    };
-
-var posts = await dataContext.Posts.Where(p => p.Reviews == list).ToListAsync();
-
 var post = new Post
 {
     Title = "TinyHelpers",
@@ -20,13 +12,15 @@ var post = new Post
     Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
     Reviews = new List<Review>
     {
-        new Review { User = "Pippo", Score = 5, Time=TimeOnly.FromDateTime(DateTime.Now) },
-        new Review { User = "Pluto", Score = 4 }
+        new() { User = "Pippo", Score = 5, Time = TimeOnly.FromDateTime(DateTime.Now) },
+        new() { User = "Pluto", Score = 4 }
     }
 };
 
 dataContext.Posts.Add(post);
 await dataContext.SaveChangesAsync();
+
+var posts = await dataContext.Posts.Where(p => p.Authors.Contains("Marco")).ToListAsync();
 
 Console.ReadLine();
 

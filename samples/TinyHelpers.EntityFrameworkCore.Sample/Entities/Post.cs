@@ -8,7 +8,7 @@ public class Post
 
     public string Content { get; set; }
 
-    public IEnumerable<string> Authors { get; set; }
+    public IList<string> Authors { get; set; }
 
     public DateOnly? Date { get; set; }
 
