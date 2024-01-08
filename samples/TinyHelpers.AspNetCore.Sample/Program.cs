@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using TinyHelpers.AspNetCore.ExceptionHandlers;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.Swagger;
 
@@ -51,10 +52,17 @@ builder.Services.AddSwaggerGen(options =>
     options.AddOperationParameters();
 });
 
+// Add default problem details and exception handler.
+builder.Services.AddDefaultProblemDetails();
+builder.Services.AddDefaultExceptionHandler();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {
@@ -65,6 +73,12 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/api/sample", () =>
 {
     return TypedResults.NoContent();
+})
+.WithOpenApi();
+
+app.MapPost("/api/exception", () =>
+{
+    throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
 .WithOpenApi();
 

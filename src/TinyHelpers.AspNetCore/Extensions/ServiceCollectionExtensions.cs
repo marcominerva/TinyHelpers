@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -56,4 +59,23 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+#if NET7_0_OR_GREATER
+    public static IServiceCollection AddDefaultProblemDetails(this IServiceCollection services)
+    {
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = context =>
+            {
+                var statusCode = context.ProblemDetails.Status.GetValueOrDefault(StatusCodes.Status500InternalServerError);
+                context.ProblemDetails.Type ??= $"https://httpstatuses.io/{statusCode}";
+                context.ProblemDetails.Title ??= ReasonPhrases.GetReasonPhrase(statusCode);
+                context.ProblemDetails.Instance ??= context.HttpContext.Request.Path;
+                context.ProblemDetails.Extensions["traceId"] = Activity.Current?.Id ?? context.HttpContext.TraceIdentifier;
+            };
+        });
+
+        return services;
+    }
+#endif
 }

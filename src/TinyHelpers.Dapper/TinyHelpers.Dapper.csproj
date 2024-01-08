@@ -21,7 +21,7 @@
     </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="2.1.21" />		
+		<PackageReference Include="Dapper" Version="2.1.28" />		
 		<PackageReference Include="TinyHelpers" Version="3.0.2" />
 	</ItemGroup>
 
