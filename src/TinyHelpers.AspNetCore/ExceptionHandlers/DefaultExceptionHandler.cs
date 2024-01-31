@@ -24,8 +24,11 @@ internal class DefaultExceptionHandler(IProblemDetailsService problemDetailsServ
 
         if (exception.InnerException is not null)
         {
-            problemDetails.Extensions["innerException"] = exception.InnerException.GetType().FullName;
-            problemDetails.Extensions["innerExceptionMessage"] = exception.InnerException.Message;
+            problemDetails.Extensions["innerException"] = new
+            {
+                Title = exception.InnerException.GetType().FullName,
+                Detail = exception.InnerException.Message
+            };
         }
 
         if (webHostEnvironment.IsDevelopment())
