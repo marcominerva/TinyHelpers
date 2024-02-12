@@ -132,6 +132,16 @@ public static class CollectionExtensions
         => source.Select((item, index) => new WithIndex<TSource>(item, index));
 
     /// <summary>
+    /// Creates an <see cref="IQueryable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements from an <see cref="IQueryable{T}"/>.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements.</typeparam>
+    /// <param name="source">The <see cref="IQueryable{T}"/> to create an <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements from.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements that contains projected elements from the input sequence.</returns>
+    /// <seealso cref="TinyHelpers.WithIndex{TValue}"/>
+    public static IQueryable<WithIndex<TSource>> WithIndex<TSource>(this IQueryable<TSource> source) where TSource : class
+        => source.Select((item, index) => new WithIndex<TSource>(item, index));
+
+    /// <summary>
     /// Gets a value that indicates whether the <paramref name="source"/> collection is empty.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements.</typeparam>
