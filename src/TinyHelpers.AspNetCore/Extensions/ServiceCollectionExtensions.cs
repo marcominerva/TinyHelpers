@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using TinyHelpers.AspNetCore.ExceptionHandlers;
 using TinyHelpers.AspNetCore.TypeConverters;
 
 namespace TinyHelpers.AspNetCore.Extensions;
@@ -75,6 +76,14 @@ public static class ServiceCollectionExtensions
             };
         });
 
+        return services;
+    }
+#endif
+
+#if NET8_0_OR_GREATER
+    public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<DefaultExceptionHandler>();
         return services;
     }
 #endif
