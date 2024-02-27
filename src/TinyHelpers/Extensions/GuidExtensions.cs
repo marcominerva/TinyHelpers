@@ -47,7 +47,7 @@ public static class GuidExtensions
     /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/></c>.</returns>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
     public static Guid GetValueOrCreateNew(this Guid input)
         => input.IsEmpty() ? Guid.NewGuid() : input;
 
@@ -55,7 +55,7 @@ public static class GuidExtensions
     /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/></c>.</returns>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
     public static Guid GetValueOrCreateNew(this Guid? input)
         => input.IsEmpty() ? Guid.NewGuid() : input!.Value;
 }
