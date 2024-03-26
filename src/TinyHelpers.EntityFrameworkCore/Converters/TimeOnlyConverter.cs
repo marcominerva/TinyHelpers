@@ -2,7 +2,6 @@
 
 namespace TinyHelpers.EntityFrameworkCore.Converters;
 
-#if NET6_0 || NET7_0
 public class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
 {
     public TimeOnlyConverter() : base(
@@ -11,4 +10,3 @@ public class TimeOnlyConverter : ValueConverter<TimeOnly, TimeSpan>
     {
     }
 }
-#endif

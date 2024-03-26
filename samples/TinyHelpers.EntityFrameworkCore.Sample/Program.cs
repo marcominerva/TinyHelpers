@@ -8,13 +8,13 @@ var post = new Post
 {
     Title = "TinyHelpers",
     Content = "A collection of helper methods and classes that I use every day. I have packed them in a single library to avoid code duplication.",
-    Authors = new string[] { "Marco", "Bot" },
+    Authors = ["Marco", "Bot"],
     Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-    Reviews = new List<Review>
-    {
+    Reviews =
+    [
         new() { User = "Pippo", Score = 5, Time = TimeOnly.FromDateTime(DateTime.Now) },
         new() { User = "Pluto", Score = 4 }
-    }
+    ]
 };
 
 dataContext.Posts.Add(post);
