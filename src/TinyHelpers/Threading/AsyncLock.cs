@@ -10,10 +10,11 @@ public class AsyncLock : IDisposable
     /// <summary>
     /// Asyncronously waits for the lock to become available.
     /// </summary>
+    /// <param name="cancellationToken">A token that can be used to request cancellation of the asynchronous operation.</param>
     /// <returns>An awaitable task.</returns>
-    public async Task<AsyncLock> LockAsync()
+    public async Task<AsyncLock> LockAsync(CancellationToken cancellationToken = default)
     {
-        await semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        await semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
         return this;
     }
 
