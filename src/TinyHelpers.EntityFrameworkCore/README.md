@@ -70,7 +70,7 @@ public abstract class DeletableEntity
 
 public class Person : DeletableEntity { }
 
-public class City: DeletableEntity { }
+public class City : DeletableEntity { }
 
 public class PhoneNumber : DeletableEntity { }
 
