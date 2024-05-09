@@ -82,7 +82,7 @@ public static class EnumExtensions
             return values.Take(1);
         }
 
-        return Enumerable.Empty<T>();
+        return [];
     }
 
     /// <summary>
