@@ -26,15 +26,5 @@ public static class DateTimeExtensions
     /// <seealso cref="TimeOnly"/>
     public static TimeOnly ToTimeOnly(this DateTime dateTime)
         => TimeOnly.FromDateTime(dateTime);
-
-    /// <summary>
-    /// Constructs a <see cref="TimeOnly"/> object from a <see cref="TimeSpan"/> representing the time elapsed since midnight.
-    /// </summary>
-    /// <param name="timeSpan">The time interval measured since midnight. This value has to be positive and not exceeding the time of the day.</param>
-    /// <returns>A <see cref="TimeOnly"/> object representing the time elapsed since midnight using the <paramref name="timeSpan"/> value.</returns>
-    /// <seealso cref="DateTime"/>
-    /// <seealso cref="TimeOnly"/>
-    public static TimeOnly ToTimeOnly(this TimeSpan timeSpan)
-        => TimeOnly.FromTimeSpan(timeSpan);
 #endif
 }
