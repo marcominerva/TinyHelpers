@@ -69,12 +69,12 @@ public class StringExtensionsTests
     [InlineData("marco", "Marco")]
     [InlineData("mARCo", "MARCo")]
     [InlineData("42", "42")]
-    public void FirstCharToUpper(string input, string expected)
+    public void FirstCharToUpper(string? input, string expected)
     {
         // Arrange
 
         // Act
-        var newString = input.FirstCharToUpper();
+        var newString = input!.FirstCharToUpper();
 
         // Assert
         newString.Should().Be(expected);
