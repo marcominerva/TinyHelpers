@@ -70,7 +70,8 @@ public static class StringExtensions
     /// <param name="defaultValue">The value to return if the string is <see langword="null"/> or contains only whitespaces.</param>
     /// <returns>The actual value of this string instance, or <paramref name="defaultValue"/> if the string is <see langword="null"/> or contains only whitespaces.</returns>
     [return: NotNullIfNotNull(nameof(input))]
-    public static string? GetValueOrDefault([NotNullIfNotNull(nameof(input))] this string? input, string? defaultValue)
+    [return: NotNullIfNotNull(nameof(defaultValue))]
+    public static string? GetValueOrDefault(this string? input, string? defaultValue)
         => input.GetValueOrDefault(defaultValue, whiteSpaceAsEmpty: true);
 
     /// <summary>
@@ -81,7 +82,8 @@ public static class StringExtensions
     /// <param name="whiteSpaceAsEmpty"><see langword="true"/> if whitespaces must be considered as empty characters; otherwise, <see langword="false"/>.</param>
     /// <returns>The actual value of this string instance, or <paramref name="defaultValue"/> if the string is <see langword="null"/> or contains only whitespaces.</returns>
     [return: NotNullIfNotNull(nameof(input))]
-    public static string? GetValueOrDefault([NotNullIfNotNull(nameof(input))] this string? input, string? defaultValue, bool whiteSpaceAsEmpty)
+    [return: NotNullIfNotNull(nameof(defaultValue))]
+    public static string? GetValueOrDefault(this string? input, string? defaultValue, bool whiteSpaceAsEmpty)
         => whiteSpaceAsEmpty ? (string.IsNullOrWhiteSpace(input) ? defaultValue : input) : (string.IsNullOrEmpty(input) ? defaultValue : input);
 
     /// <summary>
