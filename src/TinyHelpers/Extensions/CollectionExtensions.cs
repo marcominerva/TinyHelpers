@@ -236,7 +236,7 @@ public static class CollectionExtensions
     /// <param name="chunkSize">The size of each chunk.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> where each element is an array of elements of the specified chunk size.</returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="chunkSize"/> is less than 1.</exception>
-    public static IEnumerable<IEnumerable<TSource>> Chunk<TSource>(this IEnumerable<TSource> source, int chunkSize)
+    public static IEnumerable<IEnumerable<TSource>> ChunkBySize<TSource>(this IEnumerable<TSource> source, int chunkSize)
     {
         if (chunkSize < 1)
         {
