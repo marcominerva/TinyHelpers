@@ -9,15 +9,15 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var source = Enumerable.Range(1, 6);
-        int chunkSize = 3;
+        var chunkSize = 3;
 
         // Act
         var result = source.Chunk(chunkSize).ToList();
 
         // Assert
         Assert.Equal(2, result.Count);
-        Assert.Equal(new[] { 1, 2, 3 }, result[0].ToArray());
-        Assert.Equal(new[] { 4, 5, 6 }, result[1].ToArray());
+        Assert.Equal(new[] { 1, 2, 3 }, result[0]);
+        Assert.Equal(new[] { 4, 5, 6 }, result[1]);
     }
 
     [Fact]
@@ -25,16 +25,16 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var source = Enumerable.Range(1, 7);
-        int chunkSize = 3;
+        var chunkSize = 3;
 
         // Act
         var result = source.Chunk(chunkSize).ToList();
 
         // Assert
         Assert.Equal(3, result.Count);
-        Assert.Equal(new[] { 1, 2, 3 }, result[0].ToArray());
-        Assert.Equal(new[] { 4, 5, 6 }, result[1].ToArray());
-        Assert.Equal(new[] { 7 }, result[2].ToArray());
+        Assert.Equal(new[] { 1, 2, 3 }, result[0]);
+        Assert.Equal(new[] { 4, 5, 6 }, result[1]);
+        Assert.Equal(new[] { 7 }, result[2]);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class CollectionExtensionsTests
         var source = Enumerable.Range(1, 10);
 
         // Act
-        long result = source.GetLongCount(x => true);
+        var result = source.GetLongCount(x => true);
 
         // Assert
         Assert.Equal(10, result);
@@ -57,7 +57,7 @@ public class CollectionExtensionsTests
         var source = Enumerable.Range(1, 10);
 
         // Act
-        long result = source.GetLongCount(x => x > 10);
+        var result = source.GetLongCount(x => x > 10);
 
         // Assert
         Assert.Equal(0, result);
