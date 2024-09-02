@@ -20,6 +20,27 @@ public static class CollectionExtensions
     /// <returns>An <see cref="IEnumerable{T}"/> that contains distinct elements from the source sequence.</returns>
     public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer = null)
         => source.GroupBy(keySelector, comparer).Select(x => x.First());
+
+    /// <summary>
+    /// Splits the source collection into chunks of a specified size.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements in the source collection.</typeparam>
+    /// <param name="source">The source collection to split into chunks.</param>
+    /// <param name="chunkSize">The size of each chunk.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> where each element is an array of elements of the specified chunk size.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="chunkSize"/> is less than 1.</exception>
+    public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int chunkSize)
+    {
+        if (chunkSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(chunkSize), "Chunk size must be greater than 0");
+        }
+
+        return source
+            .Select((value, index) => new { Index = index, Value = value })
+            .GroupBy(x => x.Index / chunkSize)
+            .Select(g => g.Select(x => x.Value).ToArray());
+    }
 #endif
 
     /// <summary>
@@ -70,11 +91,6 @@ public static class CollectionExtensions
     /// <exception cref="ArgumentNullException"><code>source</code> is <code>null</code></exception>    
     public static async Task<IEnumerable<TResult>> SelectAsync<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, Task<TResult>> selector, CancellationToken cancellationToken = default)
     {
-        if (source is null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
         var result = new List<TResult>();
         foreach (var item in source)
         {
@@ -227,27 +243,4 @@ public static class CollectionExtensions
     /// <returns>An <see cref="IQueryable{T}"/> that contains elements from the input sequence that satisfy the condition specified by <paramref name="predicate"/>; the unfiltered <paramref name="source"/>, otherwise.</returns>
     public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> source, bool condition, Expression<Func<TSource, bool>> predicate)
         => condition ? source.Where(predicate) : source;
-
-    #if NETSTANDARD2_0
-    /// <summary>
-    /// Splits the source collection into chunks of a specified size.
-    /// </summary>
-    /// <typeparam name="TSource">The type of the elements in the source collection.</typeparam>
-    /// <param name="source">The source collection to split into chunks.</param>
-    /// <param name="chunkSize">The size of each chunk.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> where each element is an array of elements of the specified chunk size.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="chunkSize"/> is less than 1.</exception>
-    public static IEnumerable<IEnumerable<TSource>> Chunk<TSource>(this IEnumerable<TSource> source, int chunkSize)
-    {
-        if (chunkSize < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(chunkSize), "Chunk size must be greater than 0.");
-        }
-
-        return source
-            .Select((value, index) => new { Index = index, Value = value })
-            .GroupBy(x => x.Index / chunkSize)
-            .Select(g => g.Select(x => x.Value));
-    }
-    #endif
 }
