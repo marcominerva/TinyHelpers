@@ -12,7 +12,7 @@ public class CollectionExtensionsTests
         int chunkSize = 3;
 
         // Act
-        var result = source.ChunkBySize(chunkSize).ToList();
+        var result = source.Chunk(chunkSize).ToList();
 
         // Assert
         Assert.Equal(2, result.Count);
@@ -28,7 +28,7 @@ public class CollectionExtensionsTests
         int chunkSize = 3;
 
         // Act
-        var result = source.ChunkBySize(chunkSize).ToList();
+        var result = source.Chunk(chunkSize).ToList();
 
         // Assert
         Assert.Equal(3, result.Count);
