@@ -26,7 +26,7 @@ public class ContentTypeAttribute : ValidationAttribute
     public ContentTypeAttribute(params string[] validContentTypes)
         : base(DefaultErrorMessage)
     {
-        this.validContentTypes = validContentTypes.Select(s => s.ToLowerInvariant());
+        this.validContentTypes = validContentTypes;
     }
 
     public ContentTypeAttribute(FileType fileType)
@@ -43,7 +43,7 @@ public class ContentTypeAttribute : ValidationAttribute
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        if (value is IFormFile formFile && !validContentTypes.Contains(formFile.ContentType))
+        if (value is IFormFile formFile && !validContentTypes.Contains(formFile.ContentType, StringComparer.OrdinalIgnoreCase))
         {
             return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
         }
