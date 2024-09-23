@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using TinyHelpers.AspNetCore.ExceptionHandlers;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.Swagger;
 
@@ -47,6 +46,7 @@ builder.Services.AddSwaggerOperationParameters(options =>
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddAcceptLanguageHeader();
+    options.AddDefaultResponse();
 
     // Enable Swagger integration for custom parameters.
     options.AddOperationParameters();
