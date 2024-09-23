@@ -69,6 +69,7 @@ public static class ServiceCollectionExtensions
             options.CustomizeProblemDetails = context =>
             {
                 var statusCode = context.ProblemDetails.Status.GetValueOrDefault(StatusCodes.Status500InternalServerError);
+
                 context.ProblemDetails.Type ??= $"https://httpstatuses.io/{statusCode}";
                 context.ProblemDetails.Title ??= ReasonPhrases.GetReasonPhrase(statusCode);
                 context.ProblemDetails.Instance ??= context.HttpContext.Request.Path;
