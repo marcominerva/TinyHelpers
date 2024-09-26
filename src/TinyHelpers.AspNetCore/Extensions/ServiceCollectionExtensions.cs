@@ -84,6 +84,9 @@ public static class ServiceCollectionExtensions
 #if NET8_0_OR_GREATER
     public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
     {
+        // Ensures that the ProblemDetails service is registered.
+        services.AddProblemDetails();
+
         services.AddExceptionHandler<DefaultExceptionHandler>();
         return services;
     }
