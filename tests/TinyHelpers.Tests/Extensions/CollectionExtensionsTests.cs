@@ -5,8 +5,6 @@ namespace TinyHelpers.Tests.Extensions;
 public class CollectionExtensionsTests
 {
 
-    private IList<int> modifiedList = new List<int>();
-
     [Fact]
     public void Chunk_ExactMultipleChunkSize_ReturnsEqualChunks()
     {
@@ -82,14 +80,16 @@ public class CollectionExtensionsTests
     [Fact]
     public void PerformAction_ForEach_ReturnDesiredResult()
     {
+        // Arrange
         var collection = new List<int> { 1, 2, 3, 4, 5 };
+        var modifiedList = new List<int>();  // Local variable for storing result
 
-        collection.ForEach(MultiplyByFive);
+        // Act
+        collection.ForEach(x => modifiedList.Add(x * 5));
 
+        // Assert
         Assert.Equal(new[] { 5, 10, 15, 20, 25 }, modifiedList);
     }
-
-    private void MultiplyByFive(int obj) => modifiedList.Add(obj * 5);
 
     [Fact]
     public void List_IsEmpty_ReturnTrue()
