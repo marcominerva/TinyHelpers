@@ -4,6 +4,7 @@ namespace TinyHelpers.Tests.Extensions;
 
 public class CollectionExtensionsTests
 {
+
     [Fact]
     public void Chunk_ExactMultipleChunkSize_ReturnsEqualChunks()
     {
@@ -74,5 +75,27 @@ public class CollectionExtensionsTests
 
         // Assert
         Assert.Equal(new[] { 1, 3, 5 }, collection);
+    }
+
+    [Fact]
+    public void PerformAction_ForEach_ReturnDesiredResult()
+    {
+        // Arrange
+        var collection = new List<int> { 1, 2, 3, 4, 5 };
+        var modifiedList = new List<int>();  // Local variable for storing result
+
+        // Act
+        collection.ForEach(x => modifiedList.Add(x * 5));
+
+        // Assert
+        Assert.Equal(new[] { 5, 10, 15, 20, 25 }, modifiedList);
+    }
+
+    [Fact]
+    public void List_IsEmpty_ReturnTrue()
+    {
+        var collection = new List<int>();
+
+        Assert.True(collection.IsEmpty());
     }
 }
