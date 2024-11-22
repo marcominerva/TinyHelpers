@@ -1,10 +1,16 @@
-﻿namespace TinyHelpers;
+﻿using System.ComponentModel;
+
+namespace TinyHelpers;
 
 /// <summary>
 /// Represents a generic object with its relative index within a collection.
 /// </summary>
 /// <typeparam name="TValue">The type of the object.</typeparam>
 /// <seealso cref="Extensions.CollectionExtensions.WithIndex{TSource}(IEnumerable{TSource})"/>
+#if NET9_0_OR_GREATER
+[EditorBrowsable(EditorBrowsableState.Never)]
+[Obsolete("The WithIndex() method is obsolete. Please use Index() instead.")]
+#endif
 public readonly struct WithIndex<TValue> where TValue : class
 {
     /// <summary>
