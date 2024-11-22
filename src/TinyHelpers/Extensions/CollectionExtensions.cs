@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace TinyHelpers.Extensions;
@@ -144,6 +145,10 @@ public static class CollectionExtensions
     /// <param name="source">The <see cref="IEnumerable{T}"/> to create an <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements from.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements that contains projected elements from the input sequence.</returns>
     /// <seealso cref="TinyHelpers.WithIndex{TValue}"/>
+#if NET9_0_OR_GREATER
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("The WithIndex() method is obsolete. Please use Index() instead.")]
+#endif
     public static IEnumerable<WithIndex<TSource>> WithIndex<TSource>(this IEnumerable<TSource> source) where TSource : class
         => source.Select((item, index) => new WithIndex<TSource>(item, index));
 
@@ -154,6 +159,10 @@ public static class CollectionExtensions
     /// <param name="source">The <see cref="IQueryable{T}"/> to create an <see cref="IEnumerable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements from.</param>
     /// <returns>An <see cref="IQueryable{T}"/> of <see cref="TinyHelpers.WithIndex{TValue}"/> elements that contains projected elements from the input sequence.</returns>
     /// <seealso cref="TinyHelpers.WithIndex{TValue}"/>
+#if NET9_0_OR_GREATER
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("The WithIndex() method is obsolete. Please use Index() instead.")]
+#endif
     public static IQueryable<WithIndex<TSource>> WithIndex<TSource>(this IQueryable<TSource> source) where TSource : class
         => source.Select((item, index) => new WithIndex<TSource>(item, index));
 
