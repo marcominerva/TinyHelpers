@@ -18,7 +18,7 @@ internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationO
     {
         if (supportedLanguages?.Any() ?? false)
         {
-            operation.Parameters ??= new List<OpenApiParameter>();
+            operation.Parameters ??= [];
 
             if (!operation.Parameters.Any(p => p.Name == HeaderNames.AcceptLanguage && p.In == ParameterLocation.Header))
             {

@@ -10,7 +10,7 @@ internal class OpenApiParametersOperationFilter(OpenApiOperationOptions openApiP
     {
         if (openApiParameters?.Parameters.Any() ?? false)
         {
-            operation.Parameters ??= new List<OpenApiParameter>();
+            operation.Parameters ??= [];
 
             foreach (var parameter in openApiParameters.Parameters.Where(parameter => !operation.Parameters.Any(existingParameter => existingParameter.Name == parameter.Name && existingParameter.In == parameter.In)))
             {
