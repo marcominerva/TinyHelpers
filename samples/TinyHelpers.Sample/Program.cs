@@ -15,11 +15,6 @@ var people = new List<Person>
     new("Marco", "Minerva", "Taggia")
 };
 
-foreach (var personItem in people.WithIndex())
-{
-    
-}
-
 var distinctPeople = people.DistinctBy(p => new { p.FirstName, p.LastName });
 // Extracts Marco Minerva and Andrea Bianchi
 Console.WriteLine(distinctPeople);

@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using TinyHelpers.AspNetCore.ExceptionHandlers;
-using TinyHelpers.AspNetCore.TypeConverters;
 
 namespace TinyHelpers.AspNetCore.Extensions;
 
@@ -23,16 +22,6 @@ public static class ServiceCollectionExtensions
 
         return settings;
     }
-
-#if NET6_0
-    public static IServiceCollection AddDateOnlyTimeOnly(this IServiceCollection services)
-    {
-        TypeDescriptor.AddAttributes(typeof(DateOnly), new TypeConverterAttribute(typeof(DateOnlyTypeConverter)));
-        TypeDescriptor.AddAttributes(typeof(TimeOnly), new TypeConverterAttribute(typeof(TimeOnlyTypeConverter)));
-
-        return services;
-    }
-#endif
 
     public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
         => services.AddRequestLocalization(cultures, null);
@@ -61,7 +50,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-#if NET7_0_OR_GREATER
     public static IServiceCollection AddDefaultProblemDetails(this IServiceCollection services)
     {
         services.AddProblemDetails(options =>
@@ -79,9 +67,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-#endif
 
-#if NET8_0_OR_GREATER
     public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
     {
         // Ensures that the ProblemDetails service is registered.
@@ -90,5 +76,4 @@ public static class ServiceCollectionExtensions
         services.AddExceptionHandler<DefaultExceptionHandler>();
         return services;
     }
-#endif
 }
