@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '8.x'
+  NET_VERSION: '9.x'
   PROJECT_NAME: src/TinyHelpers.EntityFrameworkCore 
   PROJECT_FILE: TinyHelpers.EntityFrameworkCore.csproj
   TAG_NAME: ef
