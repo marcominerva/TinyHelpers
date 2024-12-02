@@ -8,7 +8,7 @@ public class StringArrayTypeHandler(string separator = ";") : SqlMapper.TypeHand
     public override string[] Parse(object value)
     {
         var content = value.ToString()!;
-        return content.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+        return content.Split([separator], StringSplitOptions.RemoveEmptyEntries);
     }
 
     public override void SetValue(IDbDataParameter parameter, string[]? value)

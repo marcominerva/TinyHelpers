@@ -8,7 +8,7 @@ public class StringEnumerableTypeHandler(string separator = ";") : SqlMapper.Typ
     public override IEnumerable<string> Parse(object value)
     {
         var content = value.ToString()!;
-        return content.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+        return content.Split([separator], StringSplitOptions.RemoveEmptyEntries);
     }
 
     public override void SetValue(IDbDataParameter parameter, IEnumerable<string>? value)
