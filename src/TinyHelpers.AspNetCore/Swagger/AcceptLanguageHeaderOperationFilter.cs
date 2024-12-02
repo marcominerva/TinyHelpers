@@ -16,7 +16,7 @@ internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationO
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (supportedLanguages?.Any() ?? false)
+        if (supportedLanguages?.Count > 0)
         {
             operation.Parameters ??= [];
 
