@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.1.0" />
     </ItemGroup>
 
     <ItemGroup>

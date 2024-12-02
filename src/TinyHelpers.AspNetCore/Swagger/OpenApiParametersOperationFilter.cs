@@ -8,7 +8,7 @@ internal class OpenApiParametersOperationFilter(OpenApiOperationOptions openApiP
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (openApiParameters?.Parameters.Any() ?? false)
+        if (openApiParameters?.Parameters.Count > 0)
         {
             operation.Parameters ??= [];
 
