@@ -8,6 +8,10 @@
 
 A collection of helper methods and classes for ASP.NET Core that I use every day. I have packed them in a single library to avoid code duplication.
 
+> [!IMPORTANT]
+> **Update from Version 3.x to 4.x**
+> Swashbuckle (Swagger) support has been moved out from TinyHelpers.AspNetCore. If you're using extension methods like `AddAcceptLanguageHeader` and `AddDefaultResponse` with `AddSwaggerGen`, now you need to install the [TinyHelpers.AspNetCore.Swashbuckle](https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore.Swashbuckle) package.
+
 **Installation**
 
 The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.AspNetCore). Just search for *TinyHelpers.AspNetCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
@@ -18,11 +22,11 @@ dotnet add package TinyHelpers.AspNetCore
 
 **Usage**
 
-The library provides some useful extension methods for ASP.NET Core applications.
+The library provides some useful extension methods for ASP.NET Core applications:
 
-- `AddDefaultProblemDetails()`: available in .NET 7.0 and greater, it calls the default [ProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.problemdetailsservicecollectionextensions) extension method defining the [CustomizeProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.problemdetailsoptions.customizeproblemdetails) property to ensure that all the typical properties (_Type_, _Title_, _Instance_, _TraceId_) are correctly set.
+- `AddDefaultProblemDetails()`: calls the default [ProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.problemdetailsservicecollectionextensions) extension method defining the [CustomizeProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.problemdetailsoptions.customizeproblemdetails) property to ensure that all the typical properties (_Type_, _Title_, _Instance_, _TraceId_) are correctly set.
 
-- `AddDefaultExceptionHandler()`: available in .NET 8.0 and greater, it adds a default implementation for the [IExceptionHandler](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler) interface that returns the following response on exceptions:
+- `AddDefaultExceptionHandler()`: adds a default implementation for the [IExceptionHandler](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler) interface that returns the following response on exceptions:
 
 ```csharp
 app.MapPost("/api/exception", () =>
@@ -49,15 +53,6 @@ app.MapPost("/api/exception", () =>
 The _StackTrace_ property is included in the response only if the application is running in the _Development_ environment.
 
 - `AddRequestLocalization(cultures)`: an overload of the standard [AddRequestLocalization](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.requestlocalizationservicecollectionextensions) extension method that just requires the list of supported cultures and automatically registers the corresponding [RequestLocalizationOptions](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder.requestlocalizationoptions) (Note: The first culture in the list is used as the default culture).
-
-- `AddAcceptLanguageHeader`: an extension method for Swagger. It adds the _Accept-Language_ header to **swagger.json** definition.
-
-```csharp
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddAcceptLanguageHeader();
-});
-```
 
 - `ConfigureAndGet<TOptions>(  )`: it allows to register a configuration instance on type _TOptions_ and returns the instance itself. It is useful when you need to configure the options and gets the reference to that instance in the same method, typically at application startup.
 
