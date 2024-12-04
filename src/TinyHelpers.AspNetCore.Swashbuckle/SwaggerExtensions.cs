@@ -1,5 +1,4 @@
 ﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -46,11 +45,11 @@ public static class SwaggerExtensions
     public static void AddOperationParameters(this SwaggerGenOptions options)
         => options.OperationFilter<OpenApiParametersOperationFilter>();
 
-    internal static OpenApiResponse GetResponse(string description, string contentType = MediaTypeNames.Application.Json)
+    internal static OpenApiResponse GetResponse(string description, string id, string contentType = MediaTypeNames.Application.Json)
         => new()
         {
             Description = description,
-            Content = new Dictionary<string, OpenApiMediaType>
+            Content =
             {
                 [contentType] = new()
                 {
@@ -58,7 +57,7 @@ public static class SwaggerExtensions
                     {
                         Reference = new()
                         {
-                            Id = nameof(ProblemDetails),
+                            Id = id,
                             Type = ReferenceType.Schema
                         }
                     }

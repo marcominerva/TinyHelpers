@@ -9,6 +9,8 @@ public static class OpenApiExtensions
     public static void AddAcceptLanguageHeader(this OpenApiOptions options)
         => options.AddOperationTransformer<AcceptLanguageHeaderOperationTransformer>();
 
+    public static void AddDefaultResponse(this OpenApiOptions options)
+        => options.AddOperationTransformer<DefaultResponseOperationTransformer>();
 }
 
 #endif

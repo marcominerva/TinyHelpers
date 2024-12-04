@@ -29,7 +29,7 @@ internal class AcceptLanguageHeaderOperationTransformer(IOptions<RequestLocaliza
                     Name = HeaderNames.AcceptLanguage,
                     In = ParameterLocation.Header,
                     Required = false,
-                    Schema = new OpenApiSchema
+                    Schema = new()
                     {
                         Type = "string",
                         Enum = supportedLanguages,
