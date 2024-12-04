@@ -24,16 +24,15 @@ dotnet add package TinyHelpers.AspNetCore
 
 The library provides some useful extension methods for ASP.NET Core applications:
 
-- `AddDefaultProblemDetails()`: calls the default [ProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.problemdetailsservicecollectionextensions) extension method defining the [CustomizeProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.problemdetailsoptions.customizeproblemdetails) property to ensure that all the typical properties (_Type_, _Title_, _Instance_, _TraceId_) are correctly set.
+- `AddDefaultProblemDetails`: calls the default [ProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.problemdetailsservicecollectionextensions) extension method defining the [CustomizeProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.problemdetailsoptions.customizeproblemdetails) property to ensure that all the typical properties (_Type_, _Title_, _Instance_, _TraceId_) are correctly set.
 
-- `AddDefaultExceptionHandler()`: adds a default implementation for the [IExceptionHandler](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler) interface that returns the following response on exceptions:
+- `AddDefaultExceptionHandler`: adds a default implementation for the [IExceptionHandler](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler) interface that returns the following response on exceptions:
 
 ```csharp
 app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
-})
-.WithOpenApi();
+});
 ```
 ```json
 {
@@ -55,6 +54,15 @@ The _StackTrace_ property is included in the response only if the application is
 - `AddRequestLocalization(cultures)`: an overload of the standard [AddRequestLocalization](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.requestlocalizationservicecollectionextensions) extension method that just requires the list of supported cultures and automatically registers the corresponding [RequestLocalizationOptions](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder.requestlocalizationoptions) (Note: The first culture in the list is used as the default culture).
 
 - `ConfigureAndGet<TOptions>(  )`: it allows to register a configuration instance on type _TOptions_ and returns the instance itself. It is useful when you need to configure the options and gets the reference to that instance in the same method, typically at application startup.
+
+- `AddAcceptLanguageHeader()`: adds the _Accept-Language_ header to OpenAPI definition:
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    options.AddAcceptLanguageHeader();
+});
+```
 
 **Contribute**
 
