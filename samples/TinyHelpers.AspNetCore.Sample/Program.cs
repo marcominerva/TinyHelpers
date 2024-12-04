@@ -1,6 +1,5 @@
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.OpenApi;
-using TinyHelpers.AspNetCore.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
