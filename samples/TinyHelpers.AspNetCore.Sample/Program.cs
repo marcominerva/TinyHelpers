@@ -1,5 +1,6 @@
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.OpenApi;
+using TinyHelpers.AspNetCore.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddRequestLocalization("it", "en", "de");
 builder.Services.AddOpenApi(options =>
 {
     options.AddAcceptLanguageHeader();
+    options.AddDefaultResponse();
 });
 
 // Add default problem details and exception handler.
@@ -40,13 +42,12 @@ app.MapGet("/api/sample", () =>
 {
     var language = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
     return TypedResults.NoContent();
-})
-.WithOpenApi();
+});
 
 app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
-.WithOpenApi();
+.ProducesProblem(StatusCodes.Status400BadRequest);
 
 app.Run();

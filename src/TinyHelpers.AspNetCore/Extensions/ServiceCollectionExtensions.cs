@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         return settings;
     }
 
-    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params IEnumerable<string> cultures)
+    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
         => services.AddRequestLocalization(cultures, null);
 
     public static IServiceCollection AddRequestLocalization(this IServiceCollection services, IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
