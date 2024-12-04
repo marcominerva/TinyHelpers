@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore.Swashbuckle\TinyHelpers.AspNetCore.Swashbuckle.csproj" />
     <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore\TinyHelpers.AspNetCore.csproj" />
   </ItemGroup>
 

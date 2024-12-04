@@ -9,7 +9,7 @@ builder.Services.AddRequestLocalization("it", "en", "de");
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Add parameters that are required for all operations.
+// Add Swagger parameters that are required for all operations.
 builder.Services.AddSwaggerOperationParameters(options =>
 {
     options.Parameters.Add(new()

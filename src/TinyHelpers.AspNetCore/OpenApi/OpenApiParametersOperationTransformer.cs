@@ -1,12 +1,14 @@
-﻿using Microsoft.OpenApi.Any;
+﻿#if NET9_0_OR_GREATER
+
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace TinyHelpers.AspNetCore.Swagger;
+namespace TinyHelpers.AspNetCore.OpenApi;
 
-internal class OpenApiParametersOperationFilter(OpenApiOperationOptions options) : IOperationFilter
+internal class OpenApiParametersOperationFilter(OpenApiOperationOptions options) : IOpenApiOperationTransformer
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         if (options?.Parameters.Count > 0)
         {
@@ -17,6 +19,8 @@ internal class OpenApiParametersOperationFilter(OpenApiOperationOptions options)
                 operation.Parameters.Add(parameter);
             }
         }
+
+        return Task.CompletedTask;
     }
 }
 
@@ -89,3 +93,5 @@ public static class OpenApiSchemaHelper
         return schema;
     }
 }
+
+#endif
