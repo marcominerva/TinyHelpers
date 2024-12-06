@@ -12,7 +12,7 @@ on:
     - cron: '0 0 1,15 * *'
     
 env:
-  NET_VERSION: '8.x'
+  NET_VERSION: '9.x'
     
 jobs:
   analyze:
