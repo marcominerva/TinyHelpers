@@ -31,7 +31,7 @@ public class AsyncLock : IDisposable
     public async Task<LockResult> LockAsync(int timeoutInMilliseconds, CancellationToken cancellationToken = default)
     {
         var isOwned = await semaphoreSlim.WaitAsync(timeoutInMilliseconds, cancellationToken).ConfigureAwait(false);
-        return new LockResult(isOwned ? this : null, isOwned);
+        return new LockResult(isOwned, isOwned ? this : null);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class AsyncLock : IDisposable
     public async Task<LockResult> LockAsync(TimeSpan timeout, CancellationToken cancellationToken = default)
     {
         var isOwned = await semaphoreSlim.WaitAsync(timeout, cancellationToken).ConfigureAwait(false);
-        return new LockResult(isOwned ? this : null, isOwned);
+        return new LockResult(isOwned, isOwned ? this : null);
     }
 
     /// <summary>

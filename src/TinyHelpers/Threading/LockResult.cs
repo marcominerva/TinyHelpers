@@ -15,16 +15,16 @@ public readonly struct LockResult
     /// </summary>
     public bool IsOwned { get; }
 
-    internal LockResult(AsyncLock? asyncLock, bool isOwned)
+    internal LockResult(bool isOwned, AsyncLock? asyncLock)
     {
-        (AsyncLock, IsOwned) = (asyncLock, isOwned);
+        (IsOwned, AsyncLock) = (isOwned, asyncLock);
     }
 
     /// <summary>
     /// Deconstruct the <see cref="LockResult"/> object.
     /// </summary>
-    /// <param name="asyncLock">The <seealso cref="Threading.AsyncLock"/> object.</param>
     /// <param name="isOwned">The boolean indicating if the lock was acquired or not.</param>
-    public void Deconstruct(out AsyncLock? asyncLock, out bool isOwned)
-        => (asyncLock, isOwned) = (AsyncLock, IsOwned);
+    /// <param name="asyncLock">The <seealso cref="Threading.AsyncLock"/> object.</param>
+    public void Deconstruct(out bool isOwned, out AsyncLock? asyncLock)
+        => (isOwned, asyncLock) = (IsOwned, AsyncLock);
 }
