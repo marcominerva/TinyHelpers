@@ -19,7 +19,7 @@ internal class DefaultExceptionHandler(IProblemDetailsService problemDetailsServ
             Instance = httpContext.Request.Path
         };
 
-        problemDetails.Extensions["traceId"] = Activity.Current?.Id ?? httpContext.TraceIdentifier;
+        problemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id ?? httpContext.TraceIdentifier);
 
         if (exception.InnerException is not null)
         {
