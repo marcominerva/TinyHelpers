@@ -32,4 +32,13 @@ public static class ModelBuilderExtensions
             }
         }
     }
+
+    public static IEnumerable<Type> GetEntityTypes(this ModelBuilder modelBuilder, Type baseType)
+    {
+        var entityTypes = modelBuilder.Model.GetEntityTypes()
+            .Where(t => baseType.IsAssignableFrom(t.ClrType))
+            .ToList();
+
+        return entityTypes.Select(t => t.ClrType);
+    }
 }
