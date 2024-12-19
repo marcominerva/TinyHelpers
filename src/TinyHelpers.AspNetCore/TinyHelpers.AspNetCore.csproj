@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -13,7 +13,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore</PackageProjectUrl>
         <PackageIcon>Toolbox.png</PackageIcon>
-        <PackageTags>csharp aspnetcore visual-studio net netcore netstandard web utilities helpers</PackageTags>
+        <PackageTags>csharp aspnetcore visual-studio net web utilities helpers swagger openapi</PackageTags>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
         <RepositoryBranch>master</RepositoryBranch>
@@ -23,10 +23,10 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.7.0" />
-    </ItemGroup>
+    
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    </ItemGroup>    
 
     <ItemGroup>
         <None Include="..\..\Toolbox.png">

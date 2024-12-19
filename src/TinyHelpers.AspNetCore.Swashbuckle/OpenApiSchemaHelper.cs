@@ -1,33 +1,7 @@
 ﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TinyHelpers.AspNetCore.Swagger;
-
-internal class OpenApiParametersOperationFilter(OpenApiOperationOptions openApiParameters) : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        if (openApiParameters?.Parameters.Any() ?? false)
-        {
-            operation.Parameters ??= new List<OpenApiParameter>();
-
-            foreach (var parameter in openApiParameters.Parameters.Where(parameter => !operation.Parameters.Any(existingParameter => existingParameter.Name == parameter.Name && existingParameter.In == parameter.In)))
-            {
-                operation.Parameters.Add(parameter);
-            }
-        }
-    }
-}
-
-public class OpenApiOperationOptions
-{
-    internal OpenApiOperationOptions()
-    {
-    }
-
-    public IList<OpenApiParameter> Parameters { get; init; } = [];
-}
 
 public static class OpenApiSchemaHelper
 {

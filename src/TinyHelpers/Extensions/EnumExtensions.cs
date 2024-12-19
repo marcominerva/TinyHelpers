@@ -69,7 +69,7 @@ public static class EnumExtensions
 
         if (bits != 0L)
         {
-            return Enumerable.Empty<T>();
+            return [];
         }
 
         if (Convert.ToInt64(@enum) != 0L)

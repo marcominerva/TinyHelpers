@@ -1,18 +1,14 @@
 using Microsoft.OpenApi.Models;
-using TinyHelpers.AspNetCore.ExceptionHandlers;
 using TinyHelpers.AspNetCore.Extensions;
-using TinyHelpers.AspNetCore.Swagger;
+using TinyHelpers.AspNetCore.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRequestLocalization("it", "en", "de");
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-
-// Add parameters that are required for all operations.
-builder.Services.AddSwaggerOperationParameters(options =>
+// Add OpenAPI parameters that are required for all operations.
+builder.Services.AddOpenApiOperationParameters(options =>
 {
     options.Parameters.Add(new()
     {
@@ -44,11 +40,12 @@ builder.Services.AddSwaggerOperationParameters(options =>
     });
 });
 
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddOpenApi(options =>
 {
     options.AddAcceptLanguageHeader();
+    options.AddDefaultResponse();
 
-    // Enable Swagger integration for custom parameters.
+    // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();
 });
 
@@ -66,21 +63,28 @@ app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", builder.Environment.ApplicationName);
+    });
 }
+
+app.UseRouting();
+app.UseRequestLocalization();
 
 app.MapGet("/api/sample", () =>
 {
+    var language = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
     return TypedResults.NoContent();
-})
-.WithOpenApi();
+});
 
 app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
-.WithOpenApi();
+.ProducesProblem(StatusCodes.Status400BadRequest);
 
 app.Run();
 

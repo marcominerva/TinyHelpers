@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TinyHelpers.AspNetCore.Swagger</RootNamespace>
+        <Authors>Marco Minerva</Authors>
+        <Company>Marco Minerva</Company>
+        <Product>Tiny Helpers for Swashbuckle ASP.NET Core</Product>
+        <Title>Tiny Helpers for Swashbuckle ASP.NET Corer</Title>
+        <Description>A collection of helper methods and classes for Swashbuckle ASP.NET Core that I use every day. I have packed them in a single library to avoid code duplication.</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore.Swashbuckle</PackageProjectUrl>
+        <PackageIcon>Toolbox.png</PackageIcon>
+        <PackageTags>csharp aspnetcore visual-studio net web utilities helpers swagger swashbuckle openapi</PackageTags>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/marcominerva/TinyHelpers.git</RepositoryUrl>
+        <RepositoryBranch>master</RepositoryBranch>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\Toolbox.png">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>

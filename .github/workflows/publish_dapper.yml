@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '8.x'
+  NET_VERSION: '9.x'
   PROJECT_NAME: src/TinyHelpers.Dapper 
   PROJECT_FILE: TinyHelpers.Dapper.csproj
   TAG_NAME: dapper

@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 
 namespace TinyHelpers.AspNetCore.ExceptionHandlers;
 
-#if NET8_0_OR_GREATER
 internal class DefaultExceptionHandler(IProblemDetailsService problemDetailsService, IWebHostEnvironment webHostEnvironment) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
@@ -47,4 +46,3 @@ internal class DefaultExceptionHandler(IProblemDetailsService problemDetailsServ
         return true;
     }
 }
-#endif

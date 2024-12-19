@@ -7,10 +7,11 @@ using System.Text.Json.Serialization;
 namespace TinyHelpers.Json.Serialization;
 
 /// <summary>
-/// Converts an <see cref="Enum"/> value to or from JSON, keeping only the date part.
+/// Converts an <see cref="Enum"/> value to or from JSON.
 /// </summary>
 /// <param name="namingPolicy">The naming policy used to resolve how property names and dictionary keys are formatted.</param>
 /// <param name="allowIntegerValues">Specifies whether integer values are allowed for input.</param>
+[Obsolete("Use System.Text.Json.Serialization.JsonStringEnumMemberConverter and System.Text.Json.Serialization.JsonStringEnumMemberName instead.")]
 public class StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues) : JsonConverterFactory
 {
     /// <summary>
@@ -118,7 +119,7 @@ public class StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allo
                 {
                     var calculatedValue = 0UL;
 
-                    var flagValues = enumString.Split(new string[] { ", " }, StringSplitOptions.None);
+                    var flagValues = enumString.Split([", "], StringSplitOptions.None);
                     foreach (var flagValue in flagValues)
                     {
                         // Case sensitive search attempted first.

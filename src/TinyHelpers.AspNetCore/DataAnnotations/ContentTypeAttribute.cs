@@ -17,16 +17,16 @@ public class ContentTypeAttribute : ValidationAttribute
 {
     private readonly IEnumerable<string> validContentTypes;
 
-    private static readonly IEnumerable<string> imageContentTypes = new[] { "image/jpeg", "image/png", "image/gif", "image/bmp", "image/cis-cod", "image/ief", "image/pipeg", "image/svg+xml", "image/tiff", "image/x-cmu-raster", "image/x-cmx", "image/x-icon", "image/x-portable-anymap", "image/x-portable-bitmap", "image/x-portable-graymap", "image/x-portable-pixmap", "image/x-rgb", "image/x-xbitmap", "image/x-xpixmap", "image/x-xwindowdump" };
-    private static readonly IEnumerable<string> videoContentTypes = new[] { "video/mp4", "video/ogg", "video/quicktime", "video/mpeg", "video/x-la-asf", "video/x-ms-asf", "video/x-msvideo", "video/x-sgi-movie" };
-    private static readonly IEnumerable<string> audioContentTypes = new[] { "audio/basic", "audio/mid", "audio/mpeg", "audio/x-wav", "audio/x-mpegurl", "audio/x-pn-realaudio" };
+    private static readonly IEnumerable<string> imageContentTypes = ["image/jpeg", "image/png", "image/gif", "image/bmp", "image/cis-cod", "image/ief", "image/pipeg", "image/svg+xml", "image/tiff", "image/x-cmu-raster", "image/x-cmx", "image/x-icon", "image/x-portable-anymap", "image/x-portable-bitmap", "image/x-portable-graymap", "image/x-portable-pixmap", "image/x-rgb", "image/x-xbitmap", "image/x-xpixmap", "image/x-xwindowdump"];
+    private static readonly IEnumerable<string> videoContentTypes = ["video/mp4", "video/ogg", "video/quicktime", "video/mpeg", "video/x-la-asf", "video/x-ms-asf", "video/x-msvideo", "video/x-sgi-movie"];
+    private static readonly IEnumerable<string> audioContentTypes = ["audio/basic", "audio/mid", "audio/mpeg", "audio/x-wav", "audio/x-mpegurl", "audio/x-pn-realaudio"];
 
     private const string DefaultErrorMessage = "The {0} field should have one of the following Content-Types: {1}";
 
     public ContentTypeAttribute(params string[] validContentTypes)
         : base(DefaultErrorMessage)
     {
-        this.validContentTypes = validContentTypes.Select(s => s.ToLowerInvariant());
+        this.validContentTypes = validContentTypes;
     }
 
     public ContentTypeAttribute(FileType fileType)
@@ -43,7 +43,7 @@ public class ContentTypeAttribute : ValidationAttribute
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        if (value is IFormFile formFile && !validContentTypes.Contains(formFile.ContentType))
+        if (value is IFormFile formFile && !validContentTypes.Contains(formFile.ContentType, StringComparer.OrdinalIgnoreCase))
         {
             return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
         }
