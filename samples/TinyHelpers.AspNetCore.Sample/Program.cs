@@ -49,6 +49,9 @@ builder.Services.AddOpenApi(options =>
     // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();
 
+    // Remove Servers list in OpenAPI
+    options.RemoveServerList();
+    
     // Fix the ignored JsonNumberHandling attribute
     options.AddJsonNumberHandler();
 });
