@@ -29,8 +29,8 @@ public static class OpenApiExtensions
     public static void AddOperationParameters(this OpenApiOptions options)
         => options.AddOperationTransformer<OpenApiParametersOperationFilter>();
 
-    public static void RemoveServersList(this OpenApiOptions options)
-        => options.AddDocumentTransformer<RemoveServersListDocumentTransformer>();
+    public static void RemoveServerList(this OpenApiOptions options)
+        => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
 }
 
 #endif

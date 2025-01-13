@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
 
-internal class RemoveServersListDocumentTransformer : IOpenApiDocumentTransformer
+internal class RemoveServerListDocumentTransformer : IOpenApiDocumentTransformer
 {
     public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {

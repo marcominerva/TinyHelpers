@@ -49,7 +49,7 @@ builder.Services.AddOpenApi(options =>
     options.AddOperationParameters();
 
     // Remove Servers list in OpenAPI
-    options.RemoveServersList();
+    options.RemoveServerList();
 });
 
 // Add default problem details and exception handler.
