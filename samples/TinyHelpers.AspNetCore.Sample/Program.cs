@@ -47,6 +47,9 @@ builder.Services.AddOpenApi(options =>
 
     // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();
+
+    // Remove Servers list in OpenAPI
+    options.RemoveServersList();
 });
 
 // Add default problem details and exception handler.
