@@ -33,6 +33,9 @@ public static class ModelBuilderExtensions
         }
     }
 
+    public static IEnumerable<Type> GetEntityTypes<TType>(this ModelBuilder modelBuilder)
+        => GetEntityTypes(modelBuilder, typeof(TType));
+
     public static IEnumerable<Type> GetEntityTypes(this ModelBuilder modelBuilder, Type baseType)
     {
         var entityTypes = modelBuilder.Model.GetEntityTypes()
