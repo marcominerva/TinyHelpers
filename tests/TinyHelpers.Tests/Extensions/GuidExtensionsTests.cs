@@ -187,6 +187,19 @@ public class GuidExtensionsTests
     }
 
     [Fact]
+    public void NullableGuidIsNull_GetValueOrCreateNew_Should_Return_NewGuidVersion7()
+    {
+        // Arrange
+        Guid? input = null;
+
+        // Act
+        var value = input.GetValueOrCreateNew(GuidVersion.Version7);
+
+        // Assert
+        Assert.Equal(7, value.Version);
+    }
+
+    [Fact]
     public void NullableGuidIsNotEmpty_GetValueOrCreateNew_Should_Return_TheSameGuid()
     {
         // Arrange

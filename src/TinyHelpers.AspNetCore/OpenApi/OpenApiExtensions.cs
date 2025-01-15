@@ -31,8 +31,8 @@ public static class OpenApiExtensions
 
     public static void RemoveServerList(this OpenApiOptions options)
         => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
-        
-    public static void WriteNumberAsString(this OpenApiOptions options)
+
+    public static void AddWriteNumberAsStringSupport(this OpenApiOptions options)
         => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
 }
 

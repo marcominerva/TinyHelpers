@@ -53,7 +53,7 @@ builder.Services.AddOpenApi(options =>
     options.RemoveServerList();
 
     // Fix the ignored JsonNumberHandling attribute
-    options.WriteNumberAsString();
+    options.AddWriteNumberAsStringSupport();
 });
 
 // Add default problem details and exception handler.
