@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.OpenApi;
@@ -50,6 +51,9 @@ builder.Services.AddOpenApi(options =>
 
     // Remove Servers list in OpenAPI
     options.RemoveServerList();
+
+    // Fix the ignored JsonNumberHandling attribute
+    options.AddJsonNumberHandler();
 });
 
 // Add default problem details and exception handler.
@@ -83,6 +87,11 @@ app.MapGet("/api/sample", () =>
     return TypedResults.NoContent();
 });
 
+app.MapGet("/api/json-number-sample", () =>
+{
+    return TypedResults.Ok(new RandomNumber());
+});
+
 app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
@@ -97,3 +106,9 @@ public enum Environment
     Staging,
     Production
 }
+
+internal record RandomNumber()
+{
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public int Number { get; init; } = Random.Shared.Next(0, 100);
+};
