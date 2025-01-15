@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TinyHelpers.Extensions;
+﻿using TinyHelpers.Extensions;
 
 namespace TinyHelpers.Tests.Extensions;
 
@@ -16,7 +15,7 @@ public class DateOnlyExtensionsTests
         var output = input.ToDateTimeOffset();
 
         // Assert
-        output.Should().Be(result);
+        Assert.Equal(result, output);
     }
 
     [Fact]
@@ -30,7 +29,7 @@ public class DateOnlyExtensionsTests
         var output = input.ToDateTimeOffset();
 
         // Assert
-        output.Should().Be(result);
+        Assert.Equal(result, output);
     }
 
     [Fact]
@@ -44,6 +43,6 @@ public class DateOnlyExtensionsTests
         var output = input.ToDateTimeOffset();
 
         // Assert
-        output.Should().NotBe(result);
+        Assert.NotEqual(result, output);
     }
 }
