@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TinyHelpers.Extensions;
+﻿using TinyHelpers.Extensions;
 
 namespace TinyHelpers.Tests.Extensions;
 
@@ -15,7 +14,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsEmpty();
 
         // Assert
-        hasValue.Should().BeTrue();
+        Assert.True(hasValue);
     }
 
     [Fact]
@@ -28,7 +27,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsEmpty();
 
         // Assert
-        hasValue.Should().BeFalse();
+        Assert.False(hasValue);
     }
 
     [Fact]
@@ -41,7 +40,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsNotEmpty();
 
         // Assert
-        hasValue.Should().BeFalse();
+        Assert.False(hasValue);
     }
 
     [Fact]
@@ -54,7 +53,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsNotEmpty();
 
         // Assert
-        hasValue.Should().BeTrue();
+        Assert.True(hasValue);
     }
 
     [Fact]
@@ -67,7 +66,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsEmpty();
 
         // Assert
-        hasValue.Should().BeTrue();
+        Assert.True(hasValue);
     }
 
     [Fact]
@@ -80,7 +79,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsEmpty();
 
         // Assert
-        hasValue.Should().BeFalse();
+        Assert.False(hasValue);
     }
 
     [Fact]
@@ -93,7 +92,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsNotEmpty();
 
         // Assert
-        hasValue.Should().BeFalse();
+        Assert.False(hasValue);
     }
 
     [Fact]
@@ -106,7 +105,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsNotEmpty();
 
         // Assert
-        hasValue.Should().BeTrue();
+        Assert.True(hasValue);
     }
 
     [Fact]
@@ -119,7 +118,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsEmpty();
 
         // Assert
-        hasValue.Should().BeTrue();
+        Assert.True(hasValue);
     }
 
     [Fact]
@@ -132,7 +131,7 @@ public class GuidExtensionsTests
         var hasValue = input.IsNotEmpty();
 
         // Assert
-        hasValue.Should().BeFalse();
+        Assert.False(hasValue);
     }
 
     [Fact]
@@ -145,7 +144,7 @@ public class GuidExtensionsTests
         var value = input.GetValueOrCreateNew();
 
         // Assert
-        value.Should().NotBe(Guid.Empty);
+        Assert.False(value == Guid.Empty);
     }
 
     [Fact]
@@ -158,7 +157,7 @@ public class GuidExtensionsTests
         var value = input.GetValueOrCreateNew();
 
         // Assert
-        value.Should().Be(input);
+        Assert.Equal(input, value);
     }
 
     [Fact]
@@ -171,7 +170,7 @@ public class GuidExtensionsTests
         var value = input.GetValueOrCreateNew();
 
         // Assert
-        value.Should().NotBe(Guid.Empty);
+        Assert.False(value == Guid.Empty);
     }
 
     [Fact]
@@ -184,7 +183,7 @@ public class GuidExtensionsTests
         var value = input.GetValueOrCreateNew();
 
         // Assert
-        value.Should().NotBe(Guid.Empty);
+        Assert.False(value == Guid.Empty);
     }
 
     [Fact]
@@ -197,6 +196,6 @@ public class GuidExtensionsTests
         var value = input.GetValueOrCreateNew();
 
         // Assert
-        value.Should().Be((Guid)input);
+        Assert.Equal(input, value);
     }
 }

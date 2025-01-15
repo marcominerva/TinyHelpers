@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TinyHelpers.EntityFrameworkCore.Comparers;
 using TinyHelpers.EntityFrameworkCore.Converters;
@@ -47,4 +48,10 @@ public static class PropertyBuilderExtensions
         propertyBuilder.HasConversion(converter, comparer);
         return propertyBuilder;
     }
+
+    public static PropertyBuilder IsVector(this PropertyBuilder propertyBuilder, int size = 1536)
+        => propertyBuilder.HasColumnType($"vector({size})");
+
+    public static PropertyBuilder<T> IsVector<T>(this PropertyBuilder<T> propertyBuilder, int size = 1536)
+        => propertyBuilder.HasColumnType($"vector({size})");
 }
