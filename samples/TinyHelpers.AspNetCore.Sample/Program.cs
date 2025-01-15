@@ -49,11 +49,11 @@ builder.Services.AddOpenApi(options =>
     // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();
 
-    // Remove Servers list in OpenAPI
+    // Remove Servers list in OpenAPI (only needed in Development).
     options.RemoveServerList();
 
     // Fix the ignored JsonNumberHandling attribute
-    options.AddJsonNumberHandler();
+    options.WriteNumberAsString();
 });
 
 // Add default problem details and exception handler.
@@ -87,7 +87,7 @@ app.MapGet("/api/sample", () =>
     return TypedResults.NoContent();
 });
 
-app.MapGet("/api/json-number-sample", () =>
+app.MapGet("/api/json-number-as-string", () =>
 {
     return TypedResults.Ok(new RandomNumber());
 });

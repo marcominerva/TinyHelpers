@@ -32,8 +32,8 @@ public static class OpenApiExtensions
     public static void RemoveServerList(this OpenApiOptions options)
         => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
         
-    public static void AddJsonNumberHandler(this OpenApiOptions options)
-        => options.AddSchemaTransformer<JsonNumberHandlerSchemaTransformer>();
+    public static void WriteNumberAsString(this OpenApiOptions options)
+        => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
 }
 
 #endif
