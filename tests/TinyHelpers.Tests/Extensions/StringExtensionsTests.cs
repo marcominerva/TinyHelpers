@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TinyHelpers.Extensions;
+﻿using TinyHelpers.Extensions;
 
 namespace TinyHelpers.Tests.Extensions;
 
@@ -23,8 +22,7 @@ public class StringExtensionsTests
         var hasValue = input.HasValue(allowEmptyString, whiteSpaceAsEmpty);
 
         // Assert
-        hasValue.Should().BeTrue();
-        //Assert.True(hasValue);
+        Assert.True(hasValue);
     }
 
     [Theory]
@@ -43,8 +41,7 @@ public class StringExtensionsTests
         var hasValue = input.HasValue(allowEmptyString, whiteSpaceAsEmpty);
 
         // Assert
-        hasValue.Should().BeFalse();
-        //Assert.False(hasValue);
+        Assert.False(hasValue);
     }
 
     [Theory]
@@ -59,7 +56,7 @@ public class StringExtensionsTests
         var newString = input.ReplaceIgnoreCase(pattern, replacement);
 
         // Assert
-        newString.Should().Be(expected);
+        Assert.Equal(expected, newString);
     }
 
     [Theory]
@@ -77,6 +74,6 @@ public class StringExtensionsTests
         var newString = input!.FirstCharToUpper();
 
         // Assert
-        newString.Should().Be(expected);
+        Assert.Equal(expected, newString);
     }
 }
