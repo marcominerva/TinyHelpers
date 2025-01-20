@@ -11,7 +11,7 @@ namespace TinyHelpers.Json.Serialization;
 /// </summary>
 /// <param name="namingPolicy">The naming policy used to resolve how property names and dictionary keys are formatted.</param>
 /// <param name="allowIntegerValues">Specifies whether integer values are allowed for input.</param>
-[Obsolete("Use System.Text.Json.Serialization.JsonStringEnumMemberConverter and System.Text.Json.Serialization.JsonStringEnumMemberName instead.")]
+[Obsolete("Use System.Text.Json.Serialization.JsonStringEnumConverter and System.Text.Json.Serialization.JsonStringEnumMemberName instead.")]
 public class StringEnumMemberConverter(JsonNamingPolicy? namingPolicy, bool allowIntegerValues) : JsonConverterFactory
 {
     /// <summary>

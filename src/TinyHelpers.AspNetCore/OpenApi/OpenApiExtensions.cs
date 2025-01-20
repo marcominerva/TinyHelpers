@@ -28,6 +28,12 @@ public static class OpenApiExtensions
 
     public static void AddOperationParameters(this OpenApiOptions options)
         => options.AddOperationTransformer<OpenApiParametersOperationFilter>();
+
+    public static void RemoveServerList(this OpenApiOptions options)
+        => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
+
+    public static void AddWriteNumberAsStringSupport(this OpenApiOptions options)
+        => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
 }
 
 #endif

@@ -52,10 +52,56 @@ public static class GuidExtensions
         => input.IsEmpty() ? Guid.NewGuid() : input;
 
     /// <summary>
+    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
+    /// </summary>
+    /// <param name="input">The <see cref="Guid"/> to test.</param>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
+    public static Guid GetValueOrCreateNew(this Guid? input)
+        => input.IsEmpty() ? Guid.NewGuid() : input!.Value;
+
+#if NET9_0_OR_GREATER
+    /// <summary>
     /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
-    public static Guid GetValueOrCreateNew(this Guid? input)
-        => input.IsEmpty() ? Guid.NewGuid() : input!.Value;
+    /// <param name="guidVersion">The version of the <see cref="Guid"/> to create if the input is <c>Guid.Empty</c>.</param>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/>.</returns>
+    public static Guid GetValueOrCreateNew(this Guid input, GuidVersion guidVersion)
+        => input.IsEmpty() ? guidVersion switch
+        {
+            GuidVersion.Version7 => Guid.CreateVersion7(),
+            _ => Guid.NewGuid()
+        } : input;
+
+    /// <summary>
+    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/>.
+    /// </summary>
+    /// <param name="input">The <see cref="Guid"/> to test.</param>
+    /// <param name="guidVersion">The version of the <see cref="Guid"/> to create if the input is <see langword="null"/> or <c>Guid.Empty</c>.</param>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/>.</returns>
+    public static Guid GetValueOrCreateNew(this Guid? input, GuidVersion guidVersion)
+        => input.IsEmpty() ? guidVersion switch
+        {
+            GuidVersion.Version7 => Guid.CreateVersion7(),
+            _ => Guid.NewGuid()
+        } : input!.Value;
+#endif
 }
+
+#if NET9_0_OR_GREATER
+/// <summary>
+/// Specifies the version of the <see cref="Guid"/>.
+/// </summary>
+public enum GuidVersion
+{
+    /// <summary>
+    /// Represents a version 4 <see cref="Guid"/>.
+    /// </summary>
+    Version4,
+
+    /// <summary>
+    /// Represents a version 7 <see cref="Guid"/>.
+    /// </summary>
+    Version7
+}
+#endif
