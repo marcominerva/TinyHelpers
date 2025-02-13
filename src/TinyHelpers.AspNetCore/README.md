@@ -64,6 +64,15 @@ builder.Services.AddOpenApi(options =>
 });
 ```
 
+- `AddDefaultProblemDetailsResponse()`: adds a default (error) response to all endpoints in the OpenAPI definition:
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDefaultProblemDetailsResponse();
+});
+```
+
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 

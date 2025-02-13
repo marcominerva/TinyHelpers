@@ -44,8 +44,11 @@ builder.Services.AddSwaggerOperationParameters(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
+    // Add Accept-Language header to all operations.
     options.AddAcceptLanguageHeader();
-    options.AddDefaultResponse();
+
+    // Add a default (error) response to all operations.
+    options.AddDefaultProblemDetailsResponse();
 
     // Enable Swagger integration for custom parameters.
     options.AddOperationParameters();
@@ -83,6 +86,7 @@ app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
+.ProducesProblem(StatusCodes.Status400BadRequest)
 .WithOpenApi();
 
 app.Run();
