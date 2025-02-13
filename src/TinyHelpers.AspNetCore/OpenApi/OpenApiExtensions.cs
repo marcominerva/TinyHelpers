@@ -1,5 +1,6 @@
 ﻿#if NET9_0_OR_GREATER
 
+using System.ComponentModel;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using TinyHelpers.AspNetCore.OpenApi.Transformers;
@@ -20,6 +21,7 @@ public static class OpenApiExtensions
     }
 
     [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static OpenApiOptions AddDefaultResponse(this OpenApiOptions options)
         => options.AddDefaultProblemDetailsResponse();
 
