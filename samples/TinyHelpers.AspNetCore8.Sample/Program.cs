@@ -9,7 +9,7 @@ builder.Services.AddRequestLocalization("it", "en", "de");
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Add Swagger parameters that are required for all operations.
+// Add Swagger parameters that are required for all endpoints.
 builder.Services.AddSwaggerOperationParameters(options =>
 {
     options.Parameters.Add(new()
@@ -44,10 +44,10 @@ builder.Services.AddSwaggerOperationParameters(options =>
 
 builder.Services.AddSwaggerGen(options =>
 {
-    // Add Accept-Language header to all operations.
+    // Add Accept-Language header to all endpoints.
     options.AddAcceptLanguageHeader();
 
-    // Add a default (error) response to all operations.
+    // Add a default (error) response to all endpoints.
     options.AddDefaultProblemDetailsResponse();
 
     // Enable Swagger integration for custom parameters.
