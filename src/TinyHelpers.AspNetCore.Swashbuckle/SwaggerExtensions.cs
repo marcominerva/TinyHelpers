@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TinyHelpers.AspNetCore.Swagger.Filters;
@@ -17,6 +18,7 @@ public static class SwaggerExtensions
     }
 
     [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void AddDefaultResponse(this SwaggerGenOptions options)
         => options.AddDefaultProblemDetailsResponse();
 
