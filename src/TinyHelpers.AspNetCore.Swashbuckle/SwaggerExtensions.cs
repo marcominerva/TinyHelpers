@@ -1,21 +1,24 @@
-﻿using System.Net.Mime;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using TinyHelpers.AspNetCore.Swagger.Filters;
 
 namespace TinyHelpers.AspNetCore.Swagger;
 
 public static class SwaggerExtensions
 {
-    public static void AddDefaultResponse(this SwaggerGenOptions options)
-    {
-        options.OperationFilter<DefaultResponseOperationFilter>();
-        options.DocumentFilter<ProblemDetailsDocumentFilter>();
-    }
-
     public static void AddAcceptLanguageHeader(this SwaggerGenOptions options)
         => options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
+
+    public static void AddDefaultProblemDetailsResponse(this SwaggerGenOptions options)
+    {
+        options.DocumentFilter<ProblemDetailsDocumentFilter>();
+        options.OperationFilter<DefaultResponseOperationFilter>();
+    }
+
+    [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
+    public static void AddDefaultResponse(this SwaggerGenOptions options)
+        => options.AddDefaultProblemDetailsResponse();
 
     public static void AddTimeSpanTypeMapping(this SwaggerGenOptions options, bool useCurrentTimeAsExample = false)
         => options.AddTimeSpanTypeMapping(useCurrentTimeAsExample ? TimeOnly.FromDateTime(DateTime.Now).ToString("hh:mm:ss") : null);
@@ -44,24 +47,4 @@ public static class SwaggerExtensions
 
     public static void AddOperationParameters(this SwaggerGenOptions options)
         => options.OperationFilter<OpenApiParametersOperationFilter>();
-
-    internal static OpenApiResponse GetResponse(string description, string id, string contentType = MediaTypeNames.Application.Json)
-        => new()
-        {
-            Description = description,
-            Content =
-            {
-                [contentType] = new()
-                {
-                    Schema = new()
-                    {
-                        Reference = new()
-                        {
-                            Id = id,
-                            Type = ReferenceType.Schema
-                        }
-                    }
-                }
-            }
-        };
 }

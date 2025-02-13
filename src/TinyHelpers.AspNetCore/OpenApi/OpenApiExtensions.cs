@@ -2,16 +2,26 @@
 
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
+using TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
 
 public static class OpenApiExtensions
 {
-    public static void AddAcceptLanguageHeader(this OpenApiOptions options)
+    public static OpenApiOptions AddAcceptLanguageHeader(this OpenApiOptions options)
         => options.AddOperationTransformer<AcceptLanguageHeaderOperationTransformer>();
 
-    public static void AddDefaultResponse(this OpenApiOptions options)
-        => options.AddOperationTransformer<DefaultResponseOperationTransformer>();
+    public static OpenApiOptions AddDefaultProblemDetailsResponse(this OpenApiOptions options)
+    {
+        options.AddDocumentTransformer<DefaultResponseDocumentTransformer>();
+        options.AddOperationTransformer<DefaultResponseOperationTransformer>();
+
+        return options;
+    }
+
+    [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
+    public static OpenApiOptions AddDefaultResponse(this OpenApiOptions options)
+        => options.AddDefaultProblemDetailsResponse();
 
     public static IServiceCollection AddOpenApiOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
     {
@@ -26,13 +36,13 @@ public static class OpenApiExtensions
         return services;
     }
 
-    public static void AddOperationParameters(this OpenApiOptions options)
+    public static OpenApiOptions AddOperationParameters(this OpenApiOptions options)
         => options.AddOperationTransformer<OpenApiParametersOperationFilter>();
 
-    public static void RemoveServerList(this OpenApiOptions options)
+    public static OpenApiOptions RemoveServerList(this OpenApiOptions options)
         => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
 
-    public static void AddWriteNumberAsStringSupport(this OpenApiOptions options)
+    public static OpenApiOptions AddWriteNumberAsStringSupport(this OpenApiOptions options)
         => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
 }
 

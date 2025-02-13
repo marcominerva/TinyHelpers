@@ -43,8 +43,11 @@ builder.Services.AddOpenApiOperationParameters(options =>
 
 builder.Services.AddOpenApi(options =>
 {
+    // Add Accept-Language header to all operations.
     options.AddAcceptLanguageHeader();
-    options.AddDefaultResponse();
+
+    // Add a default (error) response to all operations.
+    options.AddDefaultProblemDetailsResponse();
 
     // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();

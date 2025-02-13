@@ -1,13 +1,11 @@
-﻿#if NET9_0_OR_GREATER
-
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace TinyHelpers.AspNetCore.OpenApi;
+namespace TinyHelpers.AspNetCore.Swagger.Filters;
 
-internal class DefaultResponseOperationTransformer : IOpenApiOperationTransformer
+internal class DefaultResponseOperationFilter : IOperationFilter
 {
     private static readonly OpenApiResponse defaultResponse = new()
     {
@@ -28,11 +26,6 @@ internal class DefaultResponseOperationTransformer : IOpenApiOperationTransforme
         }
     };
 
-    public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
-    {
-        operation.Responses.TryAdd("default", defaultResponse);
-        return Task.CompletedTask;
-    }
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        => operation.Responses.TryAdd("default", defaultResponse);
 }
-
-#endif

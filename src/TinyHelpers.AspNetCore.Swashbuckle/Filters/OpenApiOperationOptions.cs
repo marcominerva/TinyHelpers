@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace TinyHelpers.AspNetCore.Swagger;
+namespace TinyHelpers.AspNetCore.Swagger.Filters;
 
 public class OpenApiOperationOptions
 {
