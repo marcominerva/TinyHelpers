@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRequestLocalization("it", "en", "de");
 
-// Add OpenAPI parameters that are required for all operations.
+// Add OpenAPI parameters that are required for all endpoints.
 builder.Services.AddOpenApiOperationParameters(options =>
 {
     options.Parameters.Add(new()
@@ -43,10 +43,10 @@ builder.Services.AddOpenApiOperationParameters(options =>
 
 builder.Services.AddOpenApi(options =>
 {
-    // Add Accept-Language header to all operations.
+    // Add Accept-Language header to all endpoints.
     options.AddAcceptLanguageHeader();
 
-    // Add a default (error) response to all operations.
+    // Add a default (error) response to all endpoints.
     options.AddDefaultProblemDetailsResponse();
 
     // Enable OpenAPI integration for custom parameters.
@@ -55,7 +55,7 @@ builder.Services.AddOpenApi(options =>
     // Remove Servers list in OpenAPI (only needed in Development).
     options.RemoveServerList();
 
-    // Fix the ignored JsonNumberHandling attribute
+    // Fix the ignored JsonNumberHandling attribute.
     options.AddWriteNumberAsStringSupport();
 });
 
