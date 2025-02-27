@@ -35,7 +35,7 @@ builder.Services.AddOpenApiOperationParameters(options =>
 
     options.Parameters.Add(new()
     {
-        Name = "version",
+        Name = "Version",
         In = ParameterLocation.Query,
         Schema = OpenApiSchemaHelper.CreateSchema<int>("integer", "int32", 1)
     });
@@ -56,7 +56,10 @@ builder.Services.AddOpenApi(options =>
     options.RemoveServerList();
 
     // Fix the ignored JsonNumberHandling attribute.
-    options.AddWriteNumberAsStringSupport();
+    options.WriteNumberAsString();
+
+    // Describe all query string parameters in Camel Case.
+    options.DescribeAllParametersInCamelCase();
 });
 
 // Add default problem details and exception handler.
