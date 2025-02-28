@@ -44,8 +44,11 @@ public static class OpenApiExtensions
     public static OpenApiOptions RemoveServerList(this OpenApiOptions options)
         => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
 
-    public static OpenApiOptions AddWriteNumberAsStringSupport(this OpenApiOptions options)
+    public static OpenApiOptions WriteNumberAsString(this OpenApiOptions options)
         => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
+
+    public static OpenApiOptions DescribeAllParametersInCamelCase(this OpenApiOptions options)
+        => options.AddOperationTransformer<CamelCaseQueryParametersOperationTransformer>();
 }
 
 #endif
