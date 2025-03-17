@@ -2,6 +2,9 @@
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 
+Guid? guid = null;
+Console.WriteLine(guid.HasValue());
+
 var str = " ";
 
 var hasValue = str.HasValue();
@@ -23,7 +26,6 @@ Console.WriteLine(distinctPeople);
 var jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 jsonSerializerOptions.Converters.Add(new UtcDateTimeConverter());
 jsonSerializerOptions.Converters.Add(new StringTrimmingConverter());
-jsonSerializerOptions.Converters.Add(new StringEnumMemberConverter());
 
 var person = new Person("Donald ", "Duck ", " Duckburg  ") { DateOfBirth = DateTime.Now };
 var json = JsonSerializer.Serialize(person, jsonSerializerOptions);

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using TinyHelpers.Enums;
 
 namespace TinyHelpers.Extensions;
 
@@ -20,19 +21,28 @@ public static class GuidExtensions
     /// Checks whether the given <see cref="Guid"/> contains an actual value, i.e. a value that is different from <c>Guid.Empty</c>.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns><see langword="true"/> if the <see cref="Guid"/> has a value; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <see cref="Guid"/> has a value that is different from <c>Guid.Empty</c>; otherwise, <see langword="false"/>.</returns>
     /// <seealso cref="Guid"/>
     public static bool IsNotEmpty(this Guid input)
         => !input.IsEmpty();
 
     /// <summary>
-    /// Checks whether the given <see cref="Guid"/> is equals to <c>Guid.Empty</c>.
+    /// Checks whether the given <see cref="Guid"/> is equals to <see langword="null"/> or <c>Guid.Empty</c>.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns><see langword="true"/> if the <see cref="Guid"/> is equals to <c>Guid.Empty</c>; otherwise, <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <see cref="Guid"/> is equals to <see langword="null"/> or <c>Guid.Empty</c>; otherwise, <see langword="false"/>.</returns>
     /// <seealso cref="Guid"/>
     public static bool IsEmpty([NotNullWhen(false)] this Guid? input)
         => input.GetValueOrDefault() == Guid.Empty;
+
+    /// <summary>
+    /// Checks whether the given <see cref="Guid"/> contains an actual value, i.e. a value that is different from <see langword="null"/> and <c>Guid.Empty</c>.
+    /// </summary>
+    /// <param name="input">The <see cref="Guid"/> to test.</param>
+    /// <returns><see langword="true"/> if the <see cref="Guid"/> has a value that is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, <see langword="false"/>.</returns>
+    /// <seealso cref="Guid"/>
+    public static bool IsNotEmpty([NotNullWhen(true)] this Guid? input)
+        => !input.IsEmpty();
 
     /// <summary>
     /// Checks whether the given <see cref="Guid"/> contains an actual value, i.e. a value that is different from <c>Guid.Empty</c>.
@@ -40,7 +50,16 @@ public static class GuidExtensions
     /// <param name="input">The <see cref="Guid"/> to test.</param>
     /// <returns><see langword="true"/> if the <see cref="Guid"/> has a value; otherwise, <see langword="false"/>.</returns>
     /// <seealso cref="Guid"/>
-    public static bool IsNotEmpty([NotNullWhen(true)] this Guid? input)
+    public static bool HasValue(this Guid input)
+        => !input.IsEmpty();
+
+    /// <summary>
+    /// Checks whether the given <see cref="Guid"/> contains an actual value, i.e. a value that is different from <see langword="null"/> and <c>Guid.Empty</c>.
+    /// </summary>
+    /// <param name="input">The <see cref="Guid"/> to test.</param>
+    /// <returns><see langword="true"/> if the <see cref="Guid"/> has a value that is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, <see langword="false"/>.</returns>
+    /// <seealso cref="Guid"/>
+    public static bool HasValue([NotNullWhen(true)] this Guid? input)
         => !input.IsEmpty();
 
     /// <summary>
@@ -87,21 +106,3 @@ public static class GuidExtensions
         } : input!.Value;
 #endif
 }
-
-#if NET9_0_OR_GREATER
-/// <summary>
-/// Specifies the version of the <see cref="Guid"/>.
-/// </summary>
-public enum GuidVersion
-{
-    /// <summary>
-    /// Represents a version 4 <see cref="Guid"/>.
-    /// </summary>
-    Version4,
-
-    /// <summary>
-    /// Represents a version 7 <see cref="Guid"/>.
-    /// </summary>
-    Version7
-}
-#endif

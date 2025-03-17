@@ -23,16 +23,10 @@ public static class AssemblyExtensions
     /// <returns>
     /// A value of type <typeparamref name="TValue"/> extracted from the attribute using the delegate, or <c>default</c> if the attribute is not found.
     /// </returns>
-    public static TValue? GetAttribute<T, TValue>(
-        this Assembly assembly,
-        Func<T, TValue> value,
-        bool inherit = false)
+    public static TValue? GetAttribute<T, TValue>(this Assembly assembly, Func<T, TValue> value, bool inherit = false)
         where T : Attribute
     {
-        if (assembly?
-            .GetCustomAttributes(typeof(T), inherit)
-            .OfType<T>()
-            .FirstOrDefault() is T attribute)
+        if (assembly?.GetCustomAttributes(typeof(T), inherit).OfType<T>().FirstOrDefault() is T attribute)
         {
             return value(attribute);
         }
