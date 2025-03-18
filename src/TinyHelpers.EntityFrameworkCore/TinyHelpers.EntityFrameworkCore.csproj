@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>		
-		<PackageReference Include="TinyHelpers" Version="3.2.22" />
+		<PackageReference Include="TinyHelpers" Version="3.2.23" />
 	</ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">

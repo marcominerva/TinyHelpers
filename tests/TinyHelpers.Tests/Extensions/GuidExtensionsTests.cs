@@ -1,4 +1,5 @@
-﻿using TinyHelpers.Extensions;
+﻿using TinyHelpers.Enums;
+using TinyHelpers.Extensions;
 
 namespace TinyHelpers.Tests.Extensions;
 
