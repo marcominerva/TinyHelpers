@@ -10,9 +10,11 @@ namespace TinyHelpers.AspNetCore.Swagger.Filters;
 internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationOptions> requestLocalizationOptions) : IOperationFilter
 {
     private readonly List<IOpenApiAny>? supportedLanguages = requestLocalizationOptions.Value
-            .SupportedCultures?.Select(c => new OpenApiString(c.TwoLetterISOLanguageName))
+            .SupportedCultures?.Select(c => new OpenApiString(c.Name))
             .Cast<IOpenApiAny>()
             .ToList();
+
+    private readonly IOpenApiAny defaultLanguage = new OpenApiString(requestLocalizationOptions.Value.DefaultRequestCulture.Culture.Name);
 
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
@@ -31,7 +33,7 @@ internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationO
                     {
                         Type = "string",
                         Enum = supportedLanguages,
-                        Default = supportedLanguages.First()
+                        Default = defaultLanguage
                     }
                 });
             }
