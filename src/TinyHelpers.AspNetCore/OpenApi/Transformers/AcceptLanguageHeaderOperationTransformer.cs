@@ -12,9 +12,11 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 internal class AcceptLanguageHeaderOperationTransformer(IOptions<RequestLocalizationOptions> requestLocalizationOptions) : IOpenApiOperationTransformer
 {
     private readonly List<IOpenApiAny>? supportedLanguages = requestLocalizationOptions.Value
-            .SupportedCultures?.Select(c => new OpenApiString(c.TwoLetterISOLanguageName))
+            .SupportedCultures?.Select(c => new OpenApiString(c.Name))
             .Cast<IOpenApiAny>()
             .ToList();
+
+    private readonly IOpenApiAny defaultLanguage = new OpenApiString(requestLocalizationOptions.Value.DefaultRequestCulture.Culture.Name);
 
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
@@ -33,7 +35,7 @@ internal class AcceptLanguageHeaderOperationTransformer(IOptions<RequestLocaliza
                     {
                         Type = "string",
                         Enum = supportedLanguages,
-                        Default = supportedLanguages.First()
+                        Default = defaultLanguage
                     }
                 });
             }
