@@ -10,7 +10,8 @@ public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
 {
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
-        if (context.JsonTypeInfo.Type == typeof(TimeSpan) || context.JsonTypeInfo.Type == typeof(TimeOnly))
+        var type = context.JsonTypeInfo.Type;
+        if (type == typeof(TimeSpan) || type == typeof(TimeSpan?) || type == typeof(TimeOnly) || type == typeof(TimeOnly?))
         {
             schema.Example = new OpenApiString(DateTime.Now.ToString("HH:mm:ss"));
         }

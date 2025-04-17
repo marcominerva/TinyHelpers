@@ -62,7 +62,7 @@ builder.Services.AddOpenApi(options =>
     options.DescribeAllParametersInCamelCase();
 
     // Add time examples for TimeSpan and TimeOnly fields.
-    //options.AddTimeExamples();
+    options.AddTimeExamples();
 });
 
 // Add default problem details and exception handler.
@@ -127,4 +127,4 @@ internal record RandomNumber()
     public int Number { get; init; } = Random.Shared.Next(0, 100);
 };
 
-public record class TimeInput(TimeSpan TimeSpan, TimeOnly TimeOnly);
+public record class TimeInput(TimeSpan? TimeSpan, TimeOnly? TimeOnly);
