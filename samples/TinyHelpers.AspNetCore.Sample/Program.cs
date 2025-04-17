@@ -60,6 +60,9 @@ builder.Services.AddOpenApi(options =>
 
     // Describe all query string parameters in Camel Case.
     options.DescribeAllParametersInCamelCase();
+
+    // Add time examples for TimeSpan and TimeOnly fields.
+    //options.AddTimeExamples();
 });
 
 // Add default problem details and exception handler.
@@ -104,6 +107,11 @@ app.MapPost("/api/exception", () =>
 })
 .ProducesProblem(StatusCodes.Status400BadRequest);
 
+app.MapPost("/api/time", (TimeInput input) =>
+{
+    return TypedResults.Ok(input);
+});
+
 app.Run();
 
 public enum Environment
@@ -118,3 +126,5 @@ internal record RandomNumber()
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public int Number { get; init; } = Random.Shared.Next(0, 100);
 };
+
+public record class TimeInput(TimeSpan TimeSpan, TimeOnly TimeOnly);

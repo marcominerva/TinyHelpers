@@ -49,6 +49,9 @@ public static class OpenApiExtensions
 
     public static OpenApiOptions DescribeAllParametersInCamelCase(this OpenApiOptions options)
         => options.AddOperationTransformer<CamelCaseQueryParametersOperationTransformer>();
+
+    public static OpenApiOptions AddTimeExamples(this OpenApiOptions options)
+        => options.AddSchemaTransformer<TimeExampleSchemaTransformer>();
 }
 
 #endif
