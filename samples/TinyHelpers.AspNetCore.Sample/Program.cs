@@ -105,7 +105,7 @@ app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
-.ProducesProblem(StatusCodes.Status400BadRequest);
+.ProducesProblem(StatusCodes.Status500InternalServerError);
 
 app.MapPost("/api/time", (TimeInput input) =>
 {
