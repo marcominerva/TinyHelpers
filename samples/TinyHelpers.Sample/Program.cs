@@ -1,14 +1,25 @@
 ﻿using System.Text.Json;
+using TinyHelpers.Enums;
 using TinyHelpers.Extensions;
 using TinyHelpers.Json.Serialization;
 
-Guid? guid = null;
-Console.WriteLine(guid.HasValue());
+// New IsBetween functionality with BoundaryType enum
+var number = 5;
+Console.WriteLine($"Number: {number}");
+Console.WriteLine($"Is between 1 and 10 (Inclusive): {number.IsBetween(1, 10, BoundaryType.Inclusive)}");
+Console.WriteLine($"Is between 1 and 10 (Exclusive): {number.IsBetween(1, 10, BoundaryType.Exclusive)}");
+Console.WriteLine($"Is between 1 and 10 (LowerInclusive): {number.IsBetween(1, 10, BoundaryType.LowerInclusive)}");
+Console.WriteLine($"Is between 1 and 10 (UpperInclusive): {number.IsBetween(1, 10, BoundaryType.UpperInclusive)}");
+Console.WriteLine($"Is between 1 and 10 (LowerExclusive): {number.IsBetween(1, 10, BoundaryType.LowerExclusive)}");
+Console.WriteLine($"Is between 1 and 10 (UpperExclusive): {number.IsBetween(1, 10, BoundaryType.UpperExclusive)}");
 
-var str = " ";
-
-var hasValue = str.HasValue();
-Console.WriteLine(hasValue);
+// Test with boundary values
+var boundaryNumber = 1;
+Console.WriteLine($"\nBoundary Number: {boundaryNumber}");
+Console.WriteLine($"Is between 1 and 10 (Inclusive): {boundaryNumber.IsBetween(1, 10, BoundaryType.Inclusive)}");
+Console.WriteLine($"Is between 1 and 10 (Exclusive): {boundaryNumber.IsBetween(1, 10, BoundaryType.Exclusive)}");
+Console.WriteLine($"Is between 1 and 10 (LowerInclusive): {boundaryNumber.IsBetween(1, 10, BoundaryType.LowerInclusive)}");
+Console.WriteLine($"Is between 1 and 10 (UpperInclusive): {boundaryNumber.IsBetween(1, 10, BoundaryType.UpperInclusive)}");
 
 // Distinct By (.NET Standard 2.0)
 var people = new List<Person>
