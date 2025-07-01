@@ -20,6 +20,8 @@ public static class IComparableExtensions
     /// <see langword="true"/> if the value is between the lower and upper bounds according to the specified boundary type; otherwise, <see langword="false"/>.
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="boundaryType"/> is not a valid <see cref="BoundaryType"/> value.</exception>
+    /// <seealso cref="BoundaryType"/>
+    /// <seealso cref="IComparable{T}"/>
     public static bool IsBetween<T>(this T value, T lowerValue, T upperValue, BoundaryType boundaryType = BoundaryType.Inclusive, Comparer<T>? comparer = default) where T : struct, IComparable<T>
     {
         var valueComparer = comparer ?? Comparer<T>.Default;
@@ -46,6 +48,8 @@ public static class IComparableExtensions
     /// <see langword="true"/> if the value is between the lower and upper bounds according to the specified boundary type; otherwise, <see langword="false"/>.
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="boundaryType"/> is not a valid <see cref="BoundaryType"/> value.</exception>
+    /// <seealso cref="BoundaryType"/>
+    /// <seealso cref="IComparable{T}"/>
     public static bool IsBetween<T>(this IComparable<T> value, T lowerValue, T upperValue, BoundaryType boundaryType = BoundaryType.Inclusive)
     {
         return boundaryType switch
