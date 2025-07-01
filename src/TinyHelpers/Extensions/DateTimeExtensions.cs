@@ -11,7 +11,7 @@ public static class DateTimeExtensions
     /// Constructs a <see cref="DateOnly"/> object that is set to the date part of the specified <see cref="DateTime"/>.
     /// </summary>
     /// <param name="dateTime">The <see cref="DateTime"/> object to extract the date part from.</param>
-    /// <returns>A <see cref="TimeOnly"/> object representing date of the day specified in the <paramref name="dateTime"/> object.</returns>
+    /// <returns>A <see cref="DateOnly"/> object representing date of the day specified in the <paramref name="dateTime"/> object.</returns>
     /// <seealso cref="DateTime"/>
     /// <seealso cref="DateOnly"/>
     public static DateOnly ToDateOnly(this DateTime dateTime)

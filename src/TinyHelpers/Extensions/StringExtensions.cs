@@ -9,16 +9,16 @@ namespace TinyHelpers.Extensions;
 public static class StringExtensions
 {
     /// <summary>
-    /// Determines whether two specified <see cref="string"/> objects have the same value, performing a case-insentive comparison.
+    /// Determines whether two specified <see cref="string"/> objects have the same value, performing a case-insensitive comparison.
     /// </summary>
     /// <param name="a">The first string to compare.</param>
     /// <param name="b">The second string to compare.</param>
-    /// <returns><see langword="true"/> if the value of <paramref name="b"/> is the same as the value of <paramref name="b"/>, regardless the casing; otherwise, <see langword="false"/>. If both <paramref name="a"/> and <paramref name="b"/> are <see langword="null"/>, the method returns <see langword="true"/>.</returns>
+    /// <returns><see langword="true"/> if the value of <paramref name="a"/> is the same as the value of <paramref name="b"/>, regardless the casing; otherwise, <see langword="false"/>. If both <paramref name="a"/> and <paramref name="b"/> are <see langword="null"/>, the method returns <see langword="true"/>.</returns>
     public static bool EqualsIgnoreCase(this string? a, string? b)
         => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
-    /// Determines whether the beginning of this string instance matches the specified string, performing a case-insentive comparison.
+    /// Determines whether the beginning of this string instance matches the specified string, performing a case-insensitive comparison.
     /// </summary>
     /// <param name="input">The string to check.</param>
     /// <param name="value">The string to compare.</param>
@@ -27,7 +27,7 @@ public static class StringExtensions
         => input?.StartsWith(value, StringComparison.OrdinalIgnoreCase) ?? false;
 
     /// <summary>
-    /// Determines whether the end of this string instance matches the specified string, performing a case-insentive comparison.
+    /// Determines whether the end of this string instance matches the specified string, performing a case-insensitive comparison.
     /// </summary>
     /// <param name="input">The string to check.</param>
     /// <param name="value">The string to compare.</param>
@@ -36,7 +36,7 @@ public static class StringExtensions
         => input?.EndsWith(value, StringComparison.OrdinalIgnoreCase) ?? false;
 
     /// <summary>
-    /// Determines whether this string instance contains the specified string, performing a case-insentive comparison.
+    /// Determines whether this string instance contains the specified string, performing a case-insensitive comparison.
     /// </summary>
     /// <param name="input">The string to check.</param>
     /// <param name="value">The string to compare.</param>
@@ -48,7 +48,7 @@ public static class StringExtensions
     /// Returns a new string in which all occurrences of a specified string in the current instance are replaced with another specified string, ignoring the letter casing.
     /// </summary>
     /// <param name="input">The original string.</param>
-    /// <param name="pattern">The string to be replaced, case insentive.</param>
+    /// <param name="pattern">The string to be replaced, case insensitive.</param>
     /// <param name="replacement">The string to be used to replace all occurrences of <paramref name="pattern"/>.</param>
     /// <returns>A string that is equivalent to the <paramref name="input"/> string except that all instances of <paramref name="pattern"/> are replaced with <paramref name="replacement"/>.</returns>
     public static string ReplaceIgnoreCase(this string input, string pattern, string replacement)
