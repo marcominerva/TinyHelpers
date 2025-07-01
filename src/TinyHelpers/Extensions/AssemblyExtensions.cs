@@ -18,10 +18,10 @@ public static class AssemblyExtensions
     /// </param>
     /// <param name="inherit">
     /// A boolean value indicating whether to search the inheritance chain to find the attributes.
-    /// Defaults to <c>false</c>.
+    /// Defaults to <see langword="false"/>.
     /// </param>
     /// <returns>
-    /// A value of type <typeparamref name="TValue"/> extracted from the attribute using the delegate, or <c>default</c> if the attribute is not found.
+    /// A value of type <typeparamref name="TValue"/> extracted from the attribute using the delegate, or <see langword="default"/> if the attribute is not found.
     /// </returns>
     public static TValue? GetAttribute<T, TValue>(this Assembly assembly, Func<T, TValue> value, bool inherit = false)
         where T : Attribute
