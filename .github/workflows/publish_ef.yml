@@ -1,5 +1,9 @@
 name: Publish Tiny Helpers for Entity Framework Core on NuGet
- 
+
+permissions:
+  contents: write
+  packages: write
+
 on:
   push:
     branches: [ master ]
@@ -20,12 +24,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
         
     - name: Setup .NET SDK ${{ env.NET_VERSION }}
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.NET_VERSION }}
         dotnet-quality: 'ga'
