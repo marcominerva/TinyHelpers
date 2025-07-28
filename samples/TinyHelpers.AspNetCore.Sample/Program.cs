@@ -6,6 +6,11 @@ using TinyHelpers.AspNetCore.OpenApi;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 builder.Services.AddRequestLocalization("it", "en", "de");
 
 // Add OpenAPI parameters that are required for all endpoints.
@@ -61,6 +66,10 @@ builder.Services.AddOpenApi(options =>
     // Describe all query string parameters in Camel Case.
     options.DescribeAllParametersInCamelCase();
 
+    // Correctly define enum serialization to use string values in OpenAPI.
+    // Use this if you're using the JsonStringEnumConverter converter.
+    options.UseEnumAsString();
+
     // Add time examples for TimeSpan and TimeOnly fields.
     options.AddTimeExamples();
 });
@@ -112,6 +121,8 @@ app.MapPost("/api/time", (TimeInput input) =>
     return TypedResults.Ok(input);
 });
 
+app.MapGet("/api/status", () => new StatusResult { Status = Status.Closed });
+
 app.Run();
 
 public enum Environment
@@ -128,3 +139,18 @@ internal record RandomNumber()
 };
 
 public record class TimeInput(TimeSpan? TimeSpan, TimeOnly? TimeOnly);
+
+public class StatusResult
+{
+    public Status Status { get; set; }
+
+    public Status? NullableStatus { get; set; }
+}
+
+public enum Status
+{
+    Open,
+    Closed,
+    [JsonStringEnumMemberName("Cancelled")]
+    Removed
+}
