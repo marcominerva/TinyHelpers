@@ -1,8 +1,9 @@
 name: Publish Tiny Helpers for ASP.NET Core on NuGet
 
 permissions:
-  contents: write
+  contents: read
   packages: write
+  actions: write
 
 on:
   push:
