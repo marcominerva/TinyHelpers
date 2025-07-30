@@ -1,7 +1,7 @@
 # Tiny Helpers for Swashbuckle ASP.NET Core
 
 [![Lint Code Base](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml)
-[![CodeQL](https://github.com/marcominerva/TinyHelpers/actions/workflows/codeql.yml/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/codeql.yml)
+[![CodeQL](https://github.com/marcominerva/TinyHelpers/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/github-code-scanning/codeql)
 [![NuGet](https://img.shields.io/nuget/v/TinyHelpers.AspNetCore.Swashbuckle.svg?style=flat-square)](https://www.nuget.org/packages/TinyHelpers.AspNetCore.Swashbuckle)
 [![Nuget](https://img.shields.io/nuget/dt/TinyHelpers.AspNetCore.Swashbuckle)](https://www.nuget.org/packages/TinyHelpers.AspNetCore.Swashbuckle)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcominerva/TinyHelpers/blob/master/LICENSE)
