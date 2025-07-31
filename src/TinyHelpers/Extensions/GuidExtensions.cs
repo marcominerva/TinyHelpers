@@ -116,14 +116,6 @@ public static class GuidExtensions
             _ => Guid.NewGuid()
         } : input!.Value;
 
-    /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, returns the specified default value.
-    /// </summary>
-    /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <param name="defaultValue">The default <see cref="Guid"/> to return if the input is <c>Guid.Empty</c>.</param>
-    /// <param name="guidVersion">The version parameter for future extensibility (currently unused).</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, the specified default value.</returns>
-    public static Guid GetValueOrDefault(this Guid input, Guid defaultValue, GuidVersion guidVersion)
-        => input.IsEmpty() ? defaultValue : input;
+
 #endif
 }
