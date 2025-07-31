@@ -242,42 +242,42 @@ public class GuidExtensionsTests
     }
 
     [Fact]
-    public void NullableGuidIsEmpty_GetValueOrDefault_Should_Return_DefaultValue()
+    public void GuidIsEmpty_GetValueOrDefault_WithGuidVersion_Should_Return_DefaultValue()
     {
         // Arrange
-        Guid? input = Guid.Empty;
+        var input = Guid.Empty;
         var defaultValue = Guid.NewGuid();
 
         // Act
-        var value = input.GetValueOrDefault(defaultValue);
+        var value = input.GetValueOrDefault(defaultValue, GuidVersion.Version7);
 
         // Assert
         Assert.Equal(defaultValue, value);
     }
 
     [Fact]
-    public void NullableGuidIsNull_GetValueOrDefault_Should_Return_DefaultValue()
+    public void GuidIsEmpty_GetValueOrDefault_WithGuidVersionAndEmptyDefault_Should_Return_NewGuidVersion7()
     {
         // Arrange
-        Guid? input = null;
-        var defaultValue = Guid.NewGuid();
+        var input = Guid.Empty;
+        var defaultValue = Guid.Empty;
 
         // Act
-        var value = input.GetValueOrDefault(defaultValue);
+        var value = input.GetValueOrDefault(defaultValue, GuidVersion.Version7);
 
         // Assert
-        Assert.Equal(defaultValue, value);
+        Assert.Equal(7, value.Version);
     }
 
     [Fact]
-    public void NullableGuidIsNotEmpty_GetValueOrDefault_Should_Return_TheSameGuid()
+    public void GuidIsNotEmpty_GetValueOrDefault_WithGuidVersion_Should_Return_TheSameGuid()
     {
         // Arrange
-        Guid? input = Guid.NewGuid();
+        var input = Guid.NewGuid();
         var defaultValue = Guid.NewGuid();
 
         // Act
-        var value = input.GetValueOrDefault(defaultValue);
+        var value = input.GetValueOrDefault(defaultValue, GuidVersion.Version7);
 
         // Assert
         Assert.Equal(input, value);

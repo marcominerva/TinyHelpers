@@ -87,14 +87,7 @@ public static class GuidExtensions
     public static Guid GetValueOrCreateNew(this Guid? input)
         => input.IsEmpty() ? Guid.NewGuid() : input!.Value;
 
-    /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, returns the specified default value.
-    /// </summary>
-    /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <param name="defaultValue">The default <see cref="Guid"/> to return if the input is <see langword="null"/> or <c>Guid.Empty</c>.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, the specified default value.</returns>
-    public static Guid GetValueOrDefault(this Guid? input, Guid defaultValue)
-        => input.IsEmpty() ? defaultValue : input!.Value;
+
 
 #if NET9_0_OR_GREATER
     /// <summary>
@@ -122,5 +115,19 @@ public static class GuidExtensions
             GuidVersion.Version7 => Guid.CreateVersion7(),
             _ => Guid.NewGuid()
         } : input!.Value;
+
+    /// <summary>
+    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, returns the specified default value.
+    /// </summary>
+    /// <param name="input">The <see cref="Guid"/> to test.</param>
+    /// <param name="defaultValue">The default <see cref="Guid"/> to return if the input is <c>Guid.Empty</c>.</param>
+    /// <param name="guidVersion">The version of the <see cref="Guid"/> to create if the default value is also <c>Guid.Empty</c>.</param>
+    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, the specified default value or a new <see cref="Guid"/> if the default value is also <c>Guid.Empty</c>.</returns>
+    public static Guid GetValueOrDefault(this Guid input, Guid defaultValue, GuidVersion guidVersion)
+        => input.IsEmpty() ? (defaultValue.IsEmpty() ? guidVersion switch
+        {
+            GuidVersion.Version7 => Guid.CreateVersion7(),
+            _ => Guid.NewGuid()
+        } : defaultValue) : input;
 #endif
 }
