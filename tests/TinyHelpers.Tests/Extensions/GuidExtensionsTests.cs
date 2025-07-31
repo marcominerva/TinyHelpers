@@ -256,7 +256,7 @@ public class GuidExtensionsTests
     }
 
     [Fact]
-    public void GuidIsEmpty_GetValueOrDefault_WithGuidVersionAndEmptyDefault_Should_Return_NewGuidVersion7()
+    public void GuidIsEmpty_GetValueOrDefault_WithGuidVersionAndEmptyDefault_Should_Return_DefaultValue()
     {
         // Arrange
         var input = Guid.Empty;
@@ -266,7 +266,7 @@ public class GuidExtensionsTests
         var value = input.GetValueOrDefault(defaultValue, GuidVersion.Version7);
 
         // Assert
-        Assert.Equal(7, value.Version);
+        Assert.Equal(defaultValue, value);
     }
 
     [Fact]
