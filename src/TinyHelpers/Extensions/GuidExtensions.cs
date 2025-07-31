@@ -87,8 +87,6 @@ public static class GuidExtensions
     public static Guid GetValueOrCreateNew(this Guid? input)
         => input.IsEmpty() ? Guid.NewGuid() : input!.Value;
 
-
-
 #if NET9_0_OR_GREATER
     /// <summary>
     /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
@@ -115,7 +113,6 @@ public static class GuidExtensions
             GuidVersion.Version7 => Guid.CreateVersion7(),
             _ => Guid.NewGuid()
         } : input!.Value;
-
 
 #endif
 }
