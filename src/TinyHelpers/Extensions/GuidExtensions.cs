@@ -113,6 +113,5 @@ public static class GuidExtensions
             GuidVersion.Version7 => Guid.CreateVersion7(),
             _ => Guid.NewGuid()
         } : input!.Value;
-
 #endif
 }
