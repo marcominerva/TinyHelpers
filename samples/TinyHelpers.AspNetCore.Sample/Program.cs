@@ -66,9 +66,8 @@ builder.Services.AddOpenApi(options =>
     // Describe all query string parameters in Camel Case.
     options.DescribeAllParametersInCamelCase();
 
-    // Correctly define enum serialization to use string values in OpenAPI.
-    // Use this if you're using the JsonStringEnumConverter converter.
-    options.UseEnumAsString();
+    // Correctly define enum serialization.
+    options.EnableEnumSupport();
 
     // Add time examples for TimeSpan and TimeOnly fields.
     options.AddTimeExamples();
@@ -86,15 +85,12 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+app.MapOpenApi();
 
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/openapi/v1.json", builder.Environment.ApplicationName);
-    });
-}
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/openapi/v1.json", builder.Environment.ApplicationName);
+});
 
 app.UseRouting();
 app.UseRequestLocalization();

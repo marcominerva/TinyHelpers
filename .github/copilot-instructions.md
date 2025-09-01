@@ -24,7 +24,7 @@
 - Use `nameof` instead of string literals when referring to member names.
 - Prefer `?.` if applicable (e.g. `scope?.Dispose()`).
 - Use `ObjectDisposedException.ThrowIf` where applicable.
-- Use `ArgumentNullException.ThrowIfNull` to validate input paramters.
+- Use `ArgumentNullException.ThrowIfNull` to validate input parameters.
 - If you add new code files, ensure they are listed in the csproj file (if other files in that folder are listed there) so they build.
 
 ### Nullable Reference Types

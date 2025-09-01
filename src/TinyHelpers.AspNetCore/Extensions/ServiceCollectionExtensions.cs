@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.WebUtilities;
@@ -54,25 +53,22 @@ public static class ServiceCollectionExtensions
     {
         services.AddProblemDetails(options =>
         {
-            options.CustomizeProblemDetails = context =>
-            {
-                var statusCode = context.ProblemDetails.Status.GetValueOrDefault(StatusCodes.Status500InternalServerError);
-
-                context.ProblemDetails.Type ??= $"https://httpstatuses.io/{statusCode}";
-                context.ProblemDetails.Title ??= ReasonPhrases.GetReasonPhrase(statusCode);
-                context.ProblemDetails.Instance ??= context.HttpContext.Request.Path;
-
-                if (context.ProblemDetails.Detail is null)
-                {
-                    var feature = context.HttpContext.Features.Get<IExceptionHandlerFeature>();
-                    context.ProblemDetails.Detail = feature?.Error.Message;
-                }
-
-                context.ProblemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id ?? context.HttpContext.TraceIdentifier);
-            };
+            options.CustomizeProblemDetails = context => context.UseDefaults();
         });
 
         return services;
+    }
+
+    public static void UseDefaults(this ProblemDetailsContext context)
+    {
+        var statusCode = context.ProblemDetails.Status.GetValueOrDefault(StatusCodes.Status500InternalServerError);
+
+        context.ProblemDetails.Type ??= $"https://httpstatuses.io/{statusCode}";
+        context.ProblemDetails.Title ??= ReasonPhrases.GetReasonPhrase(statusCode);
+        context.ProblemDetails.Instance ??= context.HttpContext.Request.Path;
+        context.ProblemDetails.Detail ??= context.Exception?.Message;
+
+        context.ProblemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id ?? context.HttpContext.TraceIdentifier);
     }
 
     public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
