@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 
 namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
-internal class EnumAsStringTransformer : IOpenApiSchemaTransformer
+internal class EnumSchemaTransformer : IOpenApiSchemaTransformer
 {
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
@@ -22,16 +22,29 @@ internal class EnumAsStringTransformer : IOpenApiSchemaTransformer
 
         if (type.IsEnum)
         {
-            schema.Type = "string";
-
-            // Remove the null value from enum list if the type was nullable.
-            if (isNullable && schema.Enum is not null)
+            if (schema.Type == "integer")
             {
-                var nullValue = schema.Enum.FirstOrDefault(e => e is null || (e is OpenApiString str && str.Value is null));
-                if (nullValue is not null)
+                // Gets integer enum values.
+                var values = Enum.GetValues(type);
+                var enumList = new List<IOpenApiAny>(values.Length + (isNullable ? 1 : 0));
+
+                foreach (var value in values)
                 {
-                    schema.Enum.Remove(nullValue);
+                    enumList.Add(new OpenApiInteger((int)value));
                 }
+
+                if (isNullable)
+                {
+                    // If the enum is nullable, add a null value to the enum list.
+                    enumList.Add(new OpenApiNull());
+                }
+
+                schema.Enum = enumList;
+            }
+            else
+            {
+                // If the enum is not an integer type, we treat it as a string.
+                schema.Type = "string";
             }
         }
 

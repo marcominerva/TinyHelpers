@@ -53,8 +53,8 @@ public static class OpenApiExtensions
     public static OpenApiOptions AddTimeExamples(this OpenApiOptions options)
         => options.AddSchemaTransformer<TimeExampleSchemaTransformer>();
 
-    public static OpenApiOptions UseEnumAsString(this OpenApiOptions options)
-        => options.AddSchemaTransformer<EnumAsStringTransformer>();
+    public static OpenApiOptions EnableEnumSupport(this OpenApiOptions options)
+        => options.AddSchemaTransformer<EnumSchemaTransformer>();
 }
 
 #endif
