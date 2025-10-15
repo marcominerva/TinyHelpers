@@ -59,7 +59,7 @@
 ### Implementation Guidelines
 
 - Write code that is secure by default. Avoid exposing potentially private or sensitive data.
-- Make code NativeAOT compatible when possible. This means avoiding dynamic code generation, reflection, and other features that are not compatible. with NativeAOT. If not possible, mark the code with an appropriate annotation or throw an exception.
+- Make code NativeAOT compatible when possible. This means avoiding dynamic code generation, reflection, and other features that are not compatible with NativeAOT. If not possible, mark the code with an appropriate annotation or throw an exception.
 
 ## Documentation
 
