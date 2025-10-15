@@ -82,6 +82,7 @@ csharp_style_prefer_local_over_anonymous_function = true:silent
 csharp_style_prefer_extended_property_pattern = true:suggestion
 csharp_style_implicit_object_creation_when_type_is_apparent = true:silent
 csharp_style_prefer_tuple_swap = true:silent
+csharp_style_prefer_simple_property_accessors = true:suggestion
 
 # Field preferences
 dotnet_style_readonly_field = true:suggestion
@@ -300,3 +301,6 @@ dotnet_diagnostic.IDE0072.severity = none
 
 # IDE0305: Simplify collection initialization
 dotnet_diagnostic.IDE0305.severity = none
+
+# CA1873: Avoid potentially expensive logging
+dotnet_diagnostic.CA1873.severity = none
