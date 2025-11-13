@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.Swagger;
 
@@ -31,14 +31,14 @@ builder.Services.AddSwaggerOperationParameters(options =>
     {
         Name = "code",
         In = ParameterLocation.Query,
-        Schema = OpenApiSchemaHelper.CreateSchema<Guid>("string", "uuid")
+        Schema = OpenApiSchemaHelper.CreateSchema<Guid>(JsonSchemaType.String, "uuid")
     });
 
     options.Parameters.Add(new()
     {
         Name = "version",
         In = ParameterLocation.Query,
-        Schema = OpenApiSchemaHelper.CreateSchema<int>("integer", "int32", 1)
+        Schema = OpenApiSchemaHelper.CreateSchema<int>(JsonSchemaType.Integer, "int32", 1)
     });
 });
 
@@ -66,7 +66,11 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-app.UseSwagger();
+app.UseSwagger(options =>
+{
+    options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+});
+
 app.UseSwaggerUI();
 
 app.UseRouting();
@@ -76,15 +80,13 @@ app.MapGet("/api/sample", () =>
 {
     var language = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
     return TypedResults.NoContent();
-})
-.WithOpenApi();
+});
 
 app.MapPost("/api/exception", () =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })
-.ProducesProblem(StatusCodes.Status400BadRequest)
-.WithOpenApi();
+.ProducesProblem(StatusCodes.Status400BadRequest);
 
 app.Run();
 

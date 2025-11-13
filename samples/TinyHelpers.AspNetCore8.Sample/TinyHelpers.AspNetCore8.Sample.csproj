@@ -1,19 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="[8.0.21,9.0.0)" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore.Swashbuckle\TinyHelpers.AspNetCore.Swashbuckle.csproj" />
-    <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore\TinyHelpers.AspNetCore.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore.Swashbuckle\TinyHelpers.AspNetCore.Swashbuckle.csproj" />
+        <ProjectReference Include="..\..\src\TinyHelpers.AspNetCore\TinyHelpers.AspNetCore.csproj" />
+    </ItemGroup>
 
 </Project>

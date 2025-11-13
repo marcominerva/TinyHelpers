@@ -1,5 +1,5 @@
-﻿using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+﻿using System.Text.Json.Nodes;
+using Microsoft.OpenApi;
 
 namespace TinyHelpers.AspNetCore.Swagger;
 
@@ -9,14 +9,14 @@ public static class OpenApiSchemaHelper
     {
         var schema = new OpenApiSchema
         {
-            Type = "string",
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Type = JsonSchemaType.String,
+            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
         };
 
         return schema;
     }
 
-    public static OpenApiSchema CreateSchema<TValue>(string type, string? format = null)
+    public static OpenApiSchema CreateSchema<TValue>(JsonSchemaType type, string? format = null)
     {
         var schema = new OpenApiSchema
         {
@@ -27,13 +27,13 @@ public static class OpenApiSchemaHelper
         return schema;
     }
 
-    public static OpenApiSchema CreateSchema<TValue>(string type, string? format, TValue? defaultValue = null) where TValue : struct
+    public static OpenApiSchema CreateSchema<TValue>(JsonSchemaType type, string? format, TValue? defaultValue = null) where TValue : struct
     {
         var schema = new OpenApiSchema
         {
             Type = type,
             Format = format,
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
         };
 
         return schema;
@@ -43,9 +43,9 @@ public static class OpenApiSchemaHelper
     {
         var schema = new OpenApiSchema
         {
-            Type = "string",
-            Enum = values.Select(v => new OpenApiString(v)).Cast<IOpenApiAny>().ToList(),
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Type = JsonSchemaType.String,
+            Enum = values.Select(v => JsonValue.Create(v)).Cast<JsonNode>().ToList(),
+            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
         };
 
         return schema;
@@ -55,9 +55,9 @@ public static class OpenApiSchemaHelper
     {
         var schema = new OpenApiSchema
         {
-            Type = "string",
-            Enum = Enum.GetValues<TEnum>().Select(e => new OpenApiString(e.ToString())).Cast<IOpenApiAny>().ToList(),
-            Default = defaultValue.HasValue ? new OpenApiString(defaultValue.ToString()) : null
+            Type = JsonSchemaType.String,
+            Enum = Enum.GetValues<TEnum>().Select(e => JsonValue.Create(e.ToString())).Cast<JsonNode>().ToList(),
+            Default = defaultValue.HasValue ? JsonValue.Create(defaultValue.ToString()) : null
         };
 
         return schema;

@@ -9,6 +9,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/copilot-instructions.md" />
+    <File Path="README.md" />
     <File Path="src/Directory.Build.props" />
   </Folder>
   <Folder Name="/Tests/">
