@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '9.x'
+  NET_VERSION: '10.x'
   PROJECT_NAME: src/TinyHelpers
   PROJECT_FILE: TinyHelpers.csproj
   RELEASE_NAME: TinyHelpers

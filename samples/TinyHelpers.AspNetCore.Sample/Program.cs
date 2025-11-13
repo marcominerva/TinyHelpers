@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.OpenApi;
 
@@ -35,14 +35,14 @@ builder.Services.AddOpenApiOperationParameters(options =>
     {
         Name = "code",
         In = ParameterLocation.Query,
-        Schema = OpenApiSchemaHelper.CreateSchema<Guid>("string", "uuid")
+        Schema = OpenApiSchemaHelper.CreateSchema<Guid>(JsonSchemaType.String, "uuid")
     });
 
     options.Parameters.Add(new()
     {
         Name = "Version",
         In = ParameterLocation.Query,
-        Schema = OpenApiSchemaHelper.CreateSchema<int>("integer", "int32", 1)
+        Schema = OpenApiSchemaHelper.CreateSchema<int>(JsonSchemaType.Integer, "int32", 1)
     });
 });
 
@@ -57,17 +57,14 @@ builder.Services.AddOpenApi(options =>
     // Enable OpenAPI integration for custom parameters.
     options.AddOperationParameters();
 
-    // Remove Servers list in OpenAPI (only needed in Development).
+    // Remove Servers list in OpenAPI.
     options.RemoveServerList();
 
-    // Fix the ignored JsonNumberHandling attribute.
+    // Respect the ignored JsonNumberHandling attribute.
     options.WriteNumberAsString();
 
     // Describe all query string parameters in Camel Case.
     options.DescribeAllParametersInCamelCase();
-
-    // Correctly define enum serialization.
-    options.EnableEnumSupport();
 
     // Add time examples for TimeSpan and TimeOnly fields.
     options.AddTimeExamples();
@@ -139,8 +136,6 @@ public record class TimeInput(TimeSpan? TimeSpan, TimeOnly? TimeOnly);
 public class StatusResult
 {
     public Status Status { get; set; }
-
-    public Status? NullableStatus { get; set; }
 }
 
 public enum Status

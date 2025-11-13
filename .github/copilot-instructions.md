@@ -1,7 +1,7 @@
 ## General
 
 - Make only high confidence suggestions when reviewing code changes.
-- Always use the latest version C#, currently C# 13 features.
+- Always use the latest version C#, currently C# 14 features.
 - Write code that is clean, maintainable, and easy to understand.
 - Only add comments rarely to explain why a non-intuitive solution was used. The code should be self-explanatory otherwise.
 - Don't add the UTF-8 BOM to files unless they have non-ASCII characters.

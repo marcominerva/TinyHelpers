@@ -1,6 +1,5 @@
 ﻿#if NET9_0_OR_GREATER
 
-using System.ComponentModel;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using TinyHelpers.AspNetCore.OpenApi.Transformers;
@@ -14,16 +13,13 @@ public static class OpenApiExtensions
 
     public static OpenApiOptions AddDefaultProblemDetailsResponse(this OpenApiOptions options)
     {
+#if NET9_0
         options.AddDocumentTransformer<DefaultResponseDocumentTransformer>();
+#endif
         options.AddOperationTransformer<DefaultResponseOperationTransformer>();
 
         return options;
     }
-
-    [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static OpenApiOptions AddDefaultResponse(this OpenApiOptions options)
-        => options.AddDefaultProblemDetailsResponse();
 
     public static IServiceCollection AddOpenApiOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
     {
@@ -53,8 +49,11 @@ public static class OpenApiExtensions
     public static OpenApiOptions AddTimeExamples(this OpenApiOptions options)
         => options.AddSchemaTransformer<TimeExampleSchemaTransformer>();
 
+#if NET9_0
     public static OpenApiOptions EnableEnumSupport(this OpenApiOptions options)
         => options.AddSchemaTransformer<EnumSchemaTransformer>();
+#endif
+
 }
 
 #endif

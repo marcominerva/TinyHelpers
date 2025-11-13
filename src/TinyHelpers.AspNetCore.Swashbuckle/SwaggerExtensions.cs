@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Text.Json.Nodes;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TinyHelpers.AspNetCore.Swagger.Filters;
 
@@ -12,25 +12,17 @@ public static class SwaggerExtensions
         => options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 
     public static void AddDefaultProblemDetailsResponse(this SwaggerGenOptions options)
-    {
-        options.DocumentFilter<ProblemDetailsDocumentFilter>();
-        options.OperationFilter<DefaultResponseOperationFilter>();
-    }
-
-    [Obsolete("Use AddDefaultProblemDetailsResponse instead.")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void AddDefaultResponse(this SwaggerGenOptions options)
-        => options.AddDefaultProblemDetailsResponse();
+        => options.OperationFilter<DefaultResponseOperationFilter>();
 
     public static void AddTimeSpanTypeMapping(this SwaggerGenOptions options, bool useCurrentTimeAsExample = false)
         => options.AddTimeSpanTypeMapping(useCurrentTimeAsExample ? TimeOnly.FromDateTime(DateTime.Now).ToString("hh:mm:ss") : null);
 
     public static void AddTimeSpanTypeMapping(this SwaggerGenOptions options, string? example)
     {
-        options.MapType<TimeSpan>(() => new()
+        options.MapType<TimeSpan>(() => new OpenApiSchema()
         {
-            Type = "string",
-            Example = example is not null ? new OpenApiString(example) : null
+            Type = JsonSchemaType.String,
+            Example = example is not null ? JsonValue.Create(example) : null
         });
     }
 

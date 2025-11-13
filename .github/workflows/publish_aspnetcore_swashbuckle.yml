@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '9.x'
+  NET_VERSION: '10.x'
   PROJECT_NAME: src/TinyHelpers.AspNetCore.Swashbuckle
   PROJECT_FILE: TinyHelpers.AspNetCore.Swashbuckle.csproj
   TAG_NAME: aspnetcore-swashbuckle

@@ -1,31 +1,28 @@
 ﻿using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TinyHelpers.AspNetCore.Swagger.Filters;
 
 internal class DefaultResponseOperationFilter : IOperationFilter
 {
-    private static readonly OpenApiResponse defaultResponse = new()
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        Description = "Error",
-        Content = new Dictionary<string, OpenApiMediaType>
+        // Ensure ProblemDetails schema is generated.
+        context.SchemaGenerator.GenerateSchema(typeof(ProblemDetails), context.SchemaRepository);
+
+        operation.Responses ??= [];
+        operation.Responses.TryAdd("default", new OpenApiResponse
         {
-            [MediaTypeNames.Application.ProblemJson] = new()
+            Description = "Error",
+            Content = new Dictionary<string, OpenApiMediaType>
             {
-                Schema = new OpenApiSchema()
+                [MediaTypeNames.Application.ProblemJson] = new()
                 {
-                    Reference = new OpenApiReference()
-                    {
-                        Type = ReferenceType.Schema,
-                        Id = nameof(ProblemDetails)
-                    }
+                    Schema = new OpenApiSchemaReference(nameof(ProblemDetails))
                 }
             }
-        }
-    };
-
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        => operation.Responses.TryAdd("default", defaultResponse);
+        });
+    }
 }

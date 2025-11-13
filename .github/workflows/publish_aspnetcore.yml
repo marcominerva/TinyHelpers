@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  NET_VERSION: '9.x'
+  NET_VERSION: '10.x'
   PROJECT_NAME: src/TinyHelpers.AspNetCore 
   PROJECT_FILE: TinyHelpers.AspNetCore.csproj
   TAG_NAME: aspnetcore
