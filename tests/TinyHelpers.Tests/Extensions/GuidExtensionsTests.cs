@@ -212,4 +212,34 @@ public class GuidExtensionsTests
         // Assert
         Assert.Equal(input, value);
     }
+
+    [Fact]
+    public void GuidIsEmpty_GetValueOrDefault_Should_Return_DefaultValue()
+    {
+        // Arrange
+        var input = Guid.Empty;
+        var defaultValue = Guid.NewGuid();
+
+        // Act
+        var value = input.GetValueOrDefault(defaultValue);
+
+        // Assert
+        Assert.Equal(defaultValue, value);
+    }
+
+    [Fact]
+    public void GuidIsNotEmpty_GetValueOrDefault_Should_Return_TheSameGuid()
+    {
+        // Arrange
+        var input = Guid.NewGuid();
+        var defaultValue = Guid.NewGuid();
+
+        // Act
+        var value = input.GetValueOrDefault(defaultValue);
+
+        // Assert
+        Assert.Equal(input, value);
+    }
+
+
 }
