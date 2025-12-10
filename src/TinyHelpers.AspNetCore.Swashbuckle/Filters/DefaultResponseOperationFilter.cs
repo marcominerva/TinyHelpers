@@ -20,7 +20,7 @@ internal class DefaultResponseOperationFilter : IOperationFilter
             {
                 [MediaTypeNames.Application.ProblemJson] = new()
                 {
-                    Schema = new OpenApiSchemaReference(nameof(ProblemDetails))
+                    Schema = new OpenApiSchemaReference(nameof(ProblemDetails), context.Document)
                 }
             }
         });
