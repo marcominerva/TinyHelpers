@@ -73,6 +73,17 @@ builder.Services.AddOpenApi(options =>
 });
 ```
 
+- `UseFullTypeNameSchemaIds()`: configures OpenAPI to use the full type name (including namespace) for schema reference IDs, helping to avoid naming collisions when multiple types have the same name:
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    options.UseFullTypeNameSchemaIds();
+});
+```
+
+This is particularly useful when you have multiple types with the same name in different namespaces. For example, if you have both `MyApp.Models.User` and `MyApp.DTOs.User`, the default behavior would create a single schema named "User", potentially causing conflicts. With `UseFullTypeNameSchemaIds()`, the schemas will be named "MyApp.Models.User" and "MyApp.DTOs.User" respectively.
+
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
