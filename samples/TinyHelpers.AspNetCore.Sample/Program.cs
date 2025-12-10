@@ -68,6 +68,10 @@ builder.Services.AddOpenApi(options =>
 
     // Add time examples for TimeSpan and TimeOnly fields.
     options.AddTimeExamples();
+
+    // Uncomment to use full type names (including namespace) for schema IDs.
+    // This helps avoid naming collisions when multiple types have the same name.
+    // options.UseFullTypeNameSchemaIds();
 });
 
 // Add default problem details and exception handler.
