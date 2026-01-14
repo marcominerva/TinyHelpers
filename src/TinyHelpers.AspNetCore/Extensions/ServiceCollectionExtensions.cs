@@ -13,62 +13,59 @@ namespace TinyHelpers.AspNetCore.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    extension(IServiceCollection services)
+    public static T? ConfigureAndGet<T>(this IServiceCollection services, IConfiguration configuration, string sectionName) where T : class
     {
-        public T? ConfigureAndGet<T>(IConfiguration configuration, string sectionName) where T : class
+        var section = configuration.GetSection(sectionName);
+        var settings = section.Get<T>();
+        services.Configure<T>(section);
+
+        return settings;
+    }
+
+    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
+        => services.AddRequestLocalization(cultures, null);
+
+    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
+    {
+        var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
+
+        services.Configure<RequestLocalizationOptions>(options =>
         {
-            var section = configuration.GetSection(sectionName);
-            var settings = section.Get<T>();
-            services.Configure<T>(section);
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
+            providersConfiguration?.Invoke(options.RequestCultureProviders);
+        });
 
-            return settings;
-        }
+        return services;
+    }
 
-        public IServiceCollection AddRequestLocalization(params string[] cultures)
-            => services.AddRequestLocalization(cultures, null);
+    public static IServiceCollection Replace<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.Replace(new ServiceDescriptor(serviceType: typeof(TService), implementationType: typeof(TImplementation), lifetime));
 
-        public IServiceCollection AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
+        return services;
+    }
+
+    public static IServiceCollection AddDefaultProblemDetails(this IServiceCollection services)
+    {
+        services.AddProblemDetails(options =>
         {
-            var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
+            options.CustomizeProblemDetails = context => context.UseDefaults();
+        });
 
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-                options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
-                providersConfiguration?.Invoke(options.RequestCultureProviders);
-            });
+        return services;
+    }
 
-            return services;
-        }
+    public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
+    {
+        // Ensures that the ProblemDetails service is registered.
+        services.AddProblemDetails();
 
-        public IServiceCollection Replace<TService, TImplementation>(ServiceLifetime lifetime = ServiceLifetime.Scoped)
-            where TService : class
-            where TImplementation : class, TService
-        {
-            services.Replace(new ServiceDescriptor(serviceType: typeof(TService), implementationType: typeof(TImplementation), lifetime));
-
-            return services;
-        }
-
-        public IServiceCollection AddDefaultProblemDetails()
-        {
-            services.AddProblemDetails(options =>
-            {
-                options.CustomizeProblemDetails = context => context.UseDefaults();
-            });
-
-            return services;
-        }
-
-        public IServiceCollection AddDefaultExceptionHandler()
-        {
-            // Ensures that the ProblemDetails service is registered.
-            services.AddProblemDetails();
-
-            services.AddExceptionHandler<DefaultExceptionHandler>();
-            return services;
-        }
+        services.AddExceptionHandler<DefaultExceptionHandler>();
+        return services;
     }
 
     public static void UseDefaults(this ProblemDetailsContext context)
