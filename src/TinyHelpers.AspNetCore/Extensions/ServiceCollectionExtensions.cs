@@ -13,50 +13,62 @@ namespace TinyHelpers.AspNetCore.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static T? ConfigureAndGet<T>(this IServiceCollection services, IConfiguration configuration, string sectionName) where T : class
+    extension(IServiceCollection services)
     {
-        var section = configuration.GetSection(sectionName);
-        var settings = section.Get<T>();
-        services.Configure<T>(section);
-
-        return settings;
-    }
-
-    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
-        => services.AddRequestLocalization(cultures, null);
-
-    public static IServiceCollection AddRequestLocalization(this IServiceCollection services, IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
-    {
-        var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
-
-        services.Configure<RequestLocalizationOptions>(options =>
+        public T? ConfigureAndGet<T>(IConfiguration configuration, string sectionName) where T : class
         {
-            options.SupportedCultures = supportedCultures;
-            options.SupportedUICultures = supportedCultures;
-            options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
-            providersConfiguration?.Invoke(options.RequestCultureProviders);
-        });
+            var section = configuration.GetSection(sectionName);
+            var settings = section.Get<T>();
+            services.Configure<T>(section);
 
-        return services;
-    }
+            return settings;
+        }
 
-    public static IServiceCollection Replace<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime = ServiceLifetime.Scoped)
-        where TService : class
-        where TImplementation : class, TService
-    {
-        services.Replace(new ServiceDescriptor(serviceType: typeof(TService), implementationType: typeof(TImplementation), lifetime));
+        public IServiceCollection AddRequestLocalization(params string[] cultures)
+            => services.AddRequestLocalization(cultures, null);
 
-        return services;
-    }
-
-    public static IServiceCollection AddDefaultProblemDetails(this IServiceCollection services)
-    {
-        services.AddProblemDetails(options =>
+        public IServiceCollection AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
         {
-            options.CustomizeProblemDetails = context => context.UseDefaults();
-        });
+            var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
 
-        return services;
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
+                providersConfiguration?.Invoke(options.RequestCultureProviders);
+            });
+
+            return services;
+        }
+
+        public IServiceCollection Replace<TService, TImplementation>(ServiceLifetime lifetime = ServiceLifetime.Scoped)
+            where TService : class
+            where TImplementation : class, TService
+        {
+            services.Replace(new ServiceDescriptor(serviceType: typeof(TService), implementationType: typeof(TImplementation), lifetime));
+
+            return services;
+        }
+
+        public IServiceCollection AddDefaultProblemDetails()
+        {
+            services.AddProblemDetails(options =>
+            {
+                options.CustomizeProblemDetails = context => context.UseDefaults();
+            });
+
+            return services;
+        }
+
+        public IServiceCollection AddDefaultExceptionHandler()
+        {
+            // Ensures that the ProblemDetails service is registered.
+            services.AddProblemDetails();
+
+            services.AddExceptionHandler<DefaultExceptionHandler>();
+            return services;
+        }
     }
 
     public static void UseDefaults(this ProblemDetailsContext context)
@@ -69,14 +81,5 @@ public static class ServiceCollectionExtensions
         context.ProblemDetails.Detail ??= context.Exception?.Message;
 
         context.ProblemDetails.Extensions.TryAdd("traceId", Activity.Current?.Id ?? context.HttpContext.TraceIdentifier);
-    }
-
-    public static IServiceCollection AddDefaultExceptionHandler(this IServiceCollection services)
-    {
-        // Ensures that the ProblemDetails service is registered.
-        services.AddProblemDetails();
-
-        services.AddExceptionHandler<DefaultExceptionHandler>();
-        return services;
     }
 }

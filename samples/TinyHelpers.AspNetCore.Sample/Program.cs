@@ -96,11 +96,11 @@ app.UseSwaggerUI(options =>
 app.UseRouting();
 app.UseRequestLocalization();
 
-app.MapGet("/api/sample", () =>
+app.MapGet("/api/language", () =>
 {
     var language = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-    return TypedResults.NoContent();
-});
+    return TypedResults.Ok(new { Language = language });
+}).WithResponseDescription(StatusCodes.Status200OK, "The language of the server");
 
 app.MapGet("/api/json-number-as-string", () =>
 {
@@ -119,6 +119,11 @@ app.MapPost("/api/time", (TimeInput input) =>
 });
 
 app.MapGet("/api/status", () => new StatusResult { Status = Status.Closed });
+
+app.MapPost("/api/201-created", () =>
+{
+    return TypedResults.Created();
+}).WithLocationHeader();
 
 app.Run();
 
