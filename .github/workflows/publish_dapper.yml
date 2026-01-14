@@ -1,9 +1,7 @@
 name: Publish Tiny Helpers for Dapper on NuGet
 
 permissions:
-  contents: read
-  packages: write
-  actions: write
+  contents: write
 
 on:
   push:
@@ -48,11 +46,11 @@ jobs:
       run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json  
       
     - name: Create release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          tag_name: ${{ env.TAG_NAME }}_v${{ steps.nbgv.outputs.NuGetPackageVersion }}
-          release_name: ${{ env.RELEASE_NAME }} ${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          tag_name: v${{ steps.nbgv.outputs.NuGetPackageVersion }}
+          name: ${{ env.RELEASE_NAME }} ${{ steps.nbgv.outputs.NuGetPackageVersion }}
           draft: false
           prerelease: false
