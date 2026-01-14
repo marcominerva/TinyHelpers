@@ -88,56 +88,6 @@ public static class OpenApiExtensions
             return options;
         }
     }
-
-#if NET10_0_OR_GREATER
-
-    extension(RouteHandlerBuilder builder)
-    {
-        public RouteHandlerBuilder WithResponseDescription(int statusCode, string description)
-        {
-            builder.AddOpenApiOperationTransformer((operation, _, _) =>
-            {
-                if (operation.Responses?.TryGetValue(statusCode.ToString(), out var response) == true)
-                {
-                    response.Description = description;
-                }
-
-                return Task.CompletedTask;
-            });
-
-            return builder;
-        }
-
-        public RouteHandlerBuilder WithLocationHeader(string description = "Location of the created resource", int statusCode = StatusCodes.Status201Created)
-        {
-            builder.AddOpenApiOperationTransformer((operation, _, _) =>
-            {
-                if (operation.Responses?.TryGetValue(statusCode.ToString(), out var response) == true)
-                {
-                    if (response is OpenApiResponse openApiResponse && openApiResponse.Headers == null)
-                    {
-                        openApiResponse.Headers = new Dictionary<string, IOpenApiHeader>();
-                    }
-
-                    response.Headers?["Location"] = new OpenApiHeader
-                    {
-                        Description = description,
-                        Required = true,
-                        Schema = new OpenApiSchema
-                        {
-                            Type = JsonSchemaType.String,
-                            Format = "uri"
-                        }
-                    };
-                }
-
-                return Task.CompletedTask;
-            });
-
-            return builder;
-        }
-    }
-#endif
 }
 
 #endif
