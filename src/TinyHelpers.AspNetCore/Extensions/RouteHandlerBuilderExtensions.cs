@@ -12,24 +12,24 @@ namespace TinyHelpers.AspNetCore.Extensions;
 /// <seealso cref="RouteHandlerBuilder"/>
 public static class RouteHandlerBuilderExtensions
 {
-    extension(RouteHandlerBuilder builder)
+    /// <summary>
+    /// Adds to <see cref="RouteHandlerBuilder"/> the specified list of status codes as <see cref="ProblemDetails"/> responses.
+    /// </summary>
+    /// <param name="builder">The <see cref="RouteHandlerBuilder"/>.</param>
+    /// <param name="statusCodes">The list of status codes to be added as <see cref="ProblemDetails"/> responses.</param>
+    /// <returns>The <see cref="RouteHandlerBuilder"/> with the new status codes responses.</returns>
+    public static RouteHandlerBuilder ProducesDefaultProblem(this RouteHandlerBuilder builder, params int[] statusCodes)
     {
-        /// <summary>
-        /// Adds to <see cref="RouteHandlerBuilder"/> the specified list of status codes as <see cref="ProblemDetails"/> responses.
-        /// </summary>
-        /// <param name="builder">The <see cref="RouteHandlerBuilder"/>.</param>
-        /// <param name="statusCodes">The list of status codes to be added as <see cref="ProblemDetails"/> responses.</param>
-        /// <returns>The <see cref="RouteHandlerBuilder"/> with the new status codes responses.</returns>
-        public RouteHandlerBuilder ProducesDefaultProblem(params int[] statusCodes)
+        foreach (var statusCode in statusCodes)
         {
-            foreach (var statusCode in statusCodes)
-            {
-                builder.ProducesProblem(statusCode);
-            }
-
-            return builder;
+            builder.ProducesProblem(statusCode);
         }
 
+        return builder;
+    }
+
+    extension(RouteHandlerBuilder builder)
+    {
 #if NET10_0_OR_GREATER
         public RouteHandlerBuilder WithResponseDescription(int statusCode, string description)
         {
