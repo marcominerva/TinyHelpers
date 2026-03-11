@@ -82,6 +82,55 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 }
 ```
 
+It also works with interfaces:
+
+```csharp
+public interface ISoftDeletable
+{
+    bool IsDeleted { get; set; }
+}
+
+public class Person : ISoftDeletable
+{
+    public int Id { get; set; }
+    public bool IsDeleted { get; set; }
+}
+
+public class City : ISoftDeletable
+{
+    public int Id { get; set; }
+    public bool IsDeleted { get; set; }
+}
+
+// using TinyHelpers.EntityFrameworkCore.Extensions;
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    // Apply a filter to all the entities that implement ISoftDeletable.
+    modelBuilder.ApplyQueryFilter<ISoftDeletable>(e => !e.IsDeleted);
+}
+```
+
+#### Named Query Filters (.NET 10+)
+
+Starting from .NET 10, the library supports [named query filters](https://learn.microsoft.com/ef/core/querying/filters), which allow attaching names to query filters and managing each one separately. This is useful when you need multiple filters per entity type and want to selectively disable specific filters at query time:
+
+```csharp
+// using TinyHelpers.EntityFrameworkCore.Extensions;
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    // Apply named filters to all entities that implement the corresponding interfaces.
+    modelBuilder.ApplyQueryFilter<ISoftDeletable>("SoftDelete", e => !e.IsDeleted);
+    modelBuilder.ApplyQueryFilter<ITenantEntity>("TenantFilter", e => e.TenantId == currentTenantId);
+}
+```
+
+Named filters can then be selectively disabled in specific queries:
+
+```csharp
+// Disable only the soft-delete filter, keeping the tenant filter active.
+var allItems = await context.People.IgnoreQueryFilters(["SoftDelete"]).ToListAsync();
+```
+
 ### Contributing
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 

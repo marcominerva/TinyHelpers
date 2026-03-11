@@ -13,6 +13,7 @@
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="tests/TinyHelpers.Tests/TinyHelpers.Tests.csproj" />
+    <Project Path="tests/TinyHelpers.EntityFrameworkCore.Tests/TinyHelpers.EntityFrameworkCore.Tests.csproj" />
   </Folder>
   <Project Path="src/TinyHelpers.AspNetCore.Swashbuckle/TinyHelpers.AspNetCore.Swashbuckle.csproj" />
   <Project Path="src/TinyHelpers.AspNetCore/TinyHelpers.AspNetCore.csproj" />
