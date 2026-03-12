@@ -17,14 +17,11 @@ public static class ModelBuilderExtensions
     /// <param name="expression">The filter expression to apply.</param>
     public static void ApplyQueryFilter<TEntity>(this ModelBuilder modelBuilder, Expression<Func<TEntity, bool>> expression)
     {
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        foreach (var clrType in modelBuilder.GetEntityTypes<TEntity>())
         {
-            if (typeof(TEntity).IsAssignableFrom(entityType.ClrType))
-            {
-                var parameter = Expression.Parameter(entityType.ClrType);
-                var body = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(), parameter, expression.Body);
-                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
-            }
+            var parameter = Expression.Parameter(clrType);
+            var body = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(), parameter, expression.Body);
+            modelBuilder.Entity(clrType).HasQueryFilter(Expression.Lambda(body, parameter));
         }
     }
 
@@ -43,7 +40,8 @@ public static class ModelBuilderExtensions
             if (property?.ClrType == typeof(TType))
             {
                 var parameter = Expression.Parameter(entityType.ClrType);
-                var filter = Expression.Lambda(Expression.Equal(Expression.Property(parameter, propertyName), Expression.Constant(value)), parameter);
+                var propertyAccess = Expression.Call(typeof(EF), nameof(EF.Property), [typeof(TType)], parameter, Expression.Constant(propertyName));
+                var filter = Expression.Lambda(Expression.Equal(propertyAccess, Expression.Constant(value, typeof(TType))), parameter);
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
             }
         }
@@ -65,14 +63,11 @@ public static class ModelBuilderExtensions
     /// </remarks>
     public static void ApplyQueryFilter<TEntity>(this ModelBuilder modelBuilder, string filterName, Expression<Func<TEntity, bool>> expression)
     {
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        foreach (var clrType in modelBuilder.GetEntityTypes<TEntity>())
         {
-            if (typeof(TEntity).IsAssignableFrom(entityType.ClrType))
-            {
-                var parameter = Expression.Parameter(entityType.ClrType);
-                var body = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(), parameter, expression.Body);
-                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filterName, Expression.Lambda(body, parameter));
-            }
+            var parameter = Expression.Parameter(clrType);
+            var body = ReplacingExpressionVisitor.Replace(expression.Parameters.Single(), parameter, expression.Body);
+            modelBuilder.Entity(clrType).HasQueryFilter(filterName, Expression.Lambda(body, parameter));
         }
     }
 
@@ -98,7 +93,8 @@ public static class ModelBuilderExtensions
             if (property?.ClrType == typeof(TType))
             {
                 var parameter = Expression.Parameter(entityType.ClrType);
-                var filter = Expression.Lambda(Expression.Equal(Expression.Property(parameter, propertyName), Expression.Constant(value)), parameter);
+                var propertyAccess = Expression.Call(typeof(EF), nameof(EF.Property), [typeof(TType)], parameter, Expression.Constant(propertyName));
+                var filter = Expression.Lambda(Expression.Equal(propertyAccess, Expression.Constant(value, typeof(TType))), parameter);
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filterName, filter);
             }
         }
@@ -123,7 +119,7 @@ public static class ModelBuilderExtensions
     public static IEnumerable<Type> GetEntityTypes(this ModelBuilder modelBuilder, Type baseType)
     {
         var entityTypes = modelBuilder.Model.GetEntityTypes()
-            .Where(t => baseType.IsAssignableFrom(t.ClrType))
+            .Where(t => t.ClrType.IsAssignableTo(baseType))
             .ToList();
 
         return entityTypes.Select(t => t.ClrType);
