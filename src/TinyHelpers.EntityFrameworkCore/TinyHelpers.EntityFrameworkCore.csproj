@@ -21,19 +21,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>		
-		<PackageReference Include="TinyHelpers" Version="3.3.18" />
+		<PackageReference Include="TinyHelpers" Version="3.3.20" />
 	</ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.25" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.26" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.14" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.15" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.6" />
     </ItemGroup>
 
 	<ItemGroup>
