@@ -25,11 +25,11 @@
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.15" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
     </ItemGroup>
 
     <ItemGroup>
