@@ -1,10 +1,7 @@
 ﻿#if NET9_0_OR_GREATER
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
@@ -98,6 +95,11 @@ public static class OpenApiExtensions
 
             return options;
         }
+
+#if NET10_0_OR_GREATER
+        public OpenApiOptions UseStrictNumericSchemas()
+            => options.AddSchemaTransformer<StrictNumericSchemaTransformer>();
+#endif
     }
 }
 
