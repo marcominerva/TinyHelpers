@@ -60,7 +60,7 @@ builder.Services.AddOpenApi(options =>
     // Remove Servers list in OpenAPI.
     options.RemoveServerList();
 
-    // Respect the ignored JsonNumberHandling attribute.
+    // Respect the JsonNumberHandling attribute.
     options.WriteNumberAsString();
 
     // Describe all query string parameters in Camel Case.
@@ -72,6 +72,9 @@ builder.Services.AddOpenApi(options =>
     // Uncomment to use full type names (including namespace) for schema IDs.
     // This helps avoid naming collisions when multiple types have the same name.
     // options.UseFullTypeNameSchemaIds();
+
+    // Remove the string fallback from numeric schemas generated for OpenAPI.
+    options.UseStrictNumericSchemas();
 });
 
 // Add default problem details and exception handler.
@@ -102,7 +105,7 @@ app.MapGet("/api/language", () =>
     return TypedResults.Ok(new { Language = language });
 }).WithResponseDescription(StatusCodes.Status200OK, "The language of the server");
 
-app.MapGet("/api/json-number-as-string", () =>
+app.MapGet("/api/json-number-as-string", (int a) =>
 {
     return TypedResults.Ok(new RandomNumber());
 });

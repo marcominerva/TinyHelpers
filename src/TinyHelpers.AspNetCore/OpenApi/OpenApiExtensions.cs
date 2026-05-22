@@ -1,10 +1,7 @@
 ﻿#if NET9_0_OR_GREATER
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
@@ -76,17 +73,33 @@ public static class OpenApiExtensions
         {
             ArgumentNullException.ThrowIfNull(options);
 
-            options.CreateSchemaReferenceId = (jsonTypeInfo) =>
+            options.CreateSchemaReferenceId = jsonTypeInfo =>
             {
-                // Get the full type name (including namespace) for the schema ID
-                var fullName = jsonTypeInfo.Type.FullName;
+                // Create the default ID (handles generics, nested types, etc.)
+                var defaultId = OpenApiOptions.CreateDefaultSchemaReferenceId(jsonTypeInfo);
+                if (string.IsNullOrEmpty(defaultId))
+                {
+                    return defaultId;
+                }
 
-                // Replace + with . for nested types to make the schema ID more readable
-                return fullName?.Replace('+', '.');
+                var @namespace = jsonTypeInfo.Type.Namespace;
+                if (string.IsNullOrEmpty(@namespace))
+                {
+                    // If there's no namespace, just keep the default.
+                    return defaultId;
+                }
+
+                // Include namespace in the reference ID.
+                return $"{@namespace}.{defaultId}";
             };
 
             return options;
         }
+
+#if NET10_0_OR_GREATER
+        public OpenApiOptions UseStrictNumericSchemas()
+            => options.AddSchemaTransformer<StrictNumericSchemaTransformer>();
+#endif
     }
 }
 
