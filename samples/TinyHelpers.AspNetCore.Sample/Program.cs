@@ -73,7 +73,7 @@ builder.Services.AddOpenApi(options =>
     // This helps avoid naming collisions when multiple types have the same name.
     // options.UseFullTypeNameSchemaIds();
 
-    // Remove the string fallback from numeric schemas generated for OpenAPI.
+    // Remove the string fallback from numeric OpenAPI schemas (because ASP.NET Core Web JSON defaults to AllowReadingFromString).
     options.UseStrictNumericSchemas();
 });
 
