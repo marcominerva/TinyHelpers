@@ -84,6 +84,19 @@ builder.Services.AddOpenApi(options =>
 
 This is particularly useful when you have multiple types with the same name in different namespaces. For example, if you have both `MyApp.Models.User` and `MyApp.DTOs.User`, the default behavior would create a single schema named "User", potentially causing conflicts. With `UseFullTypeNameSchemaIds()`, the schemas will be named "MyApp.Models.User" and "MyApp.DTOs.User" respectively.
 
+- `UseStrictNumericSchemas()`: updates the generated OpenAPI schema for numeric values by removing the `string` fallback that ASP.NET Core emits for numbers, avoiding definitions such as `type: ["integer", "string"]` with a numeric pattern. This makes the published OpenAPI contract clearer for tools and client generators that expect numeric values to be described only as numeric types, but it does not change the runtime behavior of the API:
+
+```csharp
+builder.Services.AddOpenApi(options =>
+{
+    options.UseStrictNumericSchemas();
+});
+```
+
+This transformer is necessary because, by default, ASP.NET Core uses the Web JSON serializer settings, where `NumberHandling = JsonNumberHandling.AllowReadingFromString`. For this reason, OpenAPI always describes numeric values as a union of the numeric type and `string`, to reflect that numbers can also be read from JSON strings at runtime. While technically correct, this representation can lead to less clear schemas and to client generators producing less desirable types, such as `number | string` or `integer | string`, even when you want to expose those values as numeric in the published contract.
+
+Use this transformer when you want to publish a stricter OpenAPI description for numeric schemas, while keeping the existing model binding or JSON serialization behavior unchanged.
+
 **Contribute**
 
 The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
