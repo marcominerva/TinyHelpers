@@ -6,10 +6,18 @@ using TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
 
+/// <summary>
+/// Adds OpenAPI configuration helpers that keep the generated contract aligned with the library's conventions.
+/// </summary>
 public static class OpenApiExtensions
 {
     extension(IServiceCollection services)
     {
+        /// <summary>
+        /// Captures endpoint parameter metadata once and reuses it during OpenAPI generation so the application can keep custom parameter rules in a single place.
+        /// </summary>
+        /// <param name="setupAction">A callback that fills the parameter options object.</param>
+        /// <returns>The same <see cref="IServiceCollection" /> for fluent registration.</returns>
         public IServiceCollection AddOpenApiOperationParameters(Action<OpenApiOperationOptions> setupAction)
         {
             ArgumentNullException.ThrowIfNull(services);
@@ -26,9 +34,17 @@ public static class OpenApiExtensions
 
     extension(OpenApiOptions options)
     {
+        /// <summary>
+        /// Adds an <c>Accept-Language</c> header parameter when localization is available so the generated contract matches the runtime behavior.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions AddAcceptLanguageHeader()
             => options.AddOperationTransformer<AcceptLanguageHeaderOperationTransformer>();
 
+        /// <summary>
+        /// Ensures operations advertise a default <see cref="ProblemDetails" /> response so API consumers can rely on a consistent error shape.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions AddDefaultProblemDetailsResponse()
         {
 #if NET9_0
@@ -39,35 +55,58 @@ public static class OpenApiExtensions
             return options;
         }
 
+        /// <summary>
+        /// Adds custom query-parameter metadata rules when the default generated names are not sufficient.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions AddOperationParameters()
             => options.AddOperationTransformer<OpenApiParametersOperationFilter>();
 
+        /// <summary>
+        /// Removes the server list from the document when the deployment URL should be inferred from the current host instead of being hard-coded.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions RemoveServerList()
             => options.AddDocumentTransformer<RemoveServerListDocumentTransformer>();
 
+        /// <summary>
+        /// Serializes numeric values as strings in schema metadata when the contract must mirror a text-based transport or client expectation.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions WriteNumberAsString()
             => options.AddSchemaTransformer<WriteNumberAsStringSchemaTransformer>();
 
+        /// <summary>
+        /// Normalizes query-parameter names to camel case so the generated document matches the JSON naming strategy used by most client code.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions DescribeAllParametersInCamelCase()
             => options.AddOperationTransformer<CamelCaseQueryParametersOperationTransformer>();
 
+        /// <summary>
+        /// Adds representative time examples to schemas so consumers can understand the expected shape without reading implementation code.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions AddTimeExamples()
             => options.AddSchemaTransformer<TimeExampleSchemaTransformer>();
 
 #if NET9_0
+        /// <summary>
+        /// Expands enum schemas so generated clients can choose the documented values rather than inferring them from CLR metadata.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions EnableEnumSupport()
             => options.AddSchemaTransformer<EnumSchemaTransformer>();
 #endif
 
         /// <summary>
-        /// Configures the OpenAPI schema reference IDs to use the full type name (including namespace) 
-        /// instead of just the type name. This helps avoid naming collisions when multiple types have the same name.
+        /// Configures schema reference IDs to include the namespace so types with the same name do not collide in large models.
         /// </summary>
         /// <param name="options">The <see cref="OpenApiOptions"/> to configure.</param>
-        /// <returns>The <see cref="OpenApiOptions"/> instance for further customization.</returns>
+        /// <returns>The same <see cref="OpenApiOptions" /> instance for further customization.</returns>
         /// <remarks>
-        /// By default, OpenAPI uses only the type name for schema references. This extension method changes 
-        /// the behavior to use the full type name (namespace + type name) to ensure unique schema IDs.
+        /// OpenAPI defaults to the short type name, which is easy to read but can produce duplicate schema IDs when a
+        /// project has multiple types with the same name. Including the namespace keeps the document stable and unambiguous.
         /// </remarks>
         public OpenApiOptions UseFullTypeNameSchemaIds()
         {
@@ -97,6 +136,10 @@ public static class OpenApiExtensions
         }
 
 #if NET10_0_OR_GREATER
+        /// <summary>
+        /// Forces numeric schemas to stay numeric so generated documents can match stricter OpenAPI client expectations.
+        /// </summary>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         public OpenApiOptions UseStrictNumericSchemas()
             => options.AddSchemaTransformer<StrictNumericSchemaTransformer>();
 #endif

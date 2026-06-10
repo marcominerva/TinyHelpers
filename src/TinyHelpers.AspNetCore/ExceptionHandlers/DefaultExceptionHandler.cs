@@ -9,6 +9,13 @@ namespace TinyHelpers.AspNetCore.ExceptionHandlers;
 
 internal class DefaultExceptionHandler(IProblemDetailsService problemDetailsService, IWebHostEnvironment webHostEnvironment) : IExceptionHandler
 {
+    /// <summary>
+    /// Converts unhandled exceptions into RFC 7807 problem details so callers receive a predictable error payload.
+    /// </summary>
+    /// <param name="httpContext">The current HTTP request context.</param>
+    /// <param name="exception">The exception that was raised by the pipeline.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns><see langword="true" /> when the exception has been handled and written to the response.</returns>
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = exception is BadHttpRequestException badHttpRequestException ? badHttpRequestException.StatusCode : httpContext.Response.StatusCode;

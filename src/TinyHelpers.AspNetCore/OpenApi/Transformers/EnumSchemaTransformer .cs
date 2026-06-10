@@ -8,6 +8,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 internal class EnumSchemaTransformer : IOpenApiSchemaTransformer
 {
+    /// <summary>
+    /// Expands enum schemas so the generated contract exposes the actual accepted values instead of leaving them implicit.
+    /// </summary>
+    /// <param name="schema">The schema being enriched.</param>
+    /// <param name="context">The schema-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the schema has been updated.</returns>
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
         var type = context.JsonTypeInfo.Type;

@@ -6,7 +6,7 @@
 public readonly struct LockResult
 {
     /// <summary>
-    /// Gets the <seealso cref="Threading.AsyncLock"/> object if succesfully acquired.
+    /// Gets the <seealso cref="Threading.AsyncLock"/> object if successfully acquired.
     /// </summary>
     public AsyncLock? AsyncLock { get; }
 

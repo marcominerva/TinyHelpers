@@ -18,6 +18,13 @@ internal class AcceptLanguageHeaderOperationTransformer(IOptions<RequestLocaliza
 
     private readonly IOpenApiAny defaultLanguage = new OpenApiString(requestLocalizationOptions.Value.DefaultRequestCulture.Culture.Name);
 
+    /// <summary>
+    /// Adds the negotiated <c>Accept-Language</c> header to the document when localization settings expose supported cultures.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the document has been updated.</returns>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         if (supportedLanguages?.Count > 0)
@@ -65,6 +72,13 @@ internal class AcceptLanguageHeaderOperationTransformer(IOptions<RequestLocaliza
 
     private readonly JsonNode defaultLanguage = JsonValue.Create(requestLocalizationOptions.Value.DefaultRequestCulture.Culture.Name)!;
 
+    /// <summary>
+    /// Adds the negotiated <c>Accept-Language</c> header to the document when localization settings expose supported cultures.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the document has been updated.</returns>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         if (supportedLanguages?.Count > 0)
