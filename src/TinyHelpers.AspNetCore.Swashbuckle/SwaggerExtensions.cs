@@ -6,26 +6,65 @@ using TinyHelpers.AspNetCore.Swagger.Filters;
 
 namespace TinyHelpers.AspNetCore.Swagger;
 
+/// <summary>
+/// Adds reusable Swagger and OpenAPI conventions for <see cref="SwaggerGenOptions" />.
+/// </summary>
 public static class SwaggerExtensions
 {
-    public static void AddAcceptLanguageHeader(this SwaggerGenOptions options)
-        => options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
-
-    public static void AddDefaultProblemDetailsResponse(this SwaggerGenOptions options)
-        => options.OperationFilter<DefaultResponseOperationFilter>();
-
-    public static void AddTimeSpanTypeMapping(this SwaggerGenOptions options, bool useCurrentTimeAsExample = false)
-        => options.AddTimeSpanTypeMapping(useCurrentTimeAsExample ? TimeOnly.FromDateTime(DateTime.Now).ToString("hh:mm:ss") : null);
-
-    public static void AddTimeSpanTypeMapping(this SwaggerGenOptions options, string? example)
+    extension(SwaggerGenOptions options)
     {
-        options.MapType<TimeSpan>(() => new OpenApiSchema()
+        /// <summary>
+        /// Documents the <c>Accept-Language</c> header for operations that support localization.
+        /// </summary>
+        public void AddAcceptLanguageHeader()
+            => options.OperationFilter<AcceptLanguageHeaderOperationFilter>();
+
+        /// <summary>
+        /// Adds a shared <c>application/problem+json</c> response to generated operations.
+        /// </summary>
+        public void AddDefaultProblemDetailsResponse()
+            => options.OperationFilter<DefaultResponseOperationFilter>();
+
+        /// <summary>
+        /// Maps <see cref="TimeSpan" /> to an OpenAPI string schema with an optional example value.
+        /// </summary>
+        /// <param name="useCurrentTimeAsExample">
+        /// When <see langword="true" />, uses the current time as the example value to make the schema
+        /// easier to interpret in Swagger UI.
+        /// </param>
+        public void AddTimeSpanTypeMapping(bool useCurrentTimeAsExample = false)
+            => options.AddTimeSpanTypeMapping(useCurrentTimeAsExample ? TimeOnly.FromDateTime(DateTime.Now).ToString("hh:mm:ss") : null);
+
+        /// <summary>
+        /// Maps <see cref="TimeSpan" /> to an OpenAPI string schema using the supplied example value.
+        /// </summary>
+        /// <param name="example">The example value to expose in the generated OpenAPI schema.</param>
+        public void AddTimeSpanTypeMapping(string? example)
         {
-            Type = JsonSchemaType.String,
-            Example = example is not null ? JsonValue.Create(example) : null
-        });
+            options.MapType<TimeSpan>(() => new OpenApiSchema()
+            {
+                Type = JsonSchemaType.String,
+                Example = example is not null ? JsonValue.Create(example) : null
+            });
+        }
+
+        /// <summary>
+        /// Adds a shared parameter definition pipeline to Swagger generation.
+        /// </summary>
+        public void AddOperationParameters()
+            => options.OperationFilter<OpenApiParametersOperationFilter>();
     }
 
+    /// <summary>
+    /// Registers a reusable set of OpenAPI parameters in the dependency injection container.
+    /// </summary>
+    /// <remarks>
+    /// This lets applications define shared parameters once and then reuse them during Swagger
+    /// generation through <see cref="OpenApiParametersOperationFilter" />.
+    /// </remarks>
+    /// <param name="services">The service collection to extend.</param>
+    /// <param name="setupAction">The configuration callback used to populate shared parameters.</param>
+    /// <returns>The same <see cref="IServiceCollection" /> instance so calls can be chained.</returns>
     public static IServiceCollection AddSwaggerOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
     {
         ArgumentNullException.ThrowIfNull(services);
@@ -38,7 +77,4 @@ public static class SwaggerExtensions
 
         return services;
     }
-
-    public static void AddOperationParameters(this SwaggerGenOptions options)
-        => options.OperationFilter<OpenApiParametersOperationFilter>();
 }
