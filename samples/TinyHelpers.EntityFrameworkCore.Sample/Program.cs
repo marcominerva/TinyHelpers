@@ -28,12 +28,12 @@ Console.ReadLine();
 
 //await dataContext.SaveChangesAsync();
 
-//await dataContext.ExecuteTransactionAsync(async () =>
+//await dataContext.ExecuteTransactionAsync(async (cancellationToken) =>
 //{
-//    var posts = await dataContext.Posts.ToListAsync();
+//    var posts = await dataContext.Posts.ToListAsync(cancellationToken);
 //    var post = posts.First();
 //    post.Reviews.First().User = "Topolino";
-//    await dataContext.SaveChangesAsync();
+//    await dataContext.SaveChangesAsync(cancellationToken);
 //});
 
 // Exception
