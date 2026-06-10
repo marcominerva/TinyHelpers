@@ -10,7 +10,7 @@ namespace TinyHelpers.Json.Serialization;
 /// <remarks>
 /// Initializes a new instance of the <see cref="UtcDateTimeConverter"/> class with a specified serialization format.
 /// </remarks>
-/// <param name="serializationFormat">The serialization format to use. The default is yyyy-MM-ddTHH:mm:ss.fffffffZ".</param>
+/// <param name="serializationFormat">The serialization format to use. The default is <c>yyyy-MM-ddTHH:mm:ss.fffffffZ</c>.</param>
 /// <seealso cref="UtcDateTimeConverter"/>
 public class UtcDateTimeConverter(string? serializationFormat) : JsonConverter<DateTime>
 {

@@ -32,7 +32,7 @@ public static class TaskExtensions
     /// <summary>
     /// Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified timeout expires.
     /// </summary>
-    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TResult">The result type returned by the task.</typeparam>
     /// <param name="task">The <see cref="Task{T}"/> to await for.</param>
     /// <param name="timeout">The timeout after which the <see cref="Task{T}"/> should be faulted with a <see cref="TimeoutException"/> if it hasn't otherwise completed.</param>
     /// <returns>The <see cref="Task{T}"/> representing the asynchronous wait.</returns>
