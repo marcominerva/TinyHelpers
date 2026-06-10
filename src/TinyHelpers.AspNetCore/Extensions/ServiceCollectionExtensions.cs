@@ -34,21 +34,23 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers request localization with a compact culture list for the common case where the default provider chain is enough.
+    /// Registers request localization with a culture list.
     /// </summary>
     /// <param name="services">The service collection being configured.</param>
     /// <param name="cultures">The supported culture names.</param>
     /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
+    /// <remarks>The first culture becomes the default.</remarks>
     public static IServiceCollection AddRequestLocalization(this IServiceCollection services, params string[] cultures)
         => services.AddRequestLocalization(cultures, null);
 
     /// <summary>
-    /// Registers request localization and allows the caller to adjust the culture-provider chain when the default ordering is not enough.
+    /// Registers request localization and allows the caller to adjust the culture-provider chain.
     /// </summary>
     /// <param name="services">The service collection being configured.</param>
     /// <param name="cultures">The supported culture names.</param>
     /// <param name="providersConfiguration">A callback that can reorder or replace the request culture providers.</param>
     /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
+    /// <remarks>The first culture becomes the default.</remarks>
     public static IServiceCollection AddRequestLocalization(this IServiceCollection services, IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
     {
         var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();

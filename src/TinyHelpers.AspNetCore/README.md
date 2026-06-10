@@ -3,103 +3,394 @@
 [![Lint Code Base](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/linter.yml)
 [![CodeQL](https://github.com/marcominerva/TinyHelpers/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/marcominerva/TinyHelpers/actions/workflows/github-code-scanning/codeql)
 [![NuGet](https://img.shields.io/nuget/v/TinyHelpers.AspNetCore.svg?style=flat-square)](https://www.nuget.org/packages/TinyHelpers.AspNetCore)
-[![Nuget](https://img.shields.io/nuget/dt/TinyHelpers.AspNetCore)](https://www.nuget.org/packages/TinyHelpers.AspNetCore)
+[![NuGet](https://img.shields.io/nuget/dt/TinyHelpers.AspNetCore)](https://www.nuget.org/packages/TinyHelpers.AspNetCore)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcominerva/TinyHelpers/blob/master/LICENSE)
 
-A collection of helper methods and classes for ASP.NET Core that I use every day. I have packed them in a single library to avoid code duplication.
+TinyHelpers.AspNetCore is a small collection of practical helpers for ASP.NET Core applications: claims handling, configuration binding, localization, middleware support, validation attributes, route helpers, OpenAPI helpers, and exception handling.
+
+The package is designed to reduce code duplication and keep common behavior centralized in one place.
 
 > [!IMPORTANT]
-> **Update from Version 3.x to 4.x**
-> Swashbuckle (Swagger) support has been moved out from TinyHelpers.AspNetCore. If you're using extension methods like `AddAcceptLanguageHeader` and `AddDefaultResponse` with `AddSwaggerGen`, now you need to install the [TinyHelpers.AspNetCore.Swashbuckle](https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore.Swashbuckle) package.
+> **Upgrade from 3.x to 4.x**
+> Swashbuckle / Swagger support has been moved to the separate [TinyHelpers.AspNetCore.Swashbuckle](https://github.com/marcominerva/TinyHelpers/tree/master/src/TinyHelpers.AspNetCore.Swashbuckle) package.
+> If you were using extensions such as `AddAcceptLanguageHeader()` and `AddDefaultProblemDetailsResponse()` together with `AddSwaggerGen`, you now need to install that package as well.
 
-**Installation**
+## Compatibility
 
-The library is available on [NuGet](https://www.nuget.org/packages/TinyHelpers.AspNetCore). Just search for *TinyHelpers.AspNetCore* in the **Package Manager GUI** or run the following command in the **.NET CLI**:
+The package targets:
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+OpenAPI features are available when the consuming project targets .NET 9 or .NET 10. Some extensions are also framework-specific:
+
+- `EnableEnumSupport()` is available only on .NET 9+
+- `UseStrictNumericSchemas()` is available only on .NET 10+
+- `WithResponseDescription()` and `WithLocationHeader()` are available only on .NET 10+
+
+## Installation
+
+Install the package from NuGet:
 
 ```shell
 dotnet add package TinyHelpers.AspNetCore
 ```
 
-**Usage**
+Or search for `TinyHelpers.AspNetCore` in the Visual Studio Package Manager.
 
-The library provides some useful extension methods for ASP.NET Core applications:
+## Contents
 
-- `AddDefaultProblemDetails`: calls the default [ProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.problemdetailsservicecollectionextensions) extension method defining the [CustomizeProblemDetails](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.http.problemdetailsoptions.customizeproblemdetails) property to ensure that all the typical properties (_Type_, _Title_, _Instance_, _TraceId_) are correctly set.
+- [Claims handling](#claims-handling)
+- [Configuration and options](#configuration-and-options)
+- [Localization and pipeline](#localization-and-pipeline)
+- [Validation and authorization attributes](#validation-and-authorization-attributes)
+- [Route and Minimal API helpers](#route-and-minimal-api-helpers)
+- [OpenAPI](#openapi)
+- [Exception handling](#exception-handling)
+- [Quick examples](#quick-examples)
 
-- `AddDefaultExceptionHandler`: adds a default implementation for the [IExceptionHandler](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.diagnostics.iexceptionhandler) interface that returns the following response on exceptions:
+## Claims handling
+
+This area contains two groups of extensions:
+
+- helpers for `IList<Claim>` that modify the collection
+- helpers for `ClaimsPrincipal` that read values without repeating the same lookup logic
+
+### `ClaimsExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `Update(string type, string value)` | Removes the first claim with that type and adds a new one with the specified value. | When you want to replace an identity value without leaving logical duplicates. |
+| `Remove(string type)` | Removes the first claim with that type. | When you want to remove a specific value from the list. |
+
+### `ClaimsPrincipalExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `GetClaimValues(string type)` | Returns all claim values as `string?`. | When a claim can have multiple values. |
+| `GetClaimValues<T>(string type)` | Returns all values converted to type `T`. | When you need typed conversion of claim values. |
+| `GetClaimValue(string type)` | Returns the first matching value as `string?`. | When the claim is single-value. |
+| `GetClaimValue<T>(string type)` | Returns the first matching value converted to `T?`. | When you want a typed value with `default` fallback. |
+| `HasClaim(string type)` | Checks whether at least one claim with that type exists. | When you need a quick presence check. |
+
+### Example
 
 ```csharp
-app.MapPost("/api/exception", () =>
+using System.Security.Claims;
+using TinyHelpers.AspNetCore.Extensions;
+
+var claims = new List<Claim>
 {
-    throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
-});
+    new(ClaimTypes.Name, "Marco"),
+    new(ClaimTypes.Role, "Admin")
+};
+
+claims.Update(ClaimTypes.Name, "Mario");
+claims.Remove(ClaimTypes.Role);
+
+var principal = new ClaimsPrincipal(new ClaimsIdentity(claims));
+
+var name = principal.GetClaimValue(ClaimTypes.Name);
+var roles = principal.GetClaimValues(ClaimTypes.Role);
+var hasName = principal.HasClaim(ClaimTypes.Name);
 ```
-```json
+
+## Configuration and options
+
+### `IConfigurationExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `GetSection<T>(sectionName)` | Reads a configuration section and materializes it as object `T`. | When you want a strongly typed object without registering it immediately in the container. |
+
+### `ServiceCollectionExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `ConfigureAndGet<T>(configuration, sectionName)` | Binds a section and also registers the options in the container, returning the created instance. | When you want to configure and read the same options during startup. |
+| `Replace<TService, TImplementation>(lifetime)` | Replaces a registered service with another implementation. | When you want to swap a service without rewriting the whole registration. |
+| `AddDefaultProblemDetails()` | Registers `ProblemDetails` with a consistent and centralized configuration. | When you want uniform RFC 7807 responses across the app. |
+| `AddDefaultExceptionHandler()` | Registers the library's default `IExceptionHandler` and ensures `ProblemDetails` is available too. | When you want unhandled exceptions to become a standard payload. |
+| `UseDefaults(ProblemDetailsContext context)` | Applies the library's default values to a `ProblemDetailsContext`. | When you customize `CustomizeProblemDetails` but still want the same base behavior. |
+| `AddRequestLocalization(params string[] cultures)` | Registers localization using only the list of supported cultures. The first culture becomes the default. | When you do not need to configure providers manually. |
+| `AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)` | Registers localization and lets you customize the culture-provider chain. The first culture becomes the default. | When you want to change the provider order or composition. |
+
+### Example
+
+```csharp
+var settings = builder.Services.ConfigureAndGet<MySettings>(builder.Configuration, "MySettings");
+
+builder.Services.AddRequestLocalization("it-IT", "en-US");
+builder.Services.AddDefaultProblemDetails();
+builder.Services.AddDefaultExceptionHandler();
+```
+
+## Localization and pipeline
+
+### `NavigationManagerExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `TryGetQueryString<T>(key, out value)` | Reads a value from the current query string and tries to convert it to `int`, `string`, `decimal`, or `bool`. | When you work in Blazor or components that need to read URL parameters. |
+
+### `ApplicationBuilderExtensions`
+
+| Method | What it does | When to use it |
+| --- | --- | --- |
+| `UseRequestRewind()` | Enables request-body buffering so the body can be read more than once. | When a middleware or filter must inspect the body without consuming it permanently. |
+
+### `EnableRequestRewindMiddleware`
+
+The internal middleware used by `UseRequestRewind()` calls `Request.EnableBuffering()` before passing control to the next middleware. It is useful for audit, validation, or request-signature scenarios.
+
+### Example
+
+```csharp
+app.UseRequestRewind();
+
+if (navManager.TryGetQueryString<int>("page", out var page))
 {
-  "type": "https://tools.ietf.org/html/rfc9110#section-15.6.1",
-  "title": "System.Exception",
-  "status": 500,
-  "detail": "This is an exception",
-  "instance": "/api/exception",
-  "traceId": "00-1bffa22c7288e5784bf763d5fd05bc87-87da01a1b76d1692-00",
-  "innerException": "System.Net.Http.HttpRequestException",
-  "innerExceptionMessage": "This is an inner exception",
-  "stackTrace": "..."
+    // use page
 }
 ```
 
-> **Note**
-The _StackTrace_ property is included in the response only if the application is running in the _Development_ environment.
+## Validation and authorization attributes
 
-- `AddRequestLocalization(cultures)`: an overload of the standard [AddRequestLocalization](https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.requestlocalizationservicecollectionextensions) extension method that just requires the list of supported cultures and automatically registers the corresponding [RequestLocalizationOptions](https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.builder.requestlocalizationoptions) (Note: The first culture in the list is used as the default culture).
+### `AllowedExtensionsAttribute`
 
-- `ConfigureAndGet<TOptions>(  )`: it allows to register a configuration instance on type _TOptions_ and returns the instance itself. It is useful when you need to configure the options and gets the reference to that instance in the same method, typically at application startup.
+Validates that an `IFormFile` uses one of the allowed file extensions.
 
-- `AddAcceptLanguageHeader()`: adds the _Accept-Language_ header to OpenAPI definition:
+- Constructor: `AllowedExtensionsAttribute(params string[] extensions)`
+- `FormatErrorMessage(string name)`: generates the error message with the allowed extensions
+
+### `ContentTypeAttribute`
+
+Validates the `Content-Type` of an `IFormFile`.
+
+- `ContentTypeAttribute(params string[] validContentTypes)`: uses an explicit MIME type list
+- `ContentTypeAttribute(FileType fileType)`: uses a predefined group
+- `FormatErrorMessage(string name)`: generates the error message with the allowed MIME types
+
+### `FileType`
+
+Supporting enum for `ContentTypeAttribute`:
+
+- `Image`
+- `Video`
+- `Audio`
+
+### `FileSizeAttribute`
+
+Validates that an `IFormFile` does not exceed a maximum size.
+
+- Constructor: `FileSizeAttribute(int maxFileSizeInBytes)`
+- `FormatErrorMessage(string name)`: generates the error message with the limit in bytes
+
+### `RoleAuthorizeAttribute`
+
+Automatically builds the `Roles` list of `AuthorizeAttribute` from one or more roles.
+
+- Constructor: `RoleAuthorizeAttribute(params string[] roles)`
+
+### Example
+
+```csharp
+using TinyHelpers.AspNetCore.DataAnnotations;
+
+public sealed class UploadModel
+{
+    [AllowedExtensions("jpg", "png")]
+    [ContentType(FileType.Image)]
+    [FileSize(2_000_000)]
+    public IFormFile File { get; set; } = default!;
+}
+
+[RoleAuthorize("Admin", "Manager")]
+public IActionResult SecretArea()
+{
+    return Ok();
+}
+```
+
+## Route and Minimal API helpers
+
+### `RouteHandlerBuilderExtensions`
+
+| Method | What it does | Availability |
+| --- | --- | --- |
+| `ProducesDefaultProblem(params int[] statusCodes)` | Adds `ProblemDetails` responses to the route metadata for the specified status codes. | .NET 8+ |
+| `WithResponseDescription(int statusCode, string description)` | Updates the description of an existing OpenAPI response. | .NET 10+ |
+| `WithLocationHeader(string description, int statusCode)` | Adds a `Location` header to the specified creation response. | .NET 10+ |
+
+These helpers keep Minimal API configuration close to the route instead of scattering OpenAPI metadata in separate places.
+
+### Example
+
+```csharp
+app.MapPost("/orders", () => Results.Created("/orders/1", new { Id = 1 }))
+   .ProducesDefaultProblem(StatusCodes.Status400BadRequest, StatusCodes.Status500InternalServerError);
+```
+
+### .NET 10 example
+
+```csharp
+app.MapPost("/orders", () => Results.Created("/orders/1", new { Id = 1 }))
+   .WithResponseDescription(StatusCodes.Status201Created, "Order created successfully")
+   .WithLocationHeader();
+```
+
+## OpenAPI
+
+The OpenAPI extensions are available when the consuming project uses the package on .NET 9 or .NET 10.
+
+### `OpenApiExtensions`
+
+| Method | What it does | Notes |
+| --- | --- | --- |
+| `AddOpenApiOperationParameters(setupAction)` | Registers reusable OpenAPI parameters inside `OpenApiOperationOptions.Parameters`. | Lets you declare common parameters once. |
+| `AddAcceptLanguageHeader()` | Adds the `Accept-Language` header to documented operations. | Useful when the app uses request localization. |
+| `AddDefaultProblemDetailsResponse()` | Adds a default error response based on `ProblemDetails`. | In .NET 9 it also adds the document transformer. |
+| `AddOperationParameters()` | Adds the parameters configured through `OpenApiOperationOptions`. | The bridge between the options bag and the generated document. |
+| `RemoveServerList()` | Removes the server list from the OpenAPI document. | Useful when you want a more portable document across environments. |
+| `WriteNumberAsString()` | Aligns the schema with numbers serialized as strings. | Useful when runtime JSON uses `JsonNumberHandling.WriteAsString`. |
+| `DescribeAllParametersInCamelCase()` | Converts query parameter names to camel case in the document. | Keeps documentation consistent with JSON naming. |
+| `AddTimeExamples()` | Adds readable examples for `TimeSpan` and `TimeOnly`. | Helps readers understand the expected format. |
+| `EnableEnumSupport()` | Improves enum representation in the document. | .NET 9 only. |
+| `UseFullTypeNameSchemaIds()` | Uses the full type name for schema IDs. | Prevents collisions between types with the same name. |
+| `UseStrictNumericSchemas()` | Removes the `string` fallback from numeric schemas. | .NET 10 only. |
+
+### `OpenApiSchemaHelper`
+
+This utility creates ready-to-use schema fragments that can be reused in transformers or other OpenAPI customizations.
+
+#### .NET 9
+
+- `CreateStringSchema(string? defaultValue = null)`
+- `CreateSchema<TValue>(string type, string? format = null)`
+- `CreateSchema<TValue>(string type, string? format, TValue? defaultValue = null)`
+- `CreateSchema(IEnumerable<string> values, string? defaultValue = null)`
+- `CreateSchema<TEnum>(TEnum? defaultValue = null)`
+
+#### .NET 10
+
+- `CreateStringSchema(string? defaultValue = null)`
+- `CreateSchema<TValue>(JsonSchemaType type, string? format = null)`
+- `CreateSchema<TValue>(JsonSchemaType type, string? format, TValue? defaultValue = null)`
+- `CreateSchema(IEnumerable<string> values, string? defaultValue = null)`
+- `CreateSchema<TEnum>(TEnum? defaultValue = null)`
+
+### What they do in practice
+
+- `CreateStringSchema()` creates a simple string schema, optionally with a default.
+- `CreateSchema(..., format)` creates a schema with explicit type and format.
+- `CreateSchema(..., defaultValue)` also adds a default to the contract.
+- `CreateSchema(IEnumerable<string> values, ...)` turns a list of values into a string-based OpenAPI enum.
+- `CreateSchema<TEnum>(...)` builds an enum schema directly from a CLR enum.
+
+### Example
 
 ```csharp
 builder.Services.AddOpenApi(options =>
 {
     options.AddAcceptLanguageHeader();
-});
-```
-
-- `AddDefaultProblemDetailsResponse()`: adds a default (error) response to all endpoints in the OpenAPI definition:
-
-```csharp
-builder.Services.AddOpenApi(options =>
-{
     options.AddDefaultProblemDetailsResponse();
+    options.AddOperationParameters();
+    options.RemoveServerList();
+    options.WriteNumberAsString();
+    options.DescribeAllParametersInCamelCase();
+    options.AddTimeExamples();
+    options.UseFullTypeNameSchemaIds();
+#if NET9_0
+    options.EnableEnumSupport();
+#endif
+#if NET10_0_OR_GREATER
+    options.UseStrictNumericSchemas();
+#endif
 });
 ```
 
-- `UseFullTypeNameSchemaIds()`: configures OpenAPI to use the full type name (including namespace) for schema reference IDs, helping to avoid naming collisions when multiple types have the same name:
+### Example `AddOpenApiOperationParameters()`
 
 ```csharp
+builder.Services.AddOpenApiOperationParameters(parameters =>
+{
+    parameters.Parameters.Add(new OpenApiParameter
+    {
+        Name = "X-Correlation-Id",
+        In = ParameterLocation.Header,
+        Required = false,
+        Description = "Identifier used to correlate requests"
+    });
+});
+```
+
+### Example `OpenApiSchemaHelper`
+
+```csharp
+var schema = OpenApiSchemaHelper.CreateStringSchema("it-IT");
+```
+
+## Exception handling
+
+### `DefaultExceptionHandler`
+
+`TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)` converts unhandled exceptions into a consistent `ProblemDetails` response.
+
+Main behavior:
+
+- uses the `StatusCode` from `BadHttpRequestException` when present
+- sets `title`, `detail`, `instance`, and `traceId`
+- adds `innerException` when an inner exception exists
+- includes `stackTrace` only in the Development environment
+
+### Example
+
+```csharp
+builder.Services.AddDefaultExceptionHandler();
+app.UseExceptionHandler();
+```
+
+If a route throws an exception, the response becomes predictable and easy for clients to document and consume.
+
+## Quick examples
+
+### Minimal API with ProblemDetails and OpenAPI
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDefaultProblemDetails();
+builder.Services.AddDefaultExceptionHandler();
+builder.Services.AddRequestLocalization("it-IT", "en-US");
+
 builder.Services.AddOpenApi(options =>
 {
+    options.AddAcceptLanguageHeader();
+    options.AddDefaultProblemDetailsResponse();
     options.UseFullTypeNameSchemaIds();
 });
+
+var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseRequestRewind();
+
+app.MapGet("/hello", () => Results.Ok(new { Message = "Hello" }))
+   .ProducesDefaultProblem(StatusCodes.Status500InternalServerError);
+
+app.Run();
 ```
 
-This is particularly useful when you have multiple types with the same name in different namespaces. For example, if you have both `MyApp.Models.User` and `MyApp.DTOs.User`, the default behavior would create a single schema named "User", potentially causing conflicts. With `UseFullTypeNameSchemaIds()`, the schemas will be named "MyApp.Models.User" and "MyApp.DTOs.User" respectively.
-
-- `UseStrictNumericSchemas()`: updates the generated OpenAPI schema for numeric values by removing the `string` fallback that ASP.NET Core emits for numbers, avoiding definitions such as `type: ["integer", "string"]` with a numeric pattern. This makes the published OpenAPI contract clearer for tools and client generators that expect numeric values to be described only as numeric types, but it does not change the runtime behavior of the API:
+### Reading a configuration section
 
 ```csharp
-builder.Services.AddOpenApi(options =>
-{
-    options.UseStrictNumericSchemas();
-});
+var appSettings = builder.Services.ConfigureAndGet<AppSettings>(builder.Configuration, "AppSettings");
 ```
 
-This transformer is necessary because, by default, ASP.NET Core uses the Web JSON serializer settings, where `NumberHandling = JsonNumberHandling.AllowReadingFromString`. For this reason, OpenAPI always describes numeric values as a union of the numeric type and `string`, to reflect that numbers can also be read from JSON strings at runtime. While technically correct, this representation can lead to less clear schemas and to client generators producing less desirable types, such as `number | string` or `integer | string`, even when you want to expose those values as numeric in the published contract.
+## Contribute
 
-Use this transformer when you want to publish a stricter OpenAPI description for numeric schemas, while keeping the existing model binding or JSON serialization behavior unchanged.
+The project is continuously evolving. Contributions, issues, and pull requests are welcome.
 
-**Contribute**
-
-The project is constantly evolving. Contributions are welcome. Feel free to file issues and pull requests on the repo and we'll address them as we can. 
-
-> **Warning**
-Remember to work on the **develop** branch, don't use the **master** branch directly. Create Pull Requests targeting **develop**.
+> [!WARNING]
+> Work on the **develop** branch, not on **master**. Pull requests should target **develop**.
