@@ -2,11 +2,6 @@
 
 namespace TinyHelpers.EntityFrameworkCore.Converters;
 
-public class StringEmptyToNullConverter : ValueConverter<string?, string?>
-{
-    public StringEmptyToNullConverter() : base(
+public class StringEmptyToNullConverter() : ValueConverter<string?, string?>(
             value => string.IsNullOrWhiteSpace(value) ? null : value,
-            value => value)
-    {
-    }
-}
+            value => value);
