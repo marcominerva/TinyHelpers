@@ -7,17 +7,17 @@ using Microsoft.OpenApi;
 namespace TinyHelpers.AspNetCore.Extensions;
 
 /// <summary>
-/// Extension methods for <see cref="RouteHandlerBuilder"/>.
+/// Adds minimal OpenAPI-focused helpers to <see cref="RouteHandlerBuilder" /> so endpoint metadata stays close to the route mapping code.
 /// </summary>
 /// <seealso cref="RouteHandlerBuilder"/>
 public static class RouteHandlerBuilderExtensions
 {
     /// <summary>
-    /// Adds to <see cref="RouteHandlerBuilder"/> the specified list of status codes as <see cref="ProblemDetails"/> responses.
+    /// Declares a set of problem responses on the route so minimal APIs stay expressive without repeating the same response setup.
     /// </summary>
-    /// <param name="builder">The <see cref="RouteHandlerBuilder"/>.</param>
-    /// <param name="statusCodes">The list of status codes to be added as <see cref="ProblemDetails"/> responses.</param>
-    /// <returns>The <see cref="RouteHandlerBuilder"/> with the new status codes responses.</returns>
+    /// <param name="builder">The route configuration being extended.</param>
+    /// <param name="statusCodes">The HTTP status codes that should be described as <see cref="ProblemDetails" /> responses.</param>
+    /// <returns>The same <see cref="RouteHandlerBuilder" /> so calls can be chained.</returns>
     public static RouteHandlerBuilder ProducesDefaultProblem(this RouteHandlerBuilder builder, params int[] statusCodes)
     {
         foreach (var statusCode in statusCodes)
@@ -31,6 +31,12 @@ public static class RouteHandlerBuilderExtensions
     extension(RouteHandlerBuilder builder)
     {
 #if NET10_0_OR_GREATER
+        /// <summary>
+        /// Updates the OpenAPI description for a specific response code when the default generated text is too generic.
+        /// </summary>
+        /// <param name="statusCode">The HTTP status code to annotate.</param>
+        /// <param name="description">The text to show in the generated OpenAPI document.</param>
+        /// <returns>The same <see cref="RouteHandlerBuilder" /> so additional configuration can continue fluently.</returns>
         public RouteHandlerBuilder WithResponseDescription(int statusCode, string description)
         {
             builder.AddOpenApiOperationTransformer((operation, _, _) =>
@@ -46,6 +52,12 @@ public static class RouteHandlerBuilderExtensions
             return builder;
         }
 
+        /// <summary>
+        /// Adds a required <c>Location</c> header to creation responses so consumers know where to find the created resource.
+        /// </summary>
+        /// <param name="description">The OpenAPI description for the <c>Location</c> header.</param>
+        /// <param name="statusCode">The status code whose response should advertise the header.</param>
+        /// <returns>The same <see cref="RouteHandlerBuilder" /> so additional configuration can continue fluently.</returns>
         public RouteHandlerBuilder WithLocationHeader(string description = "Location of the created resource", int statusCode = StatusCodes.Status201Created)
         {
             builder.AddOpenApiOperationTransformer((operation, _, _) =>

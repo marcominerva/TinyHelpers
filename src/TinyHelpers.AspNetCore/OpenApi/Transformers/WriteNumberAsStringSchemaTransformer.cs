@@ -10,6 +10,13 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 
 internal class WriteNumberAsStringSchemaTransformer : IOpenApiSchemaTransformer
 {
+    /// <summary>
+    /// Adjusts properties marked with <see cref="JsonNumberHandlingAttribute" /> so the OpenAPI document matches the serialized wire format.
+    /// </summary>
+    /// <param name="schema">The schema being enriched.</param>
+    /// <param name="context">The schema-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the schema has been updated.</returns>
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
         var properties = context.JsonTypeInfo.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -39,6 +46,13 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 
 internal class WriteNumberAsStringSchemaTransformer : IOpenApiSchemaTransformer
 {
+    /// <summary>
+    /// Adjusts properties marked with <see cref="JsonNumberHandlingAttribute" /> so the OpenAPI document matches the serialized wire format.
+    /// </summary>
+    /// <param name="schema">The schema being enriched.</param>
+    /// <param name="context">The schema-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the schema has been updated.</returns>
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
         var properties = context.JsonTypeInfo.Type.GetProperties(BindingFlags.Public | BindingFlags.Instance)

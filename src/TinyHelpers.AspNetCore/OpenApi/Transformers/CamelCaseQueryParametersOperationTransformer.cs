@@ -8,6 +8,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 public class CamelCaseQueryParametersOperationTransformer : IOpenApiOperationTransformer
 {
+    /// <summary>
+    /// Renames query parameters to camel case so generated clients see the same casing contract the API expects at runtime.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the document has been updated.</returns>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         // Ensures that query parameters are camel-cased in the OpenAPI document.
@@ -33,6 +40,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 public class CamelCaseQueryParametersOperationTransformer : IOpenApiOperationTransformer
 {
+    /// <summary>
+    /// Renames query parameters to camel case so generated clients see the same casing contract the API expects at runtime.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the document has been updated.</returns>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         // Ensures that query parameters are camel-cased in the OpenAPI document.

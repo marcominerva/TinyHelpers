@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.Extensions;
 using TinyHelpers.AspNetCore.Swagger;
@@ -82,7 +83,7 @@ app.MapGet("/api/sample", () =>
     return TypedResults.NoContent();
 });
 
-app.MapPost("/api/exception", () =>
+app.MapPost("/api/exception", (ClaimsPrincipal user) =>
 {
     throw new Exception("This is an exception", innerException: new HttpRequestException("This is an inner exception"));
 })

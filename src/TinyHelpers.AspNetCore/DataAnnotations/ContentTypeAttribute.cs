@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace TinyHelpers.AspNetCore.DataAnnotations;
 
+/// <summary>
+/// Describes broad media categories that can be mapped to a predefined set of MIME types.
+/// </summary>
 public enum FileType
 {
     Image,
@@ -12,6 +15,13 @@ public enum FileType
     Audio
 }
 
+/// <summary>
+/// Validates that an uploaded <see cref="IFormFile" /> uses one of the permitted content types.
+/// </summary>
+/// <remarks>
+/// Use this attribute when the server depends on a known set of MIME types to avoid accepting files that cannot
+/// be rendered, transcoded, or safely processed later in the pipeline.
+/// </remarks>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class ContentTypeAttribute : ValidationAttribute
 {
@@ -23,12 +33,20 @@ public class ContentTypeAttribute : ValidationAttribute
 
     private const string DefaultErrorMessage = "The {0} field should have one of the following Content-Types: {1}";
 
+    /// <summary>
+    /// Creates a new instance that accepts the specified MIME types.
+    /// </summary>
+    /// <param name="validContentTypes">The accepted content types, such as <c>image/png</c>.</param>
     public ContentTypeAttribute(params string[] validContentTypes)
         : base(DefaultErrorMessage)
     {
         this.validContentTypes = validContentTypes;
     }
 
+    /// <summary>
+    /// Creates a new instance using one of the built-in content type groups.
+    /// </summary>
+    /// <param name="fileType">The predefined file category to accept.</param>
     public ContentTypeAttribute(FileType fileType)
         : base(DefaultErrorMessage)
     {
@@ -51,6 +69,11 @@ public class ContentTypeAttribute : ValidationAttribute
         return ValidationResult.Success;
     }
 
+    /// <summary>
+    /// Formats the validation error using the configured content types.
+    /// </summary>
+    /// <param name="name">The validated member name.</param>
+    /// <returns>A localized error message that lists the allowed content types.</returns>
     public override string FormatErrorMessage(string name)
         => string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, string.Join(", ", validContentTypes));
 }

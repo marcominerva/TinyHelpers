@@ -8,6 +8,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
 {
+    /// <summary>
+    /// Adds a human-readable time example so time-only schemas are easier to understand in generated documentation.
+    /// </summary>
+    /// <param name="schema">The schema being enriched.</param>
+    /// <param name="context">The schema-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the example has been added.</returns>
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
         var type = context.JsonTypeInfo.Type;
@@ -30,6 +37,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
 {
+    /// <summary>
+    /// Adds a human-readable time example so time-only schemas are easier to understand in generated documentation.
+    /// </summary>
+    /// <param name="schema">The schema being enriched.</param>
+    /// <param name="context">The schema-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the example has been added.</returns>
     public Task TransformAsync(OpenApiSchema schema, OpenApiSchemaTransformerContext context, CancellationToken cancellationToken)
     {
         var type = context.JsonTypeInfo.Type;

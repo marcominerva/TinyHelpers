@@ -28,6 +28,13 @@ internal class DefaultResponseOperationTransformer : IOpenApiOperationTransforme
         }
     };
 
+    /// <summary>
+    /// Adds a reusable default error response so operations consistently advertise their <see cref="ProblemDetails" /> failure shape.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the response has been added.</returns>
     public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         operation.Responses.TryAdd("default", defaultResponse);
@@ -50,6 +57,13 @@ public class DefaultResponseOperationTransformer : IOpenApiOperationTransformer
 
     public string DefaultDescription { get; set; } = "Error";
 
+    /// <summary>
+    /// Adds a reusable default error response so operations consistently advertise their <see cref="ProblemDetails" /> failure shape.
+    /// </summary>
+    /// <param name="operation">The OpenAPI operation being enriched.</param>
+    /// <param name="context">The operation-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the response has been added.</returns>
     public async Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
     {
         // Ensure ProblemDetails schema is generated.

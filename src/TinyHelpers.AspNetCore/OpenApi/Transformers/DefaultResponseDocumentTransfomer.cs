@@ -8,6 +8,13 @@ namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
 internal class DefaultResponseDocumentTransformer : IOpenApiDocumentTransformer
 {
+    /// <summary>
+    /// Ensures the document contains a reusable <see cref="ProblemDetails" /> schema before operations reference it.
+    /// </summary>
+    /// <param name="document">The OpenAPI document being generated.</param>
+    /// <param name="context">The document-generation context.</param>
+    /// <param name="cancellationToken">A token that signals request cancellation.</param>
+    /// <returns>A task that completes when the schema has been added, if needed.</returns>
     public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
     {
         // Checks if the ProblemDetails type is already defined in the document (because there is at least one endpoint that returns it).
