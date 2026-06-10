@@ -21,6 +21,11 @@ public class JsonTypeHandler<T>(JsonSerializerOptions? jsonSerializerOptions = n
     /// <inheritdoc />
     public override T Parse(object value)
     {
+        if (value is null)
+        {
+            return default!;
+        }
+
         var json = value.ToString()!;
         return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions)!;
     }
@@ -28,7 +33,13 @@ public class JsonTypeHandler<T>(JsonSerializerOptions? jsonSerializerOptions = n
     /// <inheritdoc />
     public override void SetValue(IDbDataParameter parameter, T? value)
     {
-        var json = JsonSerializer.Serialize<object>(value!, jsonSerializerOptions);
+        if (value is null)
+        {
+            parameter.Value = DBNull.Value;
+            return;
+        }
+
+        var json = JsonSerializer.Serialize<object>(value, jsonSerializerOptions);
         parameter.Value = json;
     }
 

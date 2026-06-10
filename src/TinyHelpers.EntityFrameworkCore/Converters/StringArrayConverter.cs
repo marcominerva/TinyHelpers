@@ -7,7 +7,7 @@ namespace TinyHelpers.EntityFrameworkCore.Converters;
 /// Converts a string sequence to a delimiter-separated value so it can be persisted in a single database column.
 /// </summary>
 /// <param name="separator">The delimiter used to serialize and parse the string sequence.</param>
-/// <remarks>/// This converter keeps simple list-shaped data close to the entity without requiring a join table. It is a
+/// <remarks>This converter keeps simple list-shaped data close to the entity without requiring a join table. It is a
 /// pragmatic mapping for cases where the collection is small, text-based, and does not need independent
 /// relational querying.
 /// </remarks>

@@ -34,7 +34,6 @@ Or search for `TinyHelpers.AspNetCore.Swashbuckle` in the Visual Studio Package 
 ## Contents
 
 - [Swagger and OpenAPI helpers](#swagger-and-openapi-helpers)
-- [Shared OpenAPI parameters](#shared-openapi-parameters)
 - [Schema helpers](#schema-helpers)
 - [Quick examples](#quick-examples)
 
@@ -54,6 +53,7 @@ Or search for `TinyHelpers.AspNetCore.Swashbuckle` in the Visual Studio Package 
 ### Example
 
 ```csharp
+using Microsoft.OpenApi;
 using TinyHelpers.AspNetCore.Swagger;
 
 builder.Services.AddSwaggerGen(options =>

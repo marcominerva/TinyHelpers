@@ -19,5 +19,21 @@ namespace TinyHelpers.EntityFrameworkCore.Comparers;
 /// updates for value objects and complex graphs.
 /// </remarks>
 public class JsonStringComparer<T>(JsonSerializerOptions? jsonSerializerOptions = null) : ValueComparer<T?>(
-        (first, second) => JsonSerializer.Serialize<object?>(first, jsonSerializerOptions ?? JsonOptions.Default) == JsonSerializer.Serialize<object?>(second, jsonSerializerOptions ?? JsonOptions.Default),
-        value => value == null ? 0 : value.GetHashCode());
+        (first, second) => Serialize(first, jsonSerializerOptions) == Serialize(second, jsonSerializerOptions),
+        value => GetHashCode(value, jsonSerializerOptions))
+{
+    private static string Serialize(T? value, JsonSerializerOptions? jsonSerializerOptions)
+    {
+        return JsonSerializer.Serialize<object?>(value, jsonSerializerOptions ?? JsonOptions.Default);
+    }
+
+    private static int GetHashCode(T? value, JsonSerializerOptions? jsonSerializerOptions)
+    {
+        if (value is null)
+        {
+            return 0;
+        }
+
+        return StringComparer.Ordinal.GetHashCode(Serialize(value, jsonSerializerOptions));
+    }
+}
