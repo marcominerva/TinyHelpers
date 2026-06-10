@@ -1,5 +1,6 @@
 ﻿#if NET9_0
 
+using System.Globalization;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 
@@ -11,25 +12,25 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 public static class OpenApiSchemaHelper
 {
     /// <summary>
-    /// Creates a plain string schema with an optional default value for cases where the document needs to stay minimal.
+    /// Creates a string schema with an optional default value.
     /// </summary>
-    /// <param name="defaultValue">The optional default value to expose in the schema.</param>
-    /// <returns>A string schema.</returns>
+    /// <param name="defaultValue">The optional default value.</param>
+    /// <returns>A schema configured for <see cref="JsonSchemaType.String" />.</returns>
     public static OpenApiSchema CreateStringSchema(string? defaultValue = null)
     {
         var schema = new OpenApiSchema
         {
             Type = "string",
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? new OpenApiString(defaultValue) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates a schema with the specified type and format when the caller already knows the wire representation.
+    /// Creates a schema with the specified type and format.
     /// </summary>
-    /// <typeparam name="TValue">The CLR type associated with the schema.</typeparam>
+    /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type name.</param>
     /// <param name="format">The optional format string.</param>
     /// <returns>A schema configured with the supplied type metadata.</returns>
@@ -45,9 +46,9 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a typed schema with a default value so generated clients can reflect the common case.
+    /// Creates a typed schema with a default value.
     /// </summary>
-    /// <typeparam name="TValue">The CLR value type associated with the schema.</typeparam>
+    /// <typeparam name="TValue">The value type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type name.</param>
     /// <param name="format">The optional format string.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -58,14 +59,14 @@ public static class OpenApiSchemaHelper
         {
             Type = type,
             Format = format,
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? new OpenApiString(Convert.ToString(defaultValue, CultureInfo.InvariantCulture)) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates a string enum schema from a known list of values so callers do not need to hand-build the enum metadata.
+    /// Creates a string enum schema from a known list of values.
     /// </summary>
     /// <param name="values">The allowed values to expose in the schema.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -76,14 +77,14 @@ public static class OpenApiSchemaHelper
         {
             Type = "string",
             Enum = values.Select(v => new OpenApiString(v)).Cast<IOpenApiAny>().ToList(),
-            Default = defaultValue is not null ? new OpenApiString(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? new OpenApiString(defaultValue) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates an enum schema from a CLR enumeration so the generated document stays in sync with the source type.
+    /// Creates an enum schema from an <see cref="Enum"/> type.
     /// </summary>
     /// <typeparam name="TEnum">The enumeration type to describe.</typeparam>
     /// <param name="defaultValue">The optional default enum value.</param>
@@ -103,6 +104,7 @@ public static class OpenApiSchemaHelper
 
 #elif NET10_0_OR_GREATER
 
+using System.Globalization;
 using System.Text.Json.Nodes;
 using Microsoft.OpenApi;
 
@@ -114,25 +116,25 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 public static class OpenApiSchemaHelper
 {
     /// <summary>
-    /// Creates a plain string schema with an optional default value for cases where the document needs to stay minimal.
+    /// Creates a string schema with an optional default value.
     /// </summary>
-    /// <param name="defaultValue">The optional default value to expose in the schema.</param>
-    /// <returns>A string schema.</returns>
+    /// <param name="defaultValue">The optional default value.</param>
+    /// <returns>A schema configured for <see cref="JsonSchemaType.String" />.</returns>
     public static OpenApiSchema CreateStringSchema(string? defaultValue = null)
     {
         var schema = new OpenApiSchema
         {
             Type = JsonSchemaType.String,
-            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? JsonValue.Create(defaultValue) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates a schema with the specified type and format when the caller already knows the wire representation.
+    /// Creates a schema with the specified type and format.
     /// </summary>
-    /// <typeparam name="TValue">The CLR type associated with the schema.</typeparam>
+    /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type value.</param>
     /// <param name="format">The optional format string.</param>
     /// <returns>A schema configured with the supplied type metadata.</returns>
@@ -148,9 +150,9 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a typed schema with a default value so generated clients can reflect the common case.
+    /// Creates a typed schema with a default value.
     /// </summary>
-    /// <typeparam name="TValue">The CLR value type associated with the schema.</typeparam>
+    /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type value.</param>
     /// <param name="format">The optional format string.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -161,14 +163,14 @@ public static class OpenApiSchemaHelper
         {
             Type = type,
             Format = format,
-            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? JsonValue.Create(Convert.ToString(defaultValue, CultureInfo.InvariantCulture)) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates a string enum schema from a known list of values so callers do not need to hand-build the enum metadata.
+    /// Creates a string enum schema from a known list of values.
     /// </summary>
     /// <param name="values">The allowed values to expose in the schema.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -179,14 +181,14 @@ public static class OpenApiSchemaHelper
         {
             Type = JsonSchemaType.String,
             Enum = values.Select(v => JsonValue.Create(v)).Cast<JsonNode>().ToList(),
-            Default = defaultValue is not null ? JsonValue.Create(defaultValue.ToString()) : null
+            Default = defaultValue is not null ? JsonValue.Create(defaultValue) : null
         };
 
         return schema;
     }
 
     /// <summary>
-    /// Creates an enum schema from a CLR enumeration so the generated document stays in sync with the source type.
+    /// Creates an enum schema from an <see cref="Enum"/> type.
     /// </summary>
     /// <typeparam name="TEnum">The enumeration type to describe.</typeparam>
     /// <param name="defaultValue">The optional default enum value.</param>

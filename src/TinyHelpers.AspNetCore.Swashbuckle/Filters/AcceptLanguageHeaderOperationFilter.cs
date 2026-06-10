@@ -7,6 +7,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TinyHelpers.AspNetCore.Swagger.Filters;
 
+/// <summary>
+/// Adds an <c>Accept-Language</c> header parameter to an OpenAPI operation when the application
+/// exposes a fixed set of supported cultures.
+/// </summary>
+/// <remarks>
+/// This keeps the generated Swagger document aligned with <see cref="RequestLocalizationOptions" />.
+/// </remarks>
 internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationOptions> requestLocalizationOptions) : IOperationFilter
 {
     private readonly List<JsonNode>? supportedLanguages = requestLocalizationOptions.Value
@@ -16,6 +23,7 @@ internal class AcceptLanguageHeaderOperationFilter(IOptions<RequestLocalizationO
 
     private readonly JsonNode defaultLanguage = JsonValue.Create(requestLocalizationOptions.Value.DefaultRequestCulture.Culture.Name);
 
+    /// <inheritdoc />
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         if (supportedLanguages?.Count > 0)
