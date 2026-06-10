@@ -13,7 +13,7 @@ namespace TinyHelpers.AspNetCore.Extensions;
 public static class RouteHandlerBuilderExtensions
 {
     /// <summary>
-    /// Declares a set of problem responses on the route so minimal APIs stay expressive without repeating the same response setup.
+    /// Declares a set of problem responses on the endpoint.
     /// </summary>
     /// <param name="builder">The route configuration being extended.</param>
     /// <param name="statusCodes">The HTTP status codes that should be described as <see cref="ProblemDetails" /> responses.</param>
