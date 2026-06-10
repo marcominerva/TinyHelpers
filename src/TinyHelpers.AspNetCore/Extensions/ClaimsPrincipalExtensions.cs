@@ -6,7 +6,7 @@ namespace TinyHelpers.AspNetCore.Extensions;
 /// <summary>
 /// Provides <see cref="ClaimsPrincipal" /> helpers for reading claim values and checking claim presence.
 /// </summary>
-public static class ClaimExtensions
+public static class ClaimsPrincipalExtensions
 {
     extension(ClaimsPrincipal user)
     {
