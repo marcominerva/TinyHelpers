@@ -3,7 +3,10 @@
 /// <summary>
 /// Provides a lock that can be used asynchronously.
 /// </summary>
-public class AsyncLock : IDisposable
+public sealed class AsyncLock : IDisposable
+#if !NETSTANDARD2_0
+    , IAsyncDisposable
+#endif
 {
     private readonly SemaphoreSlim semaphoreSlim = new(1, 1);
 
@@ -55,11 +58,28 @@ public class AsyncLock : IDisposable
     /// </summary>
     public void Dispose()
     {
+        DisposeCore();
+        GC.SuppressFinalize(this);
+    }
+
+#if !NETSTANDARD2_0
+    /// <summary>
+    /// Asynchronously releases the lock.
+    /// </summary>
+    public ValueTask DisposeAsync()
+    {
+        DisposeCore();
+        GC.SuppressFinalize(this);
+
+        return ValueTask.CompletedTask;
+    }
+#endif
+
+    private void DisposeCore()
+    {
         if (semaphoreSlim.CurrentCount == 0)
         {
             semaphoreSlim.Release();
         }
-
-        GC.SuppressFinalize(this);
     }
 }
