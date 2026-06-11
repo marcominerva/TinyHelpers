@@ -49,22 +49,20 @@ public static class SwaggerExtensions
         }
 
         /// <summary>
-        /// Adds a shared parameter definition pipeline to Swagger generation.
+        /// Adds shared OpenAPI parameter definitions so they are automatically applied to every generated operation.
         /// </summary>
+        /// <seealso cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public void AddOperationParameters()
             => options.OperationFilter<OpenApiParametersOperationFilter>();
     }
 
     /// <summary>
-    /// Registers a reusable set of OpenAPI parameters in the dependency injection container.
+    /// Registers OpenAPI parameter definitions that can be automatically applied to every operation.
     /// </summary>
-    /// <remarks>
-    /// This lets applications define shared parameters once and then reuse them during Swagger
-    /// generation through <see cref="OpenApiParametersOperationFilter" />.
-    /// </remarks>
     /// <param name="services">The service collection to extend.</param>
     /// <param name="setupAction">The configuration callback used to populate shared parameters.</param>
     /// <returns>The same <see cref="IServiceCollection" /> instance so calls can be chained.</returns>
+    /// <seealso cref="AddOperationParameters(SwaggerGenOptions)"/>
     public static IServiceCollection AddSwaggerOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
     {
         ArgumentNullException.ThrowIfNull(services);

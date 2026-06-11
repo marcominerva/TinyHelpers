@@ -14,10 +14,11 @@ public static class OpenApiExtensions
     extension(IServiceCollection services)
     {
         /// <summary>
-        /// Captures endpoint parameter metadata once and reuses it during OpenAPI generation so the application can keep custom parameter rules in a single place.
+        /// Registers OpenAPI parameter definitions that can be automatically applied to every operation.
         /// </summary>
         /// <param name="setupAction">A callback that fills the parameter options object.</param>
         /// <returns>The same <see cref="IServiceCollection" /> for fluent registration.</returns>
+        /// <seealso cref="AddOperationParameters(OpenApiOptions)"/>
         public IServiceCollection AddOpenApiOperationParameters(Action<OpenApiOperationOptions> setupAction)
         {
             ArgumentNullException.ThrowIfNull(services);
@@ -56,9 +57,10 @@ public static class OpenApiExtensions
         }
 
         /// <summary>
-        /// Adds custom query-parameter metadata rules when the default generated names are not sufficient.
+        /// Adds shared OpenAPI parameter definitions so they are automatically applied to every generated operation.
         /// </summary>
         /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
+        /// <seealso cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public OpenApiOptions AddOperationParameters()
             => options.AddOperationTransformer<OpenApiParametersOperationFilter>();
 
