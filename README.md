@@ -29,6 +29,15 @@ dotnet add package TinyHelpers
 
 Or search for `TinyHelpers` in the Visual Studio Package Manager.
 
+## Other package documentation
+
+Additional documentation is available for these packages:
+
+- [TinyHelpers.AspNetCore](src/TinyHelpers.AspNetCore/README.md)
+- [TinyHelpers.AspNetCore.Swashbuckle](src/TinyHelpers.AspNetCore.Swashbuckle/README.md)
+- [TinyHelpers.EntityFrameworkCore](src/TinyHelpers.EntityFrameworkCore/README.md)
+- [TinyHelpers.Dapper](src/TinyHelpers.Dapper/README.md)
+
 ## Contents
 
 - [Collections and sequences](#collections-and-sequences)
