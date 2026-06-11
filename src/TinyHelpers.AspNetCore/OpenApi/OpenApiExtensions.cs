@@ -57,8 +57,11 @@ public static class OpenApiExtensions
         }
 
         /// <summary>
-        /// Adds shared OpenAPI parameter definitions so they are automatically applied to every generated operation.
+        /// Registers the operation transformer that applies OpenAPI parameters added with <see cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />.
         /// </summary>
+        /// <remarks>
+        /// Call <see cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" /> so the parameters are registered in dependency injection before this transformer runs.
+        /// </remarks>
         /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         /// <seealso cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public OpenApiOptions AddOperationParameters()

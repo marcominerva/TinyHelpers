@@ -49,8 +49,12 @@ public static class SwaggerExtensions
         }
 
         /// <summary>
-        /// Adds shared OpenAPI parameter definitions so they are automatically applied to every generated operation.
+        /// Registers the operation transformer that applies OpenAPI parameters added with <see cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />.
         /// </summary>
+        /// <remarks>
+        /// Call <see cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" /> so the parameters are registered in dependency injection before this transformer runs.
+        /// </remarks>
+        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         /// <seealso cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public void AddOperationParameters()
             => options.OperationFilter<OpenApiParametersOperationFilter>();
