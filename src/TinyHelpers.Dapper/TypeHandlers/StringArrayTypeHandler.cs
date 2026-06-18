@@ -8,7 +8,7 @@ namespace TinyHelpers.Dapper.TypeHandlers;
 /// </summary>
 /// <remarks>
 /// This handler is useful when a database column stores multiple string values in a single field and the
-/// application needs to map them to <see cref="string[]" /> without custom parsing logic at each call site.
+/// application needs to map them to <see cref="Array" /> values without custom parsing logic at each call site.
 /// </remarks>
 public class StringArrayTypeHandler(string separator = ";") : SqlMapper.TypeHandler<string[]>
 {
@@ -35,8 +35,10 @@ public class StringArrayTypeHandler(string separator = ";") : SqlMapper.TypeHand
     /// <summary>
     /// Registers <see cref="StringArrayTypeHandler" /> with Dapper using the specified separator.
     /// </summary>
+    /// <param name="separator">The delimiter used to split database values and join parameter values.</param>
     /// <remarks>
-    /// Keep the separator consistent with the database format so arrays can be round-tripped reliably.
+    /// Register this once during application startup. Keep the separator consistent with the database format so arrays
+    /// can be round-tripped reliably across all Dapper queries.
     /// </remarks>
     public static void Configure(string separator = ";")
         => SqlMapper.AddTypeHandler(new StringArrayTypeHandler(separator));

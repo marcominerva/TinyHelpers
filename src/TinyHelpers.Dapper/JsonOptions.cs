@@ -11,7 +11,7 @@ internal class JsonOptions
     /// </summary>
     /// <remarks>
     /// The defaults are centralized so JSON-based type handlers can deserialize and serialize values
-    /// consistently without repeating configuration across the library.
+    /// consistently without repeating configuration across the library or drifting from one handler registration to another.
     /// </remarks>
     public static JsonSerializerOptions Default { get; }
 

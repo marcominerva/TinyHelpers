@@ -5,7 +5,8 @@
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Authors>Marco Minerva</Authors>
+        <DocumentationFile>TinyHelpers.EntityFrameworkCore.xml</DocumentationFile>
+        <Authors>Marco Minerva</Authors>
 		<Company>Marco Minerva</Company>
 		<Product>Tiny Helpers for Entity Framework Core</Product>
 		<Title>Tiny Helpers for Entity Framework Core</Title>
@@ -20,8 +21,12 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
+    <ItemGroup>
+        <None Remove="TinyHelpers.EntityFrameworkCore.xml" />
+    </ItemGroup>
+
 	<ItemGroup>		
-		<PackageReference Include="TinyHelpers" Version="3.3.25" />
+		<PackageReference Include="TinyHelpers" Version="3.3.26" />
 	</ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">

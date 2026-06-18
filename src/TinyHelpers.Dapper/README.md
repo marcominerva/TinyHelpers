@@ -8,7 +8,7 @@
 
 TinyHelpers.Dapper is a small collection of practical Dapper type handlers for .NET applications.
 
-The package helps reduce repetitive mapping code when your database stores values as JSON, delimited strings, or date/time-specific types.
+The package helps reduce repetitive mapping code when your database stores values as JSON, delimited strings, or date/time-specific types. Each handler centralizes the conversion contract so queries and repositories do not need custom parsing or serialization logic at every call site.
 
 ## Compatibility
 
@@ -45,41 +45,41 @@ dotnet add package TinyHelpers.Dapper
 
 Reads and writes a CLR type as JSON.
 
-Use it when you want to store a complex object graph in a single column and keep serializer configuration centralized instead of repeating it in each query or repository.
+Use it when you want to store a value object or small object graph in a single column and keep serializer configuration centralized instead of repeating it in each query or repository. The optional configuration flags let the handler match the JSON contract expected by the database and consuming clients.
 
 ### `StringArrayTypeHandler`
 
 Converts `string[]` values to a single delimited string.
 
-Use it when a database column stores a small set of string values and you want to work with arrays in your application code.
+Use it when a database column stores a small set of string values and you want to work with arrays in application code without custom split/join logic. Keep the separator aligned with the stored format so values round-trip reliably.
 
 ### `StringEnumerableTypeHandler`
 
 Converts `IEnumerable<string>` values to a single delimited string.
 
-Use it when you want the consuming code to stay sequence-oriented while still persisting a simple delimited representation.
+Use it when you want consuming code to stay sequence-oriented while still persisting a simple delimited representation. Keep the separator aligned with the stored format so query results can reconstruct the sequence correctly.
 
 ### `DateOnlyTypeHandler`
 
 Maps `DateOnly` values to a database `date` column.
 
-Use it when you want to persist calendar dates without introducing an artificial time component.
+Use it when you want to persist calendar dates without introducing an artificial time component or repeating manual `DateTime` conversions.
 
 ### `TimeOnlyTypeHandler`
 
 Maps `TimeOnly` values to a database `time` column.
 
-Use it when you want to persist a time of day without tying it to a date.
+Use it when you want to persist a time of day without tying it to a calendar date.
 
 ### `TimeSpanTypeHandler`
 
 Maps `TimeSpan` values using ticks.
 
-Use it when you want a stable, culture-independent representation for durations.
+Use it when you want a stable, culture-independent representation for durations that can be round-tripped across supported target frameworks.
 
 ## Usage
 
-Register the handlers at application startup by calling their `Configure` methods.
+Register the handlers once at application startup by calling their `Configure` methods. Dapper type handlers are global, so startup registration keeps conversion behavior consistent for all queries and parameters.
 
 ### JSON mapping
 
@@ -102,6 +102,8 @@ StringArrayTypeHandler.Configure(",");
 StringEnumerableTypeHandler.Configure(",");
 ```
 
+Use the same separator that is already used by the database column format.
+
 ### Date and time mapping
 
 ```csharp
@@ -112,6 +114,8 @@ TimeSpanTypeHandler.Configure();
 DateOnlyTypeHandler.Configure();
 TimeOnlyTypeHandler.Configure();
 ```
+
+`DateOnlyTypeHandler` and `TimeOnlyTypeHandler` are not available on .NET Standard 2.0.
 
 ## Quick examples
 

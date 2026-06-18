@@ -23,7 +23,8 @@ public static class DbContextExtensions
         /// <param name="isolationLevel">The isolation level to use for the transaction.</param>
         /// <param name="cancellationToken">The token used to cancel the operation.</param>
         /// <remarks>
-        /// Use this overload when the operation does not need direct access to the active transaction object.
+        /// Use this overload when the operation does not need direct access to the active <see cref="IDbContextTransaction" /> instance.
+        /// The transaction is automatically committed after the callback completes successfully.
         /// </remarks>
         public Task ExecuteTransactionAsync(Func<CancellationToken, Task> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default)
         {
@@ -49,6 +50,7 @@ public static class DbContextExtensions
         /// <remarks>
         /// Use this overload when the operation needs a transactional boundary and return value, but does not need
         /// direct access to the active <see cref="IDbContextTransaction" /> instance.
+        /// The transaction is automatically committed after the callback completes successfully.
         /// </remarks>
         public Task ExecuteTransactionAsync<TResult>(Func<CancellationToken, Task<TResult>> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default)
         {
@@ -73,7 +75,8 @@ public static class DbContextExtensions
         /// <param name="cancellationToken">The token used to cancel the operation.</param>
         /// <remarks>
         /// This overload is useful when the caller needs transaction metadata or must pass the transaction to
-        /// lower-level APIs while still preserving the retry semantics of the execution strategy.
+        /// lower-level APIs while still preserving the retry semantics of the execution strategy. Because the transaction
+        /// is passed to the callback, the callback is responsible for deciding whether and when to commit it.
         /// </remarks>
         public Task ExecuteTransactionAsync(Func<IDbContextTransaction, CancellationToken, Task> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default)
         {
@@ -95,7 +98,8 @@ public static class DbContextExtensions
         /// <param name="cancellationToken">The token used to cancel the operation.</param>
         /// <remarks>
         /// This overload is the most flexible option when both transaction access and a computed result are
-        /// required.
+        /// required. Because the transaction is passed to the callback, the callback is responsible for deciding
+        /// whether and when to commit it.
         /// </remarks>
         public Task<TResult> ExecuteTransactionAsync<TResult>(Func<IDbContextTransaction, CancellationToken, Task<TResult>> action, IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default)
         {

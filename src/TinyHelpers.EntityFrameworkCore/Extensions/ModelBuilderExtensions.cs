@@ -5,17 +5,25 @@ using Microsoft.EntityFrameworkCore.Query;
 namespace TinyHelpers.EntityFrameworkCore.Extensions;
 
 /// <summary>
-/// Provides extension methods for <see cref="ModelBuilder"/> to apply query filters and retrieve entity types.
+/// Provides <see cref="ModelBuilder" /> helpers for applying shared query filters and discovering mapped CLR entity types.
 /// </summary>
+/// <remarks>
+/// These helpers centralize model-wide conventions, such as soft-delete or tenant filters, so each entity type does not
+/// need duplicate configuration when it shares a common base type, interface, or property.
+/// </remarks>
 public static class ModelBuilderExtensions
 {
     extension(ModelBuilder modelBuilder)
     {
         /// <summary>
-        /// Applies a global query filter to all entity types assignable to <typeparamref name="TEntity"/>.
+        /// Applies a global query filter to every mapped entity type assignable to <typeparamref name="TEntity" />.
         /// </summary>
         /// <typeparam name="TEntity">The base type or interface to match entity types against.</typeparam>
         /// <param name="expression">The filter expression to apply.</param>
+        /// <remarks>
+        /// Use this for cross-cutting filters such as soft delete, tenant isolation, or visibility rules that should
+        /// apply consistently to every mapped subtype.
+        /// </remarks>
         public void ApplyQueryFilter<TEntity>(Expression<Func<TEntity, bool>> expression)
         {
             foreach (var clrType in modelBuilder.GetEntityTypes<TEntity>())
@@ -27,11 +35,15 @@ public static class ModelBuilderExtensions
         }
 
         /// <summary>
-        /// Applies a global query filter to all entity types that have a property with the specified name and type.
+        /// Applies a global query filter to every mapped entity type that exposes a property with the specified name and type.
         /// </summary>
         /// <typeparam name="TType">The type of the property to filter on.</typeparam>
         /// <param name="propertyName">The name of the property to filter on.</param>
         /// <param name="value">The value to compare the property against.</param>
+        /// <remarks>
+        /// Use this when entities do not share an interface or base type but still expose the same shadow or CLR
+        /// property that must be constrained globally.
+        /// </remarks>
         public void ApplyQueryFilter<TType>(string propertyName, TType value)
         {
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -49,16 +61,15 @@ public static class ModelBuilderExtensions
 
 #if NET10_0_OR_GREATER
     /// <summary>
-    /// Applies a named query filter to all entity types assignable to <typeparamref name="TEntity"/>.
-    /// Named query filters can be selectively disabled at query time using <c>IgnoreQueryFilters</c>.
+    /// Applies a named query filter to every mapped entity type assignable to <typeparamref name="TEntity" />.
     /// </summary>
     /// <typeparam name="TEntity">The base type or interface to match entity types against.</typeparam>
     /// <param name="filterName">The name to assign to the query filter.</param>
     /// <param name="expression">The filter expression to apply.</param>
     /// <remarks>
-    /// This feature requires .NET 10 or greater. Named query filters allow multiple filters per entity type
-    /// and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
-    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">EF Core Query Filters</see> for more information.
+    /// Named filters allow multiple filters per entity type and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
+    /// Use this for filters that callers may need to disable independently, such as soft delete without disabling tenant isolation.
+    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">Entity Framework Core Query Filters</see> for more information.
     /// </remarks>
     public void ApplyQueryFilter<TEntity>(string filterName, Expression<Func<TEntity, bool>> expression)
     {
@@ -71,17 +82,16 @@ public static class ModelBuilderExtensions
     }
 
     /// <summary>
-    /// Applies a named query filter to all entity types that have a property with the specified name and type.
-    /// Named query filters can be selectively disabled at query time using <c>IgnoreQueryFilters</c>.
+    /// Applies a named query filter to every mapped entity type that exposes a property with the specified name and type.
     /// </summary>
     /// <typeparam name="TType">The type of the property to filter on.</typeparam>
     /// <param name="filterName">The name to assign to the query filter.</param>
     /// <param name="propertyName">The name of the property to filter on.</param>
     /// <param name="value">The value to compare the property against.</param>
     /// <remarks>
-    /// This feature requires .NET 10 or greater. Named query filters allow multiple filters per entity type
-    /// and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
-    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">EF Core Query Filters</see> for more information.
+    /// Named filters allow multiple filters per entity type and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
+    /// Use this when the filter is driven by a shared property and callers may need to disable it independently.
+    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">Entity Framework Core Query Filters</see> for more information.
     /// </remarks>
     public void ApplyQueryFilter<TType>(string filterName, string propertyName, TType value)
     {
@@ -100,7 +110,7 @@ public static class ModelBuilderExtensions
 #endif
 
         /// <summary>
-        /// Gets all entity types in the model that are assignable to <typeparamref name="TType"/>.
+        /// Gets the mapped CLR entity types that are assignable to <typeparamref name="TType" />.
         /// </summary>
         /// <typeparam name="TType">The base type or interface to match entity types against.</typeparam>
         /// <returns>An enumerable of CLR types that are assignable to <typeparamref name="TType"/>.</returns>
@@ -108,7 +118,7 @@ public static class ModelBuilderExtensions
             => modelBuilder.GetEntityTypes(typeof(TType));
 
         /// <summary>
-        /// Gets all entity types in the model that are assignable to the specified <paramref name="baseType"/>.
+        /// Gets the mapped CLR entity types that are assignable to the specified runtime type.
         /// </summary>
         /// <param name="baseType">The base type or interface to match entity types against.</param>
         /// <returns>An enumerable of CLR types that are assignable to <paramref name="baseType"/>.</returns>

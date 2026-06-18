@@ -119,7 +119,7 @@ var contains = value.ContainsIgnoreCase("HELP");
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
-| `GetDescription()` | Reads the `DescriptionAttribute` value for an enum member. | When you want a human-readable label. |
+| `GetDescription()` | Reads the `DisplayAttribute` value for an enum member, including localized display names when configured. | When you want a human-readable label. |
 | `GetFlags()` | Splits a flags enum into its individual values. | When you need to inspect combined flags. |
 | `GetDescriptions()` | Returns descriptions for all enum values. | When building lists or UI options. |
 
