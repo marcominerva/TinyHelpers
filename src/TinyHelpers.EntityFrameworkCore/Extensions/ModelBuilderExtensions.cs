@@ -69,7 +69,7 @@ public static class ModelBuilderExtensions
     /// <remarks>
     /// Named filters allow multiple filters per entity type and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
     /// Use this for filters that callers may need to disable independently, such as soft delete without disabling tenant isolation.
-    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">EF Core Query Filters</see> for more information.
+    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">Entity Framework Core Query Filters</see> for more information.
     /// </remarks>
     public void ApplyQueryFilter<TEntity>(string filterName, Expression<Func<TEntity, bool>> expression)
     {
@@ -91,7 +91,7 @@ public static class ModelBuilderExtensions
     /// <remarks>
     /// Named filters allow multiple filters per entity type and selective disabling via <c>IgnoreQueryFilters(["filterName"])</c>.
     /// Use this when the filter is driven by a shared property and callers may need to disable it independently.
-    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">EF Core Query Filters</see> for more information.
+    /// See <see href="https://learn.microsoft.com/ef/core/querying/filters">Entity Framework Core Query Filters</see> for more information.
     /// </remarks>
     public void ApplyQueryFilter<TType>(string filterName, string propertyName, TType value)
     {

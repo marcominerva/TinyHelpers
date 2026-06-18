@@ -38,8 +38,8 @@ public class TimeSpanTypeHandler : SqlMapper.TypeHandler<TimeSpan>
     /// Registers <see cref="TimeSpanTypeHandler" /> with Dapper for application-wide use.
     /// </summary>
     /// <remarks>
-    /// Call this once during application startup so Dapper can transparently map <see cref="TimeSpan" /> values
-    /// to and from the underlying database representation.
+    /// Register this once during application startup so Dapper can transparently map <see cref="TimeSpan" /> values to
+    /// and from the tick-based database representation used by this handler.
     /// </remarks>
     public static void Configure()
         => SqlMapper.AddTypeHandler(new TimeSpanTypeHandler());

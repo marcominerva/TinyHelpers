@@ -29,7 +29,7 @@ public static class PropertyBuilderExtensions
     /// <returns>The same <see cref="PropertyBuilder{TProperty}" /> instance so calls can be chained.</returns>
     /// <remarks>
     /// Use this when a value object or small object graph belongs to the entity and should live in a single text column.
-    /// The method wires both <see cref="JsonStringConverter{T}" /> and <see cref="JsonStringComparer{T}" /> so EF Core
+    /// The method wires both <see cref="JsonStringConverter{T}" /> and <see cref="JsonStringComparer{T}" /> so Entity Framework Core
     /// compares the serialized payload instead of object references.
     /// </remarks>
     public static PropertyBuilder<T?> HasJsonConversion<T>(this PropertyBuilder<T?> propertyBuilder, JsonSerializerOptions? jsonSerializerOptions = null, bool useUtcDate = false, bool serializeEnumAsString = false)

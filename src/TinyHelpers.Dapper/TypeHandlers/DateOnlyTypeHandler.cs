@@ -28,8 +28,8 @@ public class DateOnlyTypeHandler : SqlMapper.TypeHandler<DateOnly>
     /// Registers <see cref="DateOnlyTypeHandler" /> with Dapper for application-wide use.
     /// </summary>
     /// <remarks>
-    /// Call this during application startup when you want Dapper to automatically convert date-only
-    /// values in query results and parameters.
+    /// Register this once during application startup when you want Dapper to automatically convert date-only values in
+    /// query results and parameters without repeating manual <see cref="DateTime" /> conversions.
     /// </remarks>
     public static void Configure()
         => SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());

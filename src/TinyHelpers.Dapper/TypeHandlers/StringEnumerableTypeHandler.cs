@@ -35,8 +35,10 @@ public class StringEnumerableTypeHandler(string separator = ";") : SqlMapper.Typ
     /// <summary>
     /// Registers <see cref="StringEnumerableTypeHandler" /> with Dapper using the specified separator.
     /// </summary>
+    /// <param name="separator">The delimiter used to split database values and join parameter values.</param>
     /// <remarks>
-    /// Keep the separator aligned with the storage format so Dapper can reconstruct the sequence correctly.
+    /// Register this once during application startup. Keep the separator aligned with the storage format so Dapper can
+    /// reconstruct the sequence correctly in every query result.
     /// </remarks>
     public static void Configure(string separator = ";")
         => SqlMapper.AddTypeHandler(new StringEnumerableTypeHandler(separator));

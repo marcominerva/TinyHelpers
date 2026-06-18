@@ -28,8 +28,8 @@ public class TimeOnlyTypeHandler : SqlMapper.TypeHandler<TimeOnly>
     /// Registers <see cref="TimeOnlyTypeHandler" /> with Dapper for application-wide use.
     /// </summary>
     /// <remarks>
-    /// Register the handler once at startup so Dapper can transparently map time-only values in both
-    /// query parameters and result sets.
+    /// Register this once during application startup so Dapper can transparently map time-only values in both query
+    /// parameters and result sets without coupling them to a calendar date.
     /// </remarks>
     public static void Configure()
         => SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());

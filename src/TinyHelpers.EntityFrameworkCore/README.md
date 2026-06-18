@@ -8,7 +8,7 @@
 
 TinyHelpers.EntityFrameworkCore is a small collection of practical helpers for Entity Framework Core applications: value converters, value comparers, global query filters, transaction helpers, and vector-column mapping.
 
-The package is designed to reduce repetitive configuration and keep the persistence intent of your EF Core model close to the entity type or model configuration that uses it.
+The package is designed to reduce repetitive configuration and keep the persistence intent of your Entity Framework Core model close to the entity type or model configuration that uses it.
 
 ## Compatibility
 
@@ -21,7 +21,7 @@ The package targets:
 Some features are framework-specific:
 
 - Named query filters are available only on .NET 10+
-- The package focuses on EF Core model configuration, conversions, and transaction helpers
+- The package focuses on Entity Framework Core model configuration, conversions, and transaction helpers
 
 ## Installation
 
@@ -45,7 +45,7 @@ Or search for `TinyHelpers.EntityFrameworkCore` in the Visual Studio Package Man
 
 ## Converters and comparers
 
-This area contains helpers for storing common CLR shapes in a single database column while keeping EF Core change tracking aligned with the persisted representation.
+This area contains helpers for storing common CLR shapes in a single database column while keeping Entity Framework Core change tracking aligned with the persisted representation.
 
 ### `JsonStringConverter<T>`
 
@@ -57,7 +57,7 @@ Use it when a value object or small object graph belongs to the entity and shoul
 
 Compares values by their JSON representation.
 
-Use it together with `JsonStringConverter<T>` so EF Core detects changes based on serialized content instead of object reference identity, avoiding redundant updates when two values serialize to the same payload.
+Use it together with `JsonStringConverter<T>` so Entity Framework Core detects changes based on serialized content instead of object reference identity, avoiding redundant updates when two values serialize to the same payload.
 
 ### `StringArrayConverter`
 
@@ -69,7 +69,7 @@ Use it when a small string collection should stay on the entity row and does not
 
 Compares string sequences by content and order.
 
-Use it together with `StringArrayConverter` so EF Core treats two collections as equal when they contain the same values in the same order, even when the collection instances are different.
+Use it together with `StringArrayConverter` so Entity Framework Core treats two collections as equal when they contain the same values in the same order, even when the collection instances are different.
 
 ### `StringEmptyToNullConverter`
 
@@ -87,7 +87,7 @@ Use it when user input should not preserve incidental leading or trailing whites
 
 ### `PropertyBuilderExtensions`
 
-These helpers keep conversion and comparison pieces together so model configuration can state persistence intent once while EF Core still receives the metadata it needs for materialization and change tracking.
+These helpers keep conversion and comparison pieces together so model configuration can state persistence intent once while Entity Framework Core still receives the metadata it needs for materialization and change tracking.
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
@@ -171,7 +171,7 @@ var items = await context.Set<Order>().IgnoreQueryFilters(["SoftDelete"]).ToList
 
 ### `DbContextExtensions`
 
-These helpers wrap EF Core execution strategies and explicit transactions so retry behavior stays consistent and transaction boilerplate stays out of repositories and services.
+These helpers wrap Entity Framework Core execution strategies and explicit transactions so retry behavior stays consistent and transaction boilerplate stays out of repositories and services.
 
 | Method | What it does | When to use it |
 | --- | --- | --- |

@@ -11,8 +11,8 @@ namespace TinyHelpers.Dapper.TypeHandlers;
 /// </summary>
 /// <typeparam name="T">The CLR type represented by the JSON payload.</typeparam>
 /// <remarks>
-/// Centralizing JSON conversion here keeps database mappings consistent and avoids repeating serializer
-/// configuration across repositories and services.
+/// Centralizing JSON conversion here keeps database mappings consistent and avoids repeating serializer configuration
+/// across repositories and services when a single column stores a value object or small object graph.
 /// </remarks>
 public class JsonTypeHandler<T>(JsonSerializerOptions? jsonSerializerOptions = null) : SqlMapper.TypeHandler<T>
 {
@@ -50,7 +50,8 @@ public class JsonTypeHandler<T>(JsonSerializerOptions? jsonSerializerOptions = n
     /// <param name="useUtcDate">Indicates whether dates should be normalized to UTC before serialization.</param>
     /// <param name="serializeEnumAsString">Indicates whether enums should be written as strings instead of numbers.</param>
     /// <remarks>
-    /// Register the handler during application startup so JSON values are converted consistently in all queries.
+    /// Register the handler during application startup so JSON values are converted consistently in all queries. The
+    /// optional flags let the handler match the JSON contract expected by the database and consuming clients.
     /// </remarks>
     public static void Configure(JsonSerializerOptions? jsonSerializerOptions = null, bool useUtcDate = false, bool serializeEnumAsString = false)
     {
