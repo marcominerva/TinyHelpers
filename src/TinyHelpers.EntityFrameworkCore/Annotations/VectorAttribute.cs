@@ -14,7 +14,7 @@ namespace System.ComponentModel.DataAnnotations.Schema;
 public class VectorAttribute : ColumnAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="VectorAttribute" /> class with the default column name.
+    /// Initializes a new vector column mapping.
     /// </summary>
     /// <param name="size">The vector dimension to encode into the column type.</param>
     public VectorAttribute(int size = 1536)
@@ -23,7 +23,7 @@ public class VectorAttribute : ColumnAttribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VectorAttribute" /> class using a specific column name.
+    /// Initializes a new vector column mapping using a specific database column name.
     /// </summary>
     /// <param name="name">The database column name.</param>
     /// <param name="size">The vector dimension to encode into the column type.</param>

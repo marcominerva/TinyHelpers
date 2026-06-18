@@ -8,7 +8,7 @@
 
 TinyHelpers.EntityFrameworkCore is a small collection of practical helpers for Entity Framework Core applications: value converters, value comparers, global query filters, transaction helpers, and vector-column mapping.
 
-The package is designed to reduce repetitive configuration and keep the intent of your EF Core model close to the entity type that uses it.
+The package is designed to reduce repetitive configuration and keep the persistence intent of your EF Core model close to the entity type or model configuration that uses it.
 
 ## Compatibility
 
@@ -49,27 +49,27 @@ This area contains helpers for storing common CLR shapes in a single database co
 
 ### `JsonStringConverter<T>`
 
-Converts a CLR object graph to and from a JSON string.
+Converts a CLR object graph to and from a JSON string for storage in a text column.
 
-Use it when you want to store a complex type in a text column without manually handling serialization in every entity configuration.
+Use it when a value object or small object graph belongs to the entity and should live in one text column without manually handling serialization in every entity configuration.
 
 ### `JsonStringComparer<T>`
 
 Compares values by their JSON representation.
 
-Use it together with `JsonStringConverter<T>` so EF Core detects changes based on serialized content instead of object reference identity.
+Use it together with `JsonStringConverter<T>` so EF Core detects changes based on serialized content instead of object reference identity, avoiding redundant updates when two values serialize to the same payload.
 
 ### `StringArrayConverter`
 
 Converts a sequence of strings to a single delimiter-separated value.
 
-Use it when a small string collection should be stored in one column and you do not need a separate relational table.
+Use it when a small string collection should stay on the entity row and does not need independent relational querying.
 
 ### `StringArrayComparer`
 
 Compares string sequences by content and order.
 
-Use it together with `StringArrayConverter` so EF Core treats two collections as equal when they contain the same values in the same order.
+Use it together with `StringArrayConverter` so EF Core treats two collections as equal when they contain the same values in the same order, even when the collection instances are different.
 
 ### `StringEmptyToNullConverter`
 
@@ -87,14 +87,14 @@ Use it when user input should not preserve incidental leading or trailing whites
 
 ### `PropertyBuilderExtensions`
 
-These helpers keep the most common EF Core configuration patterns in one place.
+These helpers keep conversion and comparison pieces together so model configuration can state persistence intent once while EF Core still receives the metadata it needs for materialization and change tracking.
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
-| `HasJsonConversion<T>(this PropertyBuilder<T?>, JsonSerializerOptions?, bool useUtcDate, bool serializeEnumAsString)` | Stores a property as JSON and wires up matching change tracking. | When a complex object should be persisted in a single text column. |
-| `HasArrayConversion(this PropertyBuilder<IEnumerable<string>>)` | Stores a string sequence as a single delimited column. | When the property is exposed as `IEnumerable<string>`. |
-| `HasArrayConversion(this PropertyBuilder<string[]>)` | Stores a string array as a single delimited column. | When the property is exposed as `string[]`. |
-| `IsVector(this PropertyBuilder, int size = 1536)` | Maps the property to a vector column type. | When the database supports vector search or embeddings. |
+| `HasJsonConversion<T>(this PropertyBuilder<T?>, JsonSerializerOptions?, bool useUtcDate, bool serializeEnumAsString)` | Stores a property as JSON and wires up matching serialized-value change tracking. | When a value object or small object graph should be persisted in a single text column. |
+| `HasArrayConversion(this PropertyBuilder<IEnumerable<string>>)` | Stores a string sequence as a single delimited column and tracks sequence content. | When the property is exposed as `IEnumerable<string>` and does not need a separate relational table. |
+| `HasArrayConversion(this PropertyBuilder<string[]>)` | Stores a string array as a single delimited column and tracks sequence content. | When the property is exposed as `string[]` and does not need a separate relational table. |
+| `IsVector(this PropertyBuilder, int size = 1536)` | Maps the property to a vector column type with the specified dimension. | When the database supports vector search or embeddings. |
 | `IsVector<T>(this PropertyBuilder<T>, int size = 1536)` | Strongly typed version of `IsVector`. | When the property is strongly typed and you want fluent chaining. |
 
 ### Example
@@ -118,16 +118,16 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 ### `ModelBuilderExtensions`
 
-These helpers make it easier to apply the same global filter to multiple entity types.
+These helpers centralize model-wide conventions such as soft delete, tenant isolation, or visibility rules so each entity type does not need duplicate configuration.
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
-| `ApplyQueryFilter<TEntity>(Expression<Func<TEntity, bool>>)` | Applies the same filter to all entity types assignable to `TEntity`. | When several entities share a common base type or interface. |
-| `ApplyQueryFilter<TType>(string propertyName, TType value)` | Applies a filter to all entity types that expose a property with the given name and type. | When the same property exists across multiple entity types. |
-| `ApplyQueryFilter<TEntity>(string filterName, Expression<Func<TEntity, bool>>)` | .NET 10+ named filter overload. | When you want to selectively disable one filter later. |
-| `ApplyQueryFilter<TType>(string filterName, string propertyName, TType value)` | .NET 10+ named filter overload for a property match. | When you need named filters for shared properties. |
-| `GetEntityTypes<TType>()` | Returns the CLR entity types assignable to `TType`. | When you need the model types behind a base type or interface. |
-| `GetEntityTypes(Type baseType)` | Returns the CLR entity types assignable to a runtime type. | When the target type is only known at runtime. |
+| `ApplyQueryFilter<TEntity>(Expression<Func<TEntity, bool>>)` | Applies the same filter to all mapped entity types assignable to `TEntity`. | When several entities share a common base type or interface. |
+| `ApplyQueryFilter<TType>(string propertyName, TType value)` | Applies a filter to all mapped entity types that expose a property with the given name and type. | When entities do not share a type but expose the same shadow or CLR property. |
+| `ApplyQueryFilter<TEntity>(string filterName, Expression<Func<TEntity, bool>>)` | .NET 10+ named filter overload. | When you want to selectively disable one filter later, such as soft delete without disabling tenant isolation. |
+| `ApplyQueryFilter<TType>(string filterName, string propertyName, TType value)` | .NET 10+ named filter overload for a property match. | When a shared property drives a filter that may need to be disabled independently. |
+| `GetEntityTypes<TType>()` | Returns the mapped CLR entity types assignable to `TType`. | When you need the model types behind a base type or interface. |
+| `GetEntityTypes(Type baseType)` | Returns the mapped CLR entity types assignable to a runtime type. | When the target type is only known at runtime. |
 
 ### Example
 
@@ -171,14 +171,14 @@ var items = await context.Set<Order>().IgnoreQueryFilters(["SoftDelete"]).ToList
 
 ### `DbContextExtensions`
 
-These helpers wrap EF Core execution strategies and transactions so the retry behavior stays consistent.
+These helpers wrap EF Core execution strategies and explicit transactions so retry behavior stays consistent and transaction boilerplate stays out of repositories and services.
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
 | `ExecuteTransactionAsync(Func<CancellationToken, Task>)` | Runs work inside a transaction and commits when the action completes. | When you do not need the transaction object itself. |
 | `ExecuteTransactionAsync<TResult>(Func<CancellationToken, Task<TResult>>)` | Same as above, but returns a result. | When the unit of work produces a value. |
-| `ExecuteTransactionAsync(Func<IDbContextTransaction, CancellationToken, Task>)` | Runs work inside a transaction and passes the active transaction to the callback. | When lower-level APIs need direct transaction access. |
-| `ExecuteTransactionAsync<TResult>(Func<IDbContextTransaction, CancellationToken, Task<TResult>>)` | Same as above, but returns a result. | When you need both transaction access and a computed value. |
+| `ExecuteTransactionAsync(Func<IDbContextTransaction, CancellationToken, Task>)` | Runs work inside a transaction and passes the active transaction to the callback. The callback decides whether and when to commit it. | When lower-level APIs need direct transaction access or custom commit timing. |
+| `ExecuteTransactionAsync<TResult>(Func<IDbContextTransaction, CancellationToken, Task<TResult>>)` | Same as above, but returns a result. | When you need both transaction access, custom commit timing, and a computed value. |
 
 ### Example
 

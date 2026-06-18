@@ -5,6 +5,7 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <DocumentationFile>TinyHelpers.Dapper.xml</DocumentationFile>
         <Authors>Marco Minerva</Authors>
         <Company>Marco Minerva</Company>
         <Product>Tiny Helpers for Dapper</Product>
@@ -21,8 +22,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="TinyHelpers.Dapper.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.79" />
-        <PackageReference Include="TinyHelpers" Version="3.3.25" />
+        <PackageReference Include="TinyHelpers" Version="3.3.26" />
     </ItemGroup>
 
     <ItemGroup>
