@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 #if NET9_0_OR_GREATER
 using Microsoft.OpenApi;
 #endif

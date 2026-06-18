@@ -17,6 +17,7 @@ public class AllowedExtensionsAttribute(params string[] extensions) : Validation
 {
     private readonly IEnumerable<string> extensions = extensions.Select(e => e.Replace("*.", string.Empty));
 
+    /// <inheritdoc />
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value is IFormFile file)

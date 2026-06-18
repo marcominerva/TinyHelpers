@@ -15,7 +15,7 @@ public static class OpenApiSchemaHelper
     /// Creates a string schema with an optional default value.
     /// </summary>
     /// <param name="defaultValue">The optional default value.</param>
-    /// <returns>A schema configured for <see cref="JsonSchemaType.String" />.</returns>
+    /// <returns>A schema configured for the OpenAPI string type.</returns>
     public static OpenApiSchema CreateStringSchema(string? defaultValue = null)
     {
         var schema = new OpenApiSchema

@@ -6,6 +6,9 @@ using Microsoft.OpenApi.Models;
 
 namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
+/// <summary>
+/// Normalizes generated query-parameter names to camel case so the OpenAPI document matches common ASP.NET Core JSON naming conventions.
+/// </summary>
 public class CamelCaseQueryParametersOperationTransformer : IOpenApiOperationTransformer
 {
     /// <summary>
@@ -38,6 +41,9 @@ using Microsoft.OpenApi;
 
 namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
+/// <summary>
+/// Normalizes generated query-parameter names to camel case so the OpenAPI document matches common ASP.NET Core JSON naming conventions.
+/// </summary>
 public class CamelCaseQueryParametersOperationTransformer : IOpenApiOperationTransformer
 {
     /// <summary>

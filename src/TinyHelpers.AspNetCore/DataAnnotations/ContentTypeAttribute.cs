@@ -10,8 +10,19 @@ namespace TinyHelpers.AspNetCore.DataAnnotations;
 /// </summary>
 public enum FileType
 {
+    /// <summary>
+    /// Represents image MIME types for upload scenarios where downstream processing expects visual media.
+    /// </summary>
     Image,
+
+    /// <summary>
+    /// Represents video MIME types for upload scenarios where downstream processing expects moving-picture media.
+    /// </summary>
     Video,
+
+    /// <summary>
+    /// Represents audio MIME types for upload scenarios where downstream processing expects sound media.
+    /// </summary>
     Audio
 }
 
@@ -59,6 +70,7 @@ public class ContentTypeAttribute : ValidationAttribute
         };
     }
 
+    /// <inheritdoc />
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value is IFormFile formFile && !validContentTypes.Contains(formFile.ContentType, StringComparer.OrdinalIgnoreCase))

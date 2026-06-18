@@ -1,6 +1,7 @@
 ﻿#if NET9_0_OR_GREATER
 
 using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using TinyHelpers.AspNetCore.OpenApi.Transformers;
 
@@ -107,7 +108,6 @@ public static class OpenApiExtensions
         /// <summary>
         /// Configures schema reference IDs to include the namespace so types with the same name do not collide in large models.
         /// </summary>
-        /// <param name="options">The <see cref="OpenApiOptions"/> to configure.</param>
         /// <returns>The same <see cref="OpenApiOptions" /> instance for further customization.</returns>
         /// <remarks>
         /// OpenAPI defaults to the short type name, which is easy to read but can produce duplicate schema IDs when a

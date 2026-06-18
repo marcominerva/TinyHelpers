@@ -3,6 +3,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,7 +85,6 @@ public static class ServiceCollectionExtensions
         /// <summary>
         /// Registers a predictable <see cref="ProblemDetails" /> pipeline so the application emits consistent error payloads.
         /// </summary>
-        /// <param name="services">The service collection being configured.</param>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
         public IServiceCollection AddDefaultProblemDetails()
         {

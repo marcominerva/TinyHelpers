@@ -12,7 +12,6 @@ public static class ApplicationBuilderExtensions
         /// <summary>
         /// Enables request buffering so downstream middleware and services can re-read the body after an earlier component has inspected it.
         /// </summary>
-        /// <param name="app">The application pipeline being configured.</param>
         /// <returns>The <see cref="IApplicationBuilder" /> builder instance.</returns>
         public IApplicationBuilder UseRequestRewind()
             => app.UseMiddleware<EnableRequestRewindMiddleware>();
