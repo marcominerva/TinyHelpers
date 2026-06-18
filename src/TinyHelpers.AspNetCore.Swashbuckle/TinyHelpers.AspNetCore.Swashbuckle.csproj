@@ -23,7 +23,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="inyHelpers.AspNetCore.Swashbuckle.xml" />
+        <None Remove="TinyHelpers.AspNetCore.Swashbuckle.xml" />
     </ItemGroup>
 
     <ItemGroup>

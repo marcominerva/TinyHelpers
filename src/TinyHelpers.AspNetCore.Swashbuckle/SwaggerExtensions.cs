@@ -49,23 +49,32 @@ public static class SwaggerExtensions
         }
 
         /// <summary>
-        /// Registers the operation transformer that applies OpenAPI parameters added with <see cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />.
+        /// Adds the operation filter that copies registered shared parameters into each generated Swagger operation.
         /// </summary>
         /// <remarks>
-        /// Call <see cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" /> so the parameters are registered in dependency injection before this transformer runs.
+        /// Use this in Swagger configuration after registering parameters with
+        /// <see cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />. Keeping
+        /// parameter definitions in dependency injection and applying them through a filter prevents duplicated route
+        /// metadata while preserving a complete contract for generated clients.
         /// </remarks>
-        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
         /// <seealso cref="AddSwaggerOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public void AddOperationParameters()
             => options.OperationFilter<OpenApiParametersOperationFilter>();
     }
 
     /// <summary>
-    /// Registers OpenAPI parameter definitions that can be automatically applied to every operation.
+    /// Registers shared Swagger operation parameters that can later be merged into generated operations.
     /// </summary>
     /// <param name="services">The service collection to extend.</param>
-    /// <param name="setupAction">The configuration callback used to populate shared parameters.</param>
+    /// <param name="setupAction">
+    /// A callback that adds reusable parameter definitions to an <see cref="OpenApiOperationOptions" /> instance.
+    /// </param>
     /// <returns>The same <see cref="IServiceCollection" /> instance so calls can be chained.</returns>
+    /// <remarks>
+    /// Call this during service registration when a parameter, such as a tenant, correlation, or feature header,
+    /// must appear consistently in the Swagger contract without being repeated on every endpoint. The registered
+    /// options are consumed by <see cref="AddOperationParameters(SwaggerGenOptions)" /> when the document is generated.
+    /// </remarks>
     /// <seealso cref="AddOperationParameters(SwaggerGenOptions)"/>
     public static IServiceCollection AddSwaggerOperationParameters(this IServiceCollection services, Action<OpenApiOperationOptions> setupAction)
     {
