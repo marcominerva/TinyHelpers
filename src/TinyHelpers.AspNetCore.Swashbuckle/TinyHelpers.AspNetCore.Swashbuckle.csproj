@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>TinyHelpers.AspNetCore.Swagger</RootNamespace>
+        <DocumentationFile>TinyHelpers.AspNetCore.Swashbuckle.xml</DocumentationFile>
         <Authors>Marco Minerva</Authors>
         <Company>Marco Minerva</Company>
         <Product>Tiny Helpers for Swashbuckle ASP.NET Core</Product>
@@ -20,6 +21,10 @@
         <RepositoryBranch>master</RepositoryBranch>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="inyHelpers.AspNetCore.Swashbuckle.xml" />
+    </ItemGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
