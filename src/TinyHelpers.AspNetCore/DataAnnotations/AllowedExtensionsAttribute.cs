@@ -10,7 +10,8 @@ namespace TinyHelpers.AspNetCore.DataAnnotations;
 /// <param name="extensions">The allowed extensions, with or without the <c>*.</c> prefix.</param>
 /// <remarks>
 /// This attribute is useful when the extension is part of the contract, such as restricting uploads to image
-/// formats that downstream processing or security policies can safely handle.
+/// formats that downstream processing or security policies can safely handle. It complements content-type checks by
+/// documenting and enforcing the file-name contract exposed to users and API clients.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
 public class AllowedExtensionsAttribute(params string[] extensions) : ValidationAttribute("Only files with the following extensions are supported: {0}")
@@ -33,7 +34,7 @@ public class AllowedExtensionsAttribute(params string[] extensions) : Validation
     }
 
     /// <summary>
-    /// Formats the validation error using the configured extension list.
+    /// Formats the validation error with the configured extension list so failed validation tells the caller which suffixes are accepted.
     /// </summary>
     /// <param name="name">The validated member name.</param>
     /// <returns>A localized error message that lists the allowed extensions.</returns>

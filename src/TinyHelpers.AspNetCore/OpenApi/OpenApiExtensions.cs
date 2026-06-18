@@ -8,17 +8,29 @@ using TinyHelpers.AspNetCore.OpenApi.Transformers;
 namespace TinyHelpers.AspNetCore.OpenApi;
 
 /// <summary>
-/// Adds OpenAPI configuration helpers that keep the generated contract aligned with the library's conventions.
+/// Adds opinionated <see cref="OpenApiOptions" /> and service-registration helpers used to keep generated OpenAPI
+/// documents aligned with the runtime behavior configured by this library.
 /// </summary>
+/// <remarks>
+/// These helpers centralize reusable OpenAPI conventions, such as shared operation parameters and default error
+/// responses, so applications do not need to repeat the same transformer setup for every document or endpoint.
+/// </remarks>
 public static class OpenApiExtensions
 {
     extension(IServiceCollection services)
     {
         /// <summary>
-        /// Registers OpenAPI parameter definitions that can be automatically applied to every operation.
+        /// Registers shared OpenAPI operation parameters that can later be merged into generated operations.
         /// </summary>
-        /// <param name="setupAction">A callback that fills the parameter options object.</param>
-        /// <returns>The same <see cref="IServiceCollection" /> for fluent registration.</returns>
+        /// <param name="setupAction">
+        /// A callback that adds reusable parameter definitions to an <see cref="OpenApiOperationOptions" /> instance.
+        /// </param>
+        /// <returns>The same <see cref="IServiceCollection" /> instance so registrations can continue fluently.</returns>
+        /// <remarks>
+        /// Call this during service registration when a parameter, such as a tenant, correlation, or feature header,
+        /// must appear consistently in the OpenAPI contract without being repeated on every endpoint. The registered
+        /// options are consumed by <see cref="AddOperationParameters(OpenApiOptions)" /> when the OpenAPI document is generated.
+        /// </remarks>
         /// <seealso cref="AddOperationParameters(OpenApiOptions)"/>
         public IServiceCollection AddOpenApiOperationParameters(Action<OpenApiOperationOptions> setupAction)
         {
@@ -58,12 +70,15 @@ public static class OpenApiExtensions
         }
 
         /// <summary>
-        /// Registers the operation transformer that applies OpenAPI parameters added with <see cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />.
+        /// Adds the operation transformer that copies registered shared parameters into each generated OpenAPI operation.
         /// </summary>
         /// <remarks>
-        /// Call <see cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" /> so the parameters are registered in dependency injection before this transformer runs.
+        /// Use this in the OpenAPI document configuration after registering parameters with
+        /// <see cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})" />. Keeping
+        /// parameter definitions in dependency injection and applying them through a transformer prevents duplicated
+        /// route metadata while preserving a complete contract for generated clients.
         /// </remarks>
-        /// <returns>The same <see cref="OpenApiOptions" /> for fluent configuration.</returns>
+        /// <returns>The same <see cref="OpenApiOptions" /> instance so OpenAPI configuration can continue fluently.</returns>
         /// <seealso cref="AddOpenApiOperationParameters(IServiceCollection, Action{OpenApiOperationOptions})"/>
         public OpenApiOptions AddOperationParameters()
             => options.AddOperationTransformer<OpenApiParametersOperationFilter>();

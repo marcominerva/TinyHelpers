@@ -3,7 +3,7 @@
 namespace TinyHelpers.AspNetCore.Middlewares;
 
 /// <summary>
-/// Provides middleware registration helpers.
+/// Provides middleware registration helpers for request-body behaviors that are otherwise easy to forget in pipeline setup.
 /// </summary>
 public static class ApplicationBuilderExtensions
 {
