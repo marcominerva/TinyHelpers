@@ -5,8 +5,12 @@ using System.Linq.Expressions;
 namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Contains extension methods for collections.
+/// Provides collection and sequence helpers that keep common null-safety, indexing, asynchronous projection, and conditional filtering patterns reusable.
 /// </summary>
+/// <remarks>
+/// These extensions are intended for application code that repeatedly composes LINQ queries or optional collections and
+/// should avoid scattering small guard clauses and loop helpers across the codebase.
+/// </remarks>
 public static class CollectionExtensions
 {
 #if NETSTANDARD2_0
@@ -45,7 +49,7 @@ public static class CollectionExtensions
 #endif
 
     /// <summary>
-    /// Returns the elements of an <see cref="IEnumerable{TSource}"/>, or an empty singleton collection if the sequence is <see langword="null"/>.
+    /// Returns the source sequence or an empty sequence when the source is <see langword="null" /> so callers can enumerate safely.
     /// </summary>
     /// <typeparam name="TSource">The type of the data in the <code>source</code>.</typeparam>
     /// <param name="source">The sequence to return a default value for if it is <see langword="null"/>.</param>
@@ -54,7 +58,7 @@ public static class CollectionExtensions
         => source ?? [];
 
     /// <summary>
-    /// Returns the elements of an <see cref="IQueryable{TSource}"/>, or an empty singleton collection if the sequence is <see langword="null"/>.
+    /// Returns the source query or an empty query when the source is <see langword="null" /> so query composition can continue safely.
     /// </summary>
     /// <typeparam name="TSource">The type of the data in the <code>source</code>.</typeparam>
     /// <param name="source">The sequence to return a default value for if it is <see langword="null"/>.</param>
@@ -63,12 +67,12 @@ public static class CollectionExtensions
         => source ?? Array.Empty<TSource>().AsQueryable();
 
     /// <summary>
-    /// Performs the specified action on each element of the <see cref="IEnumerable{TSource}"/>.
+    /// Performs an action for each item and returns the original sequence so side-effect steps can remain in a fluent pipeline.
     /// </summary>
     /// <typeparam name="TSource">The type of the data in the <code>source</code>.</typeparam>
     /// <param name="source">The sequence on whose elements apply the <code>action</code> to.</param>
     /// <param name="action">The <see cref="Action{TSource}"/> delegate to perform on each element of the collection.</param>
-    /// <returns>An <see cref="IEnumerable{TSource}"/> whose elements are the result of invoking the <code>action</code> on each element of <code>source</code>.</returns>
+    /// <returns>The original <paramref name="source" /> sequence after <paramref name="action" /> has been invoked for each item.</returns>
     public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
     {
         foreach (var item in source)
@@ -80,13 +84,13 @@ public static class CollectionExtensions
     }
 
     /// <summary>
-    /// Asynchronously performs the specified action on each element of the <see cref="IEnumerable{TSource}"/>.
+    /// Performs an asynchronous action for each item and returns the original sequence after every action completes.
     /// </summary>
     /// <typeparam name="TSource">The type of the data in the <code>source</code>.</typeparam>
     /// <param name="source">The sequence on whose elements apply the <code>action</code> to.</param>
     /// <param name="action">An asynchronous delegate that is invoked once per element in the data source.</param>
     /// <param name="cancellationToken">A token that can be used to request cancellation of the asynchronous operation.</param>
-    /// <returns>An <see cref="IEnumerable{TSource}" /> whose elements are the result of invoking the <code>action</code> on each element of <code>source</code>.</returns>
+    /// <returns>The original <paramref name="source" /> sequence after every asynchronous action has completed.</returns>
     public static async Task<IEnumerable<TSource>> ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> action, CancellationToken cancellationToken = default)
     {
         foreach (var item in source)
@@ -99,12 +103,12 @@ public static class CollectionExtensions
     }
 
     /// <summary>
-    /// Asynchronously projects each element of a sequence into a new form.
+    /// Projects each item with an asynchronous selector while preserving the source order in the materialized result.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements of <code>source</code>.</typeparam>
     /// <typeparam name="TResult">The type of the value returned by <code>selector</code>.</typeparam>
     /// <param name="source">A sequence of values to invoke a transform function on.</param>
-    /// <param name="selector">A transform function to apply to each source element; the second parameter of the function represents the index of the source element.</param>
+    /// <param name="selector">A transform function to apply to each source element.</param>
     /// <param name="cancellationToken">A token that can be used to request cancellation of the asynchronous operation.</param>
     /// <returns>An <see cref="IEnumerable{TResult}" /> whose elements are the result of invoking the transform function on each element of <code>source</code>.</returns>
     /// <exception cref="ArgumentNullException"><code>source</code> is <code>null</code></exception>    
@@ -250,7 +254,7 @@ public static class CollectionExtensions
         => (predicate is null ? source?.LongCount() : source?.LongCount(predicate)) ?? 0;
 
     /// <summary>
-    /// Filters a sequence of values based on a condition.
+    /// Applies a filter only when <paramref name="condition" /> is <see langword="true" /> so optional filters can remain in a fluent pipeline.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements.</typeparam>
     /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check.</param>    
@@ -261,7 +265,7 @@ public static class CollectionExtensions
         => condition ? source.Where(predicate) : source;
 
     /// <summary>
-    /// Filters a sequence of values based on a condition.
+    /// Applies a queryable filter only when <paramref name="condition" /> is <see langword="true" /> so optional query predicates remain composable.
     /// </summary>
     /// <typeparam name="TSource">The type of the elements.</typeparam>
     /// <param name="source">The <see cref="IQueryable{TSource}"/> to check.</param>    

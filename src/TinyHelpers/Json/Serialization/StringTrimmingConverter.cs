@@ -4,8 +4,12 @@ using System.Text.Json.Serialization;
 namespace TinyHelpers.Json.Serialization;
 
 /// <summary>
-/// A converter to trim the whitespace from JSON strings during serialization and deserialization.
+/// Trims leading and trailing whitespace from JSON string values during serialization and deserialization.
 /// </summary>
+/// <remarks>
+/// Use this converter when the JSON boundary should normalize user-entered text before it reaches the domain model or
+/// before values are written back to clients.
+/// </remarks>
 public class StringTrimmingConverter : JsonConverter<string>
 {
     /// <inheritdoc/>

@@ -3,8 +3,12 @@
 namespace TinyHelpers.Http;
 
 /// <summary>
-/// Represents a handler for adding query string parameters to an HTTP request message.
+/// Adds request-specific query string parameters to outgoing HTTP requests before they continue through the client pipeline.
 /// </summary>
+/// <remarks>
+/// Use this handler when query values depend on the current request context and URL composition should be centralized,
+/// such as pagination, tenant selection, or feature flags.
+/// </remarks>
 public class QueryStringInjectorHttpClientHandler : DelegatingHandler
 {
     private readonly Func<HttpRequestMessage, Task<Dictionary<string, string>>> getQueryString;
@@ -32,7 +36,7 @@ public class QueryStringInjectorHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Calls the function to get query string parameters and then sends an HTTP request to the inner handler to send to the server as an asynchronous operation.
+    /// Merges query string parameters for the current request into the URI and sends the request to the next handler.
     /// </summary>
     /// <param name="request">The HTTP request message to send to the server.</param>
     /// <param name="cancellationToken">A cancellation token to cancel operation.</param>

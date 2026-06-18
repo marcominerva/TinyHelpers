@@ -4,7 +4,7 @@ using TinyHelpers.Enums;
 namespace TinyHelpers.Extensions;
 
 /// <summary>
-/// Contains extensions methods for the <see cref="Guid"/> type.
+/// Provides <see cref="Guid" /> helpers for treating <see cref="Guid.Empty" /> as a missing identifier and creating fallback values consistently.
 /// </summary>
 public static class GuidExtensions
 {
@@ -63,15 +63,15 @@ public static class GuidExtensions
         => !input.IsEmpty();
 
     /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
+    /// Returns the current identifier when it is not <see cref="Guid.Empty" />; otherwise, creates a new random identifier.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
+    /// <returns>The current identifier when it is not empty; otherwise, a new value created with <see cref="Guid.NewGuid()" />.</returns>
     public static Guid GetValueOrCreateNew(this Guid input)
         => input.IsEmpty() ? Guid.NewGuid() : input;
 
     /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, returns the specified default value.
+    /// Returns the current identifier when it is not <see cref="Guid.Empty" />; otherwise, returns a caller-provided fallback value.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
     /// <param name="defaultValue">The default <see cref="Guid"/> to return if the input is <c>Guid.Empty</c>.</param>
@@ -80,7 +80,7 @@ public static class GuidExtensions
         => input.IsEmpty() ? defaultValue : input;
 
     /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
+    /// Returns the current identifier when it is not <see langword="null" /> or <see cref="Guid.Empty" />; otherwise, creates a new random identifier.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
     /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/> created with <see cref="Guid.NewGuid()"/>.</returns>
@@ -89,11 +89,11 @@ public static class GuidExtensions
 
 #if NET9_0_OR_GREATER
     /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/> using <see cref="Guid.NewGuid()"/>.
+    /// Returns the current identifier when it is not <see cref="Guid.Empty" />; otherwise, creates a new identifier using the requested GUID version.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
     /// <param name="guidVersion">The version of the <see cref="Guid"/> to create if the input is <c>Guid.Empty</c>.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/>.</returns>
+    /// <returns>The current identifier when it is not empty; otherwise, a new identifier using <paramref name="guidVersion" />.</returns>
     public static Guid GetValueOrCreateNew(this Guid input, GuidVersion guidVersion)
         => input.IsEmpty() ? guidVersion switch
         {
@@ -102,11 +102,11 @@ public static class GuidExtensions
         } : input;
 
     /// <summary>
-    /// Gets the actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, creates a new <see cref="Guid"/>.
+    /// Returns the current identifier when it is not <see langword="null" /> or <see cref="Guid.Empty" />; otherwise, creates a new identifier using the requested GUID version.
     /// </summary>
     /// <param name="input">The <see cref="Guid"/> to test.</param>
     /// <param name="guidVersion">The version of the <see cref="Guid"/> to create if the input is <see langword="null"/> or <c>Guid.Empty</c>.</param>
-    /// <returns>The actual value of this <see cref="Guid"/> instance, if it is different from <see langword="null"/> and <c>Guid.Empty</c>; otherwise, a new <see cref="Guid"/>.</returns>
+    /// <returns>The current identifier when it has a value; otherwise, a new identifier using <paramref name="guidVersion" />.</returns>
     public static Guid GetValueOrCreateNew(this Guid? input, GuidVersion guidVersion)
         => input.IsEmpty() ? guidVersion switch
         {

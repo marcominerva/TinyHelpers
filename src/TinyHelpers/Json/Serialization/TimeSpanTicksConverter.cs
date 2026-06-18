@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace TinyHelpers.Json.Serialization;
 
 /// <summary>
-/// A converter for serializing and deserializing <see cref="TimeSpan"/> as ticks.
+/// Converts <see cref="TimeSpan" /> values to JSON ticks so durations can be round-tripped without format ambiguity.
 /// </summary>
 /// <seealso cref="TimeSpan"/>
 public class TimeSpanTicksConverter : JsonConverter<TimeSpan>
