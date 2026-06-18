@@ -1,8 +1,12 @@
 ﻿namespace TinyHelpers.Threading;
 
 /// <summary>
-/// Provides a lock that can be used asynchronously.
+/// Provides an asynchronous mutual-exclusion primitive for protecting shared state without blocking worker threads.
 /// </summary>
+/// <remarks>
+/// Await <see cref="LockAsync(CancellationToken)" /> and dispose the returned instance when the critical section ends.
+/// Timed overloads return <see cref="LockResult" /> so callers can handle contention without exceptions.
+/// </remarks>
 public sealed class AsyncLock : IDisposable
 #if !NETSTANDARD2_0
     , IAsyncDisposable

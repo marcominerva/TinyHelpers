@@ -51,10 +51,19 @@ using Microsoft.OpenApi;
 
 namespace TinyHelpers.AspNetCore.OpenApi;
 
+/// <summary>
+/// Adds a conventional default problem-details response to operations so API clients can discover a consistent error contract.
+/// </summary>
 public class DefaultResponseOperationTransformer : IOpenApiOperationTransformer
 {
+    /// <summary>
+    /// Gets or sets the response key used for the fallback error response when a specific status code is not documented.
+    /// </summary>
     public string DefaultResponseCode { get; set; } = "default";
 
+    /// <summary>
+    /// Gets or sets the description applied to the fallback error response so generated documents have meaningful failure metadata.
+    /// </summary>
     public string DefaultDescription { get; set; } = "Error";
 
     /// <summary>

@@ -4,11 +4,12 @@ using System.Text.Json.Serialization;
 namespace TinyHelpers.Json.Serialization;
 
 /// <summary>
-/// A converter for serializing and deserializing <see cref="DateTime"/> values converting them to UTC, if needed.
+/// Converts <see cref="DateTime" /> values to UTC during JSON serialization and deserialization.
 /// </summary>
 /// <seealso cref="DateTime"/>
 /// <remarks>
-/// Initializes a new instance of the <see cref="UtcDateTimeConverter"/> class with a specified serialization format.
+/// Use this converter when a JSON contract should normalize date-time values to a UTC wire format instead of preserving
+/// local offsets or unspecified kinds.
 /// </remarks>
 /// <param name="serializationFormat">The serialization format to use. The default is <c>yyyy-MM-ddTHH:mm:ss.fffffffZ</c>.</param>
 /// <seealso cref="UtcDateTimeConverter"/>

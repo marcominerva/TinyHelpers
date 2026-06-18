@@ -9,13 +9,17 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 /// <summary>
 /// Creates reusable schema fragments so OpenAPI transformers can express the same contract details without duplicating schema setup.
 /// </summary>
+/// <remarks>
+/// These factory methods keep schema construction consistent across transformers that need to describe default values,
+/// formats, and enum choices for generated clients.
+/// </remarks>
 public static class OpenApiSchemaHelper
 {
     /// <summary>
-    /// Creates a string schema with an optional default value.
+    /// Creates a string schema with an optional default value for reusable text-based contract metadata.
     /// </summary>
     /// <param name="defaultValue">The optional default value.</param>
-    /// <returns>A schema configured for <see cref="JsonSchemaType.String" />.</returns>
+    /// <returns>A schema configured for the OpenAPI string type.</returns>
     public static OpenApiSchema CreateStringSchema(string? defaultValue = null)
     {
         var schema = new OpenApiSchema
@@ -28,7 +32,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a schema with the specified type and format.
+    /// Creates a typed schema with an optional format when a transformer needs to describe a primitive OpenAPI shape.
     /// </summary>
     /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type name.</param>
@@ -46,7 +50,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a typed schema with a default value.
+    /// Creates a typed schema with a default value so generated clients can display the same fallback used by the API contract.
     /// </summary>
     /// <typeparam name="TValue">The value type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type name.</param>
@@ -66,7 +70,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a string enum schema from a known list of values.
+    /// Creates a string enum schema from a known list of values when the valid choices are defined outside a CLR enum.
     /// </summary>
     /// <param name="values">The allowed values to expose in the schema.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -84,7 +88,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates an enum schema from an <see cref="Enum"/> type.
+    /// Creates an enum schema from an <see cref="Enum"/> type so the generated document exposes every declared value.
     /// </summary>
     /// <typeparam name="TEnum">The enumeration type to describe.</typeparam>
     /// <param name="defaultValue">The optional default enum value.</param>
@@ -113,10 +117,14 @@ namespace TinyHelpers.AspNetCore.OpenApi;
 /// <summary>
 /// Creates reusable schema fragments so OpenAPI transformers can express the same contract details without duplicating schema setup.
 /// </summary>
+/// <remarks>
+/// These factory methods keep schema construction consistent across transformers that need to describe default values,
+/// formats, and enum choices for generated clients.
+/// </remarks>
 public static class OpenApiSchemaHelper
 {
     /// <summary>
-    /// Creates a string schema with an optional default value.
+    /// Creates a string schema with an optional default value for reusable text-based contract metadata.
     /// </summary>
     /// <param name="defaultValue">The optional default value.</param>
     /// <returns>A schema configured for <see cref="JsonSchemaType.String" />.</returns>
@@ -132,7 +140,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a schema with the specified type and format.
+    /// Creates a typed schema with an optional format when a transformer needs to describe a primitive OpenAPI shape.
     /// </summary>
     /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type value.</param>
@@ -150,7 +158,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a typed schema with a default value.
+    /// Creates a typed schema with a default value so generated clients can display the same fallback used by the API contract.
     /// </summary>
     /// <typeparam name="TValue">The type associated with the schema.</typeparam>
     /// <param name="type">The OpenAPI type value.</param>
@@ -170,7 +178,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates a string enum schema from a known list of values.
+    /// Creates a string enum schema from a known list of values when the valid choices are defined outside a CLR enum.
     /// </summary>
     /// <param name="values">The allowed values to expose in the schema.</param>
     /// <param name="defaultValue">The optional default value.</param>
@@ -188,7 +196,7 @@ public static class OpenApiSchemaHelper
     }
 
     /// <summary>
-    /// Creates an enum schema from an <see cref="Enum"/> type.
+    /// Creates an enum schema from an <see cref="Enum"/> type so the generated document exposes every declared value.
     /// </summary>
     /// <typeparam name="TEnum">The enumeration type to describe.</typeparam>
     /// <param name="defaultValue">The optional default enum value.</param>

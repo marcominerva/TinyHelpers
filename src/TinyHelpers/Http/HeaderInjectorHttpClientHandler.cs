@@ -1,8 +1,12 @@
 ﻿namespace TinyHelpers.Http;
 
 /// <summary>
-/// Represents a handler for injecting headers in an HTTP request message.
+/// Adds request-specific headers to outgoing HTTP requests before they continue through the client pipeline.
 /// </summary>
+/// <remarks>
+/// Use this handler to centralize cross-cutting headers such as correlation identifiers, tenant identifiers, or custom
+/// API metadata without repeating header setup at every call site.
+/// </remarks>
 public class HeaderInjectorHttpClientHandler : DelegatingHandler
 {
     private readonly Func<HttpRequestMessage, Task<Dictionary<string, string>>> getHeaders;
@@ -30,7 +34,7 @@ public class HeaderInjectorHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Calls the function to get headers and then sends an HTTP request to the inner handler to send to the server as an asynchronous operation.
+    /// Resolves headers for the current request, adds them without strict validation, and sends the request to the next handler.
     /// </summary>
     /// <param name="request">The HTTP request message to send to the server.</param>
     /// <param name="cancellationToken">A cancellation token to cancel operation.</param>

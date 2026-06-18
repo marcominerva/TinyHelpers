@@ -4,12 +4,16 @@ using System.Net.Http.Headers;
 namespace TinyHelpers.Http;
 
 /// <summary>
-/// Represents a handler to authenticate HTTP requests using Bearer token.
+/// Adds an authorization token to outgoing HTTP requests and can refresh the token once after an unauthorized response.
 /// </summary>
+/// <remarks>
+/// Use this handler when token acquisition depends on the current <see cref="HttpRequestMessage" />, such as per-tenant
+/// or per-resource tokens, and the client needs a lightweight retry path for expired credentials.
+/// </remarks>
 public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
 {
     /// <summary>
-    /// Scheme for Bearer authorization.
+    /// The default authorization scheme used when the request does not already specify one.
     /// </summary>
     public const string BearerAuthorizationScheme = "Bearer";
 
@@ -19,11 +23,11 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     private readonly string authorizationScheme;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AuthenticatedParameterizedHttpClientHandler"/> class.
+    /// Initializes a new handler that can add request-specific authorization tokens and optionally refresh them.
     /// </summary>
-    /// <param name="getToken">Delegate function to get access token for authentication.</param>
-    /// <param name="refreshToken">Optional delegate function to refresh access token.</param>
-    /// <param name="checkAuthorizationHeader">Indicates if there should be an Authorization header.</param>
+    /// <param name="getToken">Delegate used to get the access token for the current request.</param>
+    /// <param name="refreshToken">Optional delegate used to refresh the access token after a <see cref="HttpStatusCode.Unauthorized" /> response.</param>
+    /// <param name="checkAuthorizationHeader">Indicates whether a token should only be added when the request already has an authorization header.</param>
     /// <param name="authorizationScheme">The authorization scheme used for the HTTP request.</param>
     /// <exception cref="ArgumentNullException"><paramref name="getToken"/> is <see langword="null"/>.</exception>
     public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, Func<HttpRequestMessage, Task>? refreshToken = null, bool checkAuthorizationHeader = true, string authorizationScheme = BearerAuthorizationScheme)
@@ -35,10 +39,10 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Constructor for AuthenticatedParameterizedHttpClientHandler.
+    /// Initializes a new handler with a custom inner handler and request-specific token provider.
     /// </summary>
-    /// <param name="getToken">Delegate function to get access token for authentication.</param>
-    /// <param name="innerHandler">Inner handler to send request to.</param>
+    /// <param name="getToken">Delegate used to get the access token for the current request.</param>
+    /// <param name="innerHandler">The next handler in the HTTP pipeline.</param>
     /// <param name="authorizationScheme">The authorization scheme used for the HTTP request.</param>
     /// <exception cref="ArgumentNullException"><paramref name="getToken"/> is <see langword="null"/>.</exception>
     public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, HttpMessageHandler innerHandler, string authorizationScheme = BearerAuthorizationScheme)
@@ -47,11 +51,11 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Constructor for AuthenticatedParameterizedHttpClientHandler.
+    /// Initializes a new handler with a custom inner handler, request-specific token provider, and token refresh callback.
     /// </summary>
-    /// <param name="getToken">Delegate function to get access token for authentication.</param>
-    /// <param name="refreshToken">Delegate function to refresh access token.</param>
-    /// <param name="innerHandler">Inner handler to send request to.</param>
+    /// <param name="getToken">Delegate used to get the access token for the current request.</param>
+    /// <param name="refreshToken">Delegate used to refresh the access token after a <see cref="HttpStatusCode.Unauthorized" /> response.</param>
+    /// <param name="innerHandler">The next handler in the HTTP pipeline.</param>
     /// <param name="authorizationScheme">The authorization scheme used for the HTTP request.</param>
     /// <exception cref="ArgumentNullException"><paramref name="getToken"/> is <see langword="null"/>.</exception>
     public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, Func<HttpRequestMessage, Task>? refreshToken, HttpMessageHandler innerHandler, string authorizationScheme = BearerAuthorizationScheme)
@@ -60,12 +64,12 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Constructor for AuthenticatedParameterizedHttpClientHandler.
+    /// Initializes a new handler with full control over token refresh, authorization-header behavior, and the inner handler.
     /// </summary>
-    /// <param name="getToken">Delegate function to get access token for authentication.</param>
-    /// <param name="refreshToken">Delegate function to refresh access token.</param>
-    /// <param name="checkAuthorizationHeader">Indicates if there should be an Authorization header.</param>
-    /// <param name="innerHandler">Inner handler for HTTP message request to be sent to.</param>
+    /// <param name="getToken">Delegate used to get the access token for the current request.</param>
+    /// <param name="refreshToken">Delegate used to refresh the access token after a <see cref="HttpStatusCode.Unauthorized" /> response.</param>
+    /// <param name="checkAuthorizationHeader">Indicates whether a token should only be added when the request already has an authorization header.</param>
+    /// <param name="innerHandler">The next handler in the HTTP pipeline.</param>
     /// <param name="authorizationScheme">The authorization scheme used for the HTTP request.</param>
     /// <exception cref="ArgumentNullException"><paramref name="getToken"/> is <see langword="null"/>.</exception>
     public AuthenticatedParameterizedHttpClientHandler(Func<HttpRequestMessage, Task<string>> getToken, Func<HttpRequestMessage, Task>? refreshToken, bool checkAuthorizationHeader, HttpMessageHandler innerHandler, string authorizationScheme = BearerAuthorizationScheme)
@@ -78,7 +82,7 @@ public class AuthenticatedParameterizedHttpClientHandler : DelegatingHandler
     }
 
     /// <summary>
-    /// Calls the function to automatically add the Bearer token and then sends an HTTP request to the inner handler to send to the server as an asynchronous operation. If the response is 401 (Unauthorized), it will try to refresh the token using the handler specified in the <see cref="AuthenticatedParameterizedHttpClientHandler"/> constructor and try again.
+    /// Adds the configured authorization token before sending the request and retries once after refreshing the token when the response is unauthorized.
     /// </summary>
     /// <param name="request">The HTTP request message to send to the server.</param>
     /// <param name="cancellationToken">A cancellation token to cancel operation.</param>

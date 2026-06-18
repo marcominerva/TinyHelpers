@@ -3,6 +3,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,8 +13,12 @@ using TinyHelpers.AspNetCore.ExceptionHandlers;
 namespace TinyHelpers.AspNetCore.Extensions;
 
 /// <summary>
-/// Registers common application services and configuration helpers that the library reuses across samples and packages.
+/// Registers common ASP.NET Core services and configuration helpers that reduce repeated setup in applications using the library.
 /// </summary>
+/// <remarks>
+/// These helpers intentionally keep the built-in dependency injection and options patterns visible while providing
+/// one-line registration for common localization, replacement, and problem-details conventions.
+/// </remarks>
 public static class ServiceCollectionExtensions
 {
     extension(IServiceCollection services)
@@ -35,21 +40,27 @@ public static class ServiceCollectionExtensions
         }
 
         /// <summary>
-        /// Registers request localization with a culture list.
+        /// Registers request localization with a culture list when the default provider order is sufficient.
         /// </summary>
         /// <param name="cultures">The supported culture names.</param>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
-        /// <remarks>The first culture becomes the default.</remarks>
+        /// <remarks>
+        /// The first culture becomes the default so applications can define their fallback culture in the same order
+        /// they declare supported cultures.
+        /// </remarks>
         public IServiceCollection AddRequestLocalization(params string[] cultures)
             => services.AddRequestLocalization(cultures, null);
 
         /// <summary>
-        /// Registers request localization and allows the caller to adjust the culture-provider chain.
+        /// Registers request localization and allows the caller to adjust the culture-provider chain used during negotiation.
         /// </summary>
         /// <param name="cultures">The supported culture names.</param>
         /// <param name="providersConfiguration">A callback that can reorder or replace the request culture providers.</param>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
-        /// <remarks>The first culture becomes the default.</remarks>
+        /// <remarks>
+        /// The first culture becomes the default. The provider callback exists for applications that need a specific
+        /// precedence, such as preferring route values over cookies or the <c>Accept-Language</c> header.
+        /// </remarks>
         public IServiceCollection AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)
         {
             var supportedCultures = cultures.Select(c => new CultureInfo(c)).ToList();
@@ -66,12 +77,16 @@ public static class ServiceCollectionExtensions
         }
 
         /// <summary>
-        /// Replaces one registered service with another implementation while preserving the desired lifetime.
+        /// Replaces one registered service with another implementation when an application needs to override a library or framework default.
         /// </summary>
         /// <typeparam name="TService">The service contract to replace.</typeparam>
         /// <typeparam name="TImplementation">The implementation to register.</typeparam>
         /// <param name="lifetime">The lifetime that should be used for the replacement registration.</param>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
+        /// <remarks>
+        /// This wraps the standard replacement pattern so callers can state the intended service contract and
+        /// implementation without manually creating a <see cref="ServiceDescriptor" />.
+        /// </remarks>
         public IServiceCollection Replace<TService, TImplementation>(ServiceLifetime lifetime = ServiceLifetime.Scoped)
             where TService : class
             where TImplementation : class, TService
@@ -84,8 +99,11 @@ public static class ServiceCollectionExtensions
         /// <summary>
         /// Registers a predictable <see cref="ProblemDetails" /> pipeline so the application emits consistent error payloads.
         /// </summary>
-        /// <param name="services">The service collection being configured.</param>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
+        /// <remarks>
+        /// The customization fills common problem-details fields and a trace identifier, which gives clients and logs a
+        /// stable shape to correlate errors without requiring each application to repeat the same setup.
+        /// </remarks>
         public IServiceCollection AddDefaultProblemDetails()
         {
             services.AddProblemDetails(options =>
@@ -100,6 +118,10 @@ public static class ServiceCollectionExtensions
         /// Registers the library default exception handler so uncaught failures are shaped into problem details before they leave the pipeline.
         /// </summary>
         /// <returns>The same <see cref="IServiceCollection" /> so additional registrations can continue fluently.</returns>
+        /// <remarks>
+        /// Registering the handler with the problem-details service keeps unexpected failures consistent with explicit
+        /// validation and endpoint errors, which simplifies client error handling.
+        /// </remarks>
         public IServiceCollection AddDefaultExceptionHandler()
         {
             // Ensures that the ProblemDetails service is registered.

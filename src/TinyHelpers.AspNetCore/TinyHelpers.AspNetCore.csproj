@@ -5,6 +5,7 @@
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <DocumentationFile>TinyHelpers.AspNetCore.xml</DocumentationFile>
         <Authors>Marco Minerva</Authors>
         <Company>Marco Minerva</Company>
         <Product>Tiny Helpers for ASP.NET Core</Product>
@@ -19,6 +20,10 @@
         <RepositoryBranch>master</RepositoryBranch>
         <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="TinyHelpers.AspNetCore.xml" />
+    </ItemGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />

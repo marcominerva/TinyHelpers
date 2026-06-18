@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 #if NET9_0_OR_GREATER
 using Microsoft.OpenApi;
 #endif
@@ -7,17 +8,25 @@ using Microsoft.OpenApi;
 namespace TinyHelpers.AspNetCore.Extensions;
 
 /// <summary>
-/// Adds minimal OpenAPI-focused helpers to <see cref="RouteHandlerBuilder" /> so endpoint metadata stays close to the route mapping code.
+/// Adds endpoint metadata helpers to <see cref="RouteHandlerBuilder" /> so route declarations and their OpenAPI behavior stay together.
 /// </summary>
+/// <remarks>
+/// Keeping response and header metadata next to the route mapping makes minimal APIs easier to review and helps the
+/// generated OpenAPI document remain synchronized with the endpoint behavior.
+/// </remarks>
 /// <seealso cref="RouteHandlerBuilder"/>
 public static class RouteHandlerBuilderExtensions
 {
     /// <summary>
-    /// Declares a set of problem responses on the endpoint.
+    /// Declares a set of <see cref="ProblemDetails" /> responses on the endpoint for expected failure status codes.
     /// </summary>
     /// <param name="builder">The route configuration being extended.</param>
     /// <param name="statusCodes">The HTTP status codes that should be described as <see cref="ProblemDetails" /> responses.</param>
     /// <returns>The same <see cref="RouteHandlerBuilder" /> so calls can be chained.</returns>
+    /// <remarks>
+    /// Use this helper when an endpoint can fail with several documented status codes and all of them share the same
+    /// problem-details payload shape.
+    /// </remarks>
     public static RouteHandlerBuilder ProducesDefaultProblem(this RouteHandlerBuilder builder, params int[] statusCodes)
     {
         foreach (var statusCode in statusCodes)

@@ -6,7 +6,7 @@
 [![NuGet](https://img.shields.io/nuget/dt/TinyHelpers)](https://www.nuget.org/packages/TinyHelpers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/marcominerva/TinyHelpers/blob/master/LICENSE)
 
-TinyHelpers is a small .NET utility library that groups common helpers into a single package. It is designed to reduce repeated boilerplate in application code while keeping each helper focused and easy to discover.
+TinyHelpers is a small .NET utility library that groups common helpers into a single package. It is designed to reduce repeated boilerplate in application code while keeping each helper focused, discoverable, and explicit about the contract it supports.
 
 ## Compatibility
 
@@ -48,20 +48,21 @@ Additional documentation is available for these packages:
 - [HTTP helpers](#http-helpers)
 - [JSON serialization](#json-serialization)
 - [Threading](#threading)
-- [Compatibility helpers](#compatibility-helpers)
 - [Quick examples](#quick-examples)
 
 ## Collections and sequences
+
+The collection helpers keep common null-safety, indexing, asynchronous projection, and conditional filtering patterns reusable. They are intended for code that repeatedly composes LINQ queries or optional collections and should avoid scattering small guard clauses across the codebase.
 
 ### `CollectionExtensions`
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
 | `EmptyIfNull()` | Returns an empty sequence when the source is `null`. | When you want to avoid null checks before enumeration. |
-| `ForEach(Action<T>)` | Executes an action for each item in a sequence. | When you want a simple side-effect loop. |
-| `ForEachAsync(Func<T, Task>)` | Executes an asynchronous action for each item. | When each item requires asynchronous work. |
-| `SelectAsync(Func<T, Task<TResult>>)` | Projects each item asynchronously. | When the projection itself is asynchronous. |
-| `ToListAsync()` | Materializes an asynchronous sequence into a list. | When you need a list from an async source. |
+| `ForEach(Action<T>)` | Executes an action for each item and returns the original sequence. | When a side-effect step should remain in a fluent pipeline. |
+| `ForEachAsync(Func<T, Task>)` | Executes an asynchronous action for each item and returns the original sequence after all actions complete. | When each item requires asynchronous work but the original values are still needed. |
+| `SelectAsync(Func<T, Task<TResult>>)` | Projects each item asynchronously while preserving source order in the materialized result. | When the projection itself is asynchronous. |
+| `ToListAsync()` | Materializes an asynchronous sequence into an in-memory sequence. | When later code needs synchronous enumeration from an async source. |
 | `Remove(predicate)` | Removes matching items from a collection. | When you want to filter in place. |
 | `IsEmpty()` / `IsNotEmpty()` | Checks whether a collection contains items. | When you want readable emptiness checks. |
 | `IsNullOrEmpty()` / `IsNotNullOrEmpty()` | Checks for `null` or empty sequences. | When the source may be missing entirely. |
@@ -149,8 +150,8 @@ var insideRange = 5.IsBetween(1, 10);
 
 | Method | What it does |
 | --- | --- |
-| `ToDateOnly()` | Converts a `DateTimeOffset` to `DateOnly`. |
-| `ToTimeOnly()` | Converts a `DateTimeOffset` to `TimeOnly`. |
+| `ToDateOnly(TimeZoneInfo? zone = null)` | Converts a `DateTimeOffset` to `DateOnly` after applying the specified time zone, or UTC when no zone is provided. |
+| `ToTimeOnly(TimeZoneInfo? zone = null)` | Converts a `DateTimeOffset` to `TimeOnly` after applying the specified time zone, or UTC when no zone is provided. |
 
 ### `DateOnlyExtensions`
 
@@ -195,7 +196,7 @@ var timeOnly = createdAt.ToTimeOnly();
 | `IsEmpty()` | Checks whether a GUID is `Guid.Empty`. | When validating identifiers. |
 | `IsNotEmpty()` | Checks whether a GUID is not empty. | When you need a positive validation. |
 | `HasValue()` | Checks whether a GUID is different from `null` and `Guid.Empty`. | When handling optional identifiers. |
-| `GetValueOrCreateNew()` | Returns the existing GUID when it is different from `null` and `Guid.Empty`; otherwise, it creates a new one automatically. On .NET 9+, you can also specify the GUID version to generate. | When you want to assign an identifier lazily. |
+| `GetValueOrCreateNew()` | Returns the existing GUID when it is different from `null` and `Guid.Empty`; otherwise, it creates a new one automatically. On .NET 9+, you can also specify the GUID version to generate. | When you want to assign an identifier lazily at application boundaries, persistence boundaries, or outbound messages. |
 | `GetValueOrDefault()` | Returns the current GUID when it is different from `Guid.Empty`; otherwise, it returns a default value. | When null-safe defaults are useful. |
 
 ### Example
@@ -215,7 +216,7 @@ var defaultId = id.GetValueOrDefault();
 
 Adds an access token to outgoing requests through a delegate that can inspect the current `HttpRequestMessage`. If a request returns `401 Unauthorized` and a refresh delegate is configured, the handler can refresh the token and retry the request once. The authorization scheme is configurable and defaults to `Bearer`.
 
-Use this handler when the token depends on the outgoing request or when you need a lightweight refresh flow around a protected API.
+Use this handler when token acquisition depends on the outgoing request, such as per-tenant or per-resource tokens, or when you need a lightweight refresh flow around a protected API.
 
 ### Example
 
@@ -232,7 +233,7 @@ var client = new HttpClient(handler);
 
 Adds headers to outgoing requests by invoking a delegate that returns a dictionary of header names and values. Each returned header is applied with `TryAddWithoutValidation`, so the handler is suitable for custom or preformatted header values.
 
-Use this handler when headers such as correlation IDs, tenant identifiers, or custom API metadata need to be injected per request.
+Use this handler when headers such as correlation IDs, tenant identifiers, or custom API metadata need to be injected per request without repeating header setup at every call site.
 
 ### Example
 
@@ -251,7 +252,7 @@ var client = new HttpClient(handler);
 
 Adds query string parameters to outgoing requests by merging the values returned by a delegate into the current request URI. Existing query string values are preserved, and new values are appended to the request URL.
 
-Use this handler when the query string depends on the current request context and you want to centralize URL composition.
+Use this handler when the query string depends on the current request context and you want to centralize URL composition for pagination, tenant selection, feature flags, or similar cross-cutting values.
 
 ### Example
 
@@ -273,19 +274,19 @@ var client = new HttpClient(handler)
 
 ### `ShortDateConverter`
 
-Serializes a `DateTime` using only the date portion.
+Serializes and deserializes a `DateTime` using only the date portion when time-of-day information is not part of the JSON contract.
 
 ### `UtcDateTimeConverter`
 
-Serializes and deserializes `DateTime` values in UTC format.
+Serializes and deserializes `DateTime` values in UTC format so the JSON boundary normalizes date-time values instead of preserving local offsets or unspecified kinds.
 
 ### `TimeSpanTicksConverter`
 
-Serializes a `TimeSpan` as ticks.
+Serializes and deserializes a `TimeSpan` as ticks so durations round-trip without string-format ambiguity.
 
 ### `StringTrimmingConverter`
 
-Trims whitespace from JSON strings during read and write operations.
+Trims leading and trailing whitespace from JSON strings during read and write operations when the JSON boundary should normalize user-entered text.
 
 ### `StringEnumMemberConverter`
 

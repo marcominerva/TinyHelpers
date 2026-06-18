@@ -6,6 +6,9 @@ using Microsoft.OpenApi.Models;
 
 namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
+/// <summary>
+/// Adds representative examples to time-based schemas so generated OpenAPI documents communicate the expected wire format.
+/// </summary>
 public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
 {
     /// <summary>
@@ -35,6 +38,9 @@ using Microsoft.OpenApi;
 
 namespace TinyHelpers.AspNetCore.OpenApi.Transformers;
 
+/// <summary>
+/// Adds representative examples to time-based schemas so generated OpenAPI documents communicate the expected wire format.
+/// </summary>
 public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
 {
     /// <summary>

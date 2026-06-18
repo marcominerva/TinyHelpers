@@ -23,9 +23,9 @@ The package targets:
 - .NET 9
 - .NET 10
 
-OpenAPI features are available when the consuming project targets .NET 9 or .NET 10. Some extensions are also framework-specific:
+OpenAPI features are available when the consuming project targets .NET 9 or .NET 10. Some extensions are framework-specific:
 
-- `EnableEnumSupport()` is available only on .NET 9+
+- `EnableEnumSupport()` is available only on .NET 9
 - `UseStrictNumericSchemas()` is available only on .NET 10+
 - `WithResponseDescription()` and `WithLocationHeader()` are available only on .NET 10+
 
@@ -110,11 +110,11 @@ var hasName = principal.HasClaim(ClaimTypes.Name);
 | --- | --- | --- |
 | `ConfigureAndGet<T>(configuration, sectionName)` | Binds a section and also registers the options in the container, returning the created instance. | When you want to configure and read the same options during startup. |
 | `Replace<TService, TImplementation>(lifetime)` | Replaces a registered service with another implementation. | When you want to swap a service without rewriting the whole registration. |
-| `AddDefaultProblemDetails()` | Registers `ProblemDetails` with a consistent and centralized configuration. | When you want uniform RFC 7807 responses across the app. |
-| `AddDefaultExceptionHandler()` | Registers the library's default `IExceptionHandler` and ensures `ProblemDetails` is available too. | When you want unhandled exceptions to become a standard payload. |
-| `UseDefaults(ProblemDetailsContext context)` | Applies the library's default values to a `ProblemDetailsContext`. | When you customize `CustomizeProblemDetails` but still want the same base behavior. |
-| `AddRequestLocalization(params string[] cultures)` | Registers localization using only the list of supported cultures. The first culture becomes the default. | When you do not need to configure providers manually. |
-| `AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)` | Registers localization and lets you customize the culture-provider chain. The first culture becomes the default. | When you want to change the provider order or composition. |
+| `AddDefaultProblemDetails()` | Registers `ProblemDetails` with defaults for common fields and a trace identifier. | When you want uniform RFC 7807 responses that are easy to correlate in clients and logs. |
+| `AddDefaultExceptionHandler()` | Registers the library's default `IExceptionHandler` and ensures `ProblemDetails` is available too. | When you want unhandled exceptions to use the same payload shape as explicit errors. |
+| `UseDefaults(ProblemDetailsContext context)` | Applies the library's default values to a `ProblemDetailsContext`. | When you customize `CustomizeProblemDetails` but still want the same base error contract. |
+| `AddRequestLocalization(params string[] cultures)` | Registers localization using only the list of supported cultures. The first culture becomes the default. | When the default provider order is enough. |
+| `AddRequestLocalization(IEnumerable<string> cultures, Action<IList<IRequestCultureProvider>>? providersConfiguration)` | Registers localization and lets you customize the culture-provider chain. The first culture becomes the default. | When you want a specific precedence, such as route values before cookies or the `Accept-Language` header. |
 
 ### Example
 
@@ -138,7 +138,7 @@ builder.Services.AddDefaultExceptionHandler();
 
 | Method | What it does | When to use it |
 | --- | --- | --- |
-| `UseRequestRewind()` | Enables request-body buffering so the body can be read more than once. | When a middleware or filter must inspect the body without consuming it permanently. |
+| `UseRequestRewind()` | Enables request-body buffering so the body can be read more than once. | When middleware or filters must inspect the body for validation, auditing, or request-signature checks without consuming it permanently. |
 
 ### `EnableRequestRewindMiddleware`
 
@@ -159,14 +159,14 @@ if (navManager.TryGetQueryString<int>("page", out var page))
 
 ### `AllowedExtensionsAttribute`
 
-Validates that an `IFormFile` uses one of the allowed file extensions.
+Validates that an `IFormFile` uses one of the allowed file extensions. Use it when the file-name suffix is part of the upload contract and downstream processing or policy checks require known formats.
 
 - Constructor: `AllowedExtensionsAttribute(params string[] extensions)`
 - `FormatErrorMessage(string name)`: generates the error message with the allowed extensions
 
 ### `ContentTypeAttribute`
 
-Validates the `Content-Type` of an `IFormFile`.
+Validates the `Content-Type` of an `IFormFile`. Use it when the server accepts only MIME types that can be rendered, transcoded, stored, or otherwise processed safely.
 
 - `ContentTypeAttribute(params string[] validContentTypes)`: uses an explicit MIME type list
 - `ContentTypeAttribute(FileType fileType)`: uses a predefined group
@@ -174,7 +174,7 @@ Validates the `Content-Type` of an `IFormFile`.
 
 ### `FileType`
 
-Supporting enum for `ContentTypeAttribute`:
+Supporting enum for the built-in `ContentTypeAttribute` MIME type groups:
 
 - `Image`
 - `Video`
@@ -182,14 +182,14 @@ Supporting enum for `ContentTypeAttribute`:
 
 ### `FileSizeAttribute`
 
-Validates that an `IFormFile` does not exceed a maximum size.
+Validates that an `IFormFile` does not exceed a maximum size. Use it to reject oversized uploads at the request boundary before later validation, storage, or media-processing work starts.
 
 - Constructor: `FileSizeAttribute(int maxFileSizeInBytes)`
 - `FormatErrorMessage(string name)`: generates the error message with the limit in bytes
 
 ### `RoleAuthorizeAttribute`
 
-Automatically builds the `Roles` list of `AuthorizeAttribute` from one or more roles.
+Automatically builds the `Roles` list of `AuthorizeAttribute` from one or more role values, keeping role-based authorization declarations readable without manually composing a comma-delimited string.
 
 - Constructor: `RoleAuthorizeAttribute(params string[] roles)`
 
@@ -219,11 +219,11 @@ public IActionResult SecretArea()
 
 | Method | What it does | Availability |
 | --- | --- | --- |
-| `ProducesDefaultProblem(params int[] statusCodes)` | Adds `ProblemDetails` responses to the route metadata for the specified status codes. | .NET 8+ |
-| `WithResponseDescription(int statusCode, string description)` | Updates the description of an existing OpenAPI response. | .NET 10+ |
-| `WithLocationHeader(string description, int statusCode)` | Adds a `Location` header to the specified creation response. | .NET 10+ |
+| `ProducesDefaultProblem(params int[] statusCodes)` | Adds `ProblemDetails` responses to the route metadata for expected failure status codes. | .NET 8+ |
+| `WithResponseDescription(int statusCode, string description)` | Updates the description of an existing OpenAPI response when the generated text is too generic. | .NET 10+ |
+| `WithLocationHeader(string description, int statusCode)` | Adds a required `Location` header to the specified creation response. | .NET 10+ |
 
-These helpers keep Minimal API configuration close to the route instead of scattering OpenAPI metadata in separate places.
+These helpers keep Minimal API behavior and OpenAPI metadata close to the route mapping. This makes endpoint declarations easier to review and helps the generated document stay synchronized with runtime behavior.
 
 ### Example
 
@@ -242,16 +242,16 @@ app.MapPost("/orders", () => Results.Created("/orders/1", new { Id = 1 }))
 
 ## OpenAPI
 
-The OpenAPI extensions are available when the consuming project uses the package on .NET 9 or .NET 10.
+The OpenAPI extensions are available when the consuming project uses the package on .NET 9 or .NET 10. They centralize reusable OpenAPI conventions so shared parameters, error responses, schema IDs, and schema transformations do not need to be repeated for every endpoint or document.
 
 ### `OpenApiExtensions`
 
 | Method | What it does | Notes |
 | --- | --- | --- |
-| `AddOpenApiOperationParameters(setupAction)` | Registers reusable OpenAPI parameters inside `OpenApiOperationOptions.Parameters`. | Lets you declare common parameters once. |
+| `AddOpenApiOperationParameters(setupAction)` | Registers reusable OpenAPI operation parameters inside `OpenApiOperationOptions.Parameters`. | Declare cross-cutting headers or query values once during service registration. |
 | `AddAcceptLanguageHeader()` | Adds the `Accept-Language` header to documented operations. | Useful when the app uses request localization. |
 | `AddDefaultProblemDetailsResponse()` | Adds a default error response based on `ProblemDetails`. | In .NET 9 it also adds the document transformer. |
-| `AddOperationParameters()` | Adds the parameters configured through `OpenApiOperationOptions`. | The bridge between the options bag and the generated document. |
+| `AddOperationParameters()` | Adds the operation transformer that copies parameters registered with `AddOpenApiOperationParameters()` into generated operations. | Use it in OpenAPI configuration so the generated contract includes those shared inputs. |
 | `RemoveServerList()` | Removes the server list from the OpenAPI document. | Useful when you want a more portable document across environments. |
 | `WriteNumberAsString()` | Aligns the schema with numbers serialized as strings. | Useful when runtime JSON uses `JsonNumberHandling.WriteAsString`. |
 | `DescribeAllParametersInCamelCase()` | Converts query parameter names to camel case in the document. | Keeps documentation consistent with JSON naming. |
@@ -262,7 +262,7 @@ The OpenAPI extensions are available when the consuming project uses the package
 
 ### `OpenApiSchemaHelper`
 
-This utility creates ready-to-use schema fragments that can be reused in transformers or other OpenAPI customizations.
+This utility creates ready-to-use schema fragments that can be reused in transformers or other OpenAPI customizations. It keeps default values, formats, and enum choices consistent across generated documents.
 
 #### .NET 9
 
@@ -282,11 +282,11 @@ This utility creates ready-to-use schema fragments that can be reused in transfo
 
 ### What they do in practice
 
-- `CreateStringSchema()` creates a simple string schema, optionally with a default.
-- `CreateSchema(..., format)` creates a schema with explicit type and format.
-- `CreateSchema(..., defaultValue)` also adds a default to the contract.
-- `CreateSchema(IEnumerable<string> values, ...)` turns a list of values into a string-based OpenAPI enum.
-- `CreateSchema<TEnum>(...)` builds an enum schema directly from a CLR enum.
+- `CreateStringSchema()` creates a reusable string schema, optionally with a default value.
+- `CreateSchema(..., format)` creates a primitive schema with explicit type and format metadata.
+- `CreateSchema(..., defaultValue)` also adds the default value that clients should display or assume.
+- `CreateSchema(IEnumerable<string> values, ...)` turns externally defined choices into a string-based OpenAPI enum.
+- `CreateSchema<TEnum>(...)` builds an enum schema directly from a CLR enum so every declared value is documented.
 
 ### Example
 
@@ -312,6 +312,8 @@ builder.Services.AddOpenApi(options =>
 
 ### Example `AddOpenApiOperationParameters()`
 
+Register shared parameters during service registration, then enable `AddOperationParameters()` in OpenAPI configuration. This keeps cross-cutting inputs centralized while still exposing them in the generated client contract.
+
 ```csharp
 builder.Services.AddOpenApiOperationParameters(parameters =>
 {
@@ -322,6 +324,11 @@ builder.Services.AddOpenApiOperationParameters(parameters =>
         Required = false,
         Description = "Identifier used to correlate requests"
     });
+});
+
+builder.Services.AddOpenApi(options =>
+{
+    options.AddOperationParameters();
 });
 ```
 
