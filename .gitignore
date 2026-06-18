@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 
 /src/TinyHelpers/TinyHelpers.xml
+/src/TinyHelpers.AspNetCore/TinyHelpers.AspNetCore.xml
