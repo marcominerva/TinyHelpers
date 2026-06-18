@@ -351,3 +351,4 @@ MigrationBackup/
 
 /src/TinyHelpers/TinyHelpers.xml
 /src/TinyHelpers.AspNetCore/TinyHelpers.AspNetCore.xml
+/src/TinyHelpers.AspNetCore.Swashbuckle/TinyHelpers.AspNetCore.Swashbuckle.xml
