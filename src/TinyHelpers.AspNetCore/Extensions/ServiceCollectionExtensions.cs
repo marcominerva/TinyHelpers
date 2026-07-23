@@ -29,11 +29,18 @@ public static class ServiceCollectionExtensions
         /// <typeparam name="T">The options type to bind.</typeparam>
         /// <param name="configuration">The configuration root that contains the section.</param>
         /// <param name="sectionName">The section path to bind.</param>
+        /// <param name="configure">An optional callback to further configure the options instance.</param>
         /// <returns>The bound settings instance, or <see langword="null" /> if the section could not be materialized.</returns>
-        public T? ConfigureAndGet<T>(IConfiguration configuration, string sectionName) where T : class
+        public T? ConfigureAndGet<T>(IConfiguration configuration, string sectionName, Action<T>? configure = null) where T : class
         {
             var section = configuration.GetSection(sectionName);
             var settings = section.Get<T>();
+
+            if (settings is not null)
+            {
+                configure?.Invoke(settings);
+            }
+
             services.Configure<T>(section);
 
             return settings;

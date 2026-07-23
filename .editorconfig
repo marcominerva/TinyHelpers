@@ -124,6 +124,7 @@ csharp_style_prefer_null_check_over_type_check = true:suggestion
 
 # Modifier preferences
 csharp_prefer_static_local_function = true:suggestion
+csharp_prefer_static_anonymous_function = true:suggestion
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:silent
 
 # Code-block preferences
@@ -139,9 +140,11 @@ csharp_prefer_system_threading_lock = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_deconstructed_variable_declaration = false:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
+csharp_style_prefer_implicitly_typed_lambda_expression = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
+csharp_style_prefer_unbound_generic_type_in_nameof = true:suggestion
 csharp_style_throw_expression = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:none
 csharp_style_unused_value_expression_statement_preference = discard_variable:none
