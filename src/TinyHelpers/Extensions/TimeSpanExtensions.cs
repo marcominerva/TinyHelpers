@@ -1,12 +1,12 @@
 ﻿namespace TinyHelpers.Extensions;
 
+#if NET6_0_OR_GREATER
 /// <summary>
 /// Contains extension methods for the <see cref="TimeSpan"/> type.
 /// </summary>
 /// <seealso cref="TimeSpan"/>
 public static class TimeSpanExtensions
 {
-#if NET6_0_OR_GREATER
     /// <summary>
     /// Constructs a <see cref="TimeOnly"/> object from a <see cref="TimeSpan"/> representing the time elapsed since midnight.
     /// </summary>
@@ -16,5 +16,5 @@ public static class TimeSpanExtensions
     /// <seealso cref="TimeOnly"/>
     public static TimeOnly ToTimeOnly(this TimeSpan timeSpan)
         => TimeOnly.FromTimeSpan(timeSpan);
-#endif
 }
+#endif

@@ -45,4 +45,23 @@ public class DateOnlyExtensionsTests
         // Assert
         Assert.NotEqual(result, output);
     }
+
+    [Fact]
+    public void DateOnlyToDateTimeOffset_WithoutZone_UsesMidnightUtc()
+    {
+        var result = new DateOnly(2026, 9, 9).ToDateTimeOffset();
+
+        Assert.Equal(new DateTimeOffset(2026, 9, 9, 0, 0, 0, TimeSpan.Zero), result);
+    }
+
+    [Fact]
+    public void DateOnlyToDateTimeOffset_WithZone_UsesZoneOffset()
+    {
+        var zone = TimeZoneInfo.CreateCustomTimeZone("Test", TimeSpan.FromHours(3), "Test", "Test");
+
+        var result = new DateOnly(2026, 9, 9).ToDateTimeOffset(zone);
+
+        Assert.Equal(TimeSpan.FromHours(3), result.Offset);
+        Assert.Equal(new DateTime(2026, 9, 9), result.Date);
+    }
 }
