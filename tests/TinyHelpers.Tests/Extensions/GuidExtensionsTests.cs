@@ -240,6 +240,4 @@ public class GuidExtensionsTests
         // Assert
         Assert.Equal(input, value);
     }
-
-
 }
