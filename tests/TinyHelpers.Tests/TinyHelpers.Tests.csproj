@@ -16,4 +16,8 @@
         <ProjectReference Include="..\..\src\TinyHelpers\TinyHelpers.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Using Include="Xunit" />
+    </ItemGroup>
+    
 </Project>
