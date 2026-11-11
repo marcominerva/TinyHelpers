@@ -95,7 +95,7 @@ internal class WriteNumberAsStringSchemaTransformer : IOpenApiSchemaTransformer
                 AdditionalPropertiesAllowed = originalSchema.AdditionalPropertiesAllowed,
                 AdditionalProperties = originalSchema.AdditionalProperties,
                 Discriminator = originalSchema.Discriminator,
-                Example = originalSchema.Example,
+                Examples = originalSchema.Examples,
                 ExternalDocs = originalSchema.ExternalDocs,
                 Extensions = originalSchema.Extensions
             };
