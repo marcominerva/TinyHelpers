@@ -44,7 +44,7 @@ public static class SwaggerExtensions
             options.MapType<TimeSpan>(() => new OpenApiSchema()
             {
                 Type = JsonSchemaType.String,
-                Example = example is not null ? JsonValue.Create(example) : null
+                Examples = example is not null ? [JsonValue.Create(example)] : null
             });
         }
 

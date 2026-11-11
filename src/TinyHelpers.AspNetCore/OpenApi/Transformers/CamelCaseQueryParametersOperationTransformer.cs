@@ -73,7 +73,6 @@ public class CamelCaseQueryParametersOperationTransformer : IOpenApiOperationTra
                             Description = parameter.Description,
                             Required = parameter.Required,
                             Deprecated = parameter.Deprecated,
-                            AllowEmptyValue = parameter.AllowEmptyValue,
                             Style = parameter.Style,
                             Explode = parameter.Explode,
                             AllowReserved = parameter.AllowReserved,

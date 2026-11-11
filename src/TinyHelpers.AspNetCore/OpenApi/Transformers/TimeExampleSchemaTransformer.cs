@@ -55,7 +55,7 @@ public class TimeExampleSchemaTransformer : IOpenApiSchemaTransformer
         var type = context.JsonTypeInfo.Type;
         if (type == typeof(TimeSpan) || type == typeof(TimeSpan?) || type == typeof(TimeOnly) || type == typeof(TimeOnly?))
         {
-            schema.Example = JsonValue.Create(DateTime.Now.ToString("HH:mm:ss"));
+            schema.Examples = [JsonValue.Create(DateTime.Now.ToString("HH:mm:ss"))];
         }
 
         return Task.CompletedTask;
